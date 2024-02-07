@@ -4,6 +4,7 @@ import { ApiClient } from "@/apiClient";
 import Dashboard from "@/app/dashboard/Dashboard";
 import AuthoriseUser from "@/app/components/AuthoriseUser";
 
+
 export default function Home() {
   const [token, setToken] = useState(null);
   const client = new ApiClient(
@@ -19,7 +20,7 @@ export default function Home() {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
-    }
+    } // if !token, redirect to landing page
   }, []);
 
   const login = (token) => {
@@ -34,11 +35,12 @@ export default function Home() {
 
   return (
     <>
-      {token ? (
+      {/* {token ? ( */}
         <Dashboard setToken={setToken} client={client}/>
-      ) : (
-        <AuthoriseUser loggedIn={(token) => login(token)} client={client} />
-      )}
+      {/* ) : ( */}
+        {/* <AuthoriseUser loggedIn={(token) => login(token)} client={client} /> */}
+
+      {/* )} */}
     </>  
   );
 }
