@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+#authorisation {
+    background-color: #ffffff;
+}
+
+#signIn {
+    color: #221D23;
+    background-color: #ffffff;
+    border-color: #DFC2F2;
+}
+
+#signUp {
+    color: #221D23;
+    background-color: white;
+    border-color: #DFC2F2;
+}
+
+.user-border {
+    border-color: #DFC2F2;
+}
+
+/* width */
+::-webkit-scrollbar {
+width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+background: none;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+background: #087CA7;
+border-radius: 16px
+
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+background: #087CA7;
+}
