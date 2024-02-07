@@ -97,6 +97,7 @@ const EventForm = (props) => {
                <textarea className='rounded-lg h-full sm:h-[85%] w-[80%] p-1' name='EventDescription' 
                defaultValue={props.currentEvent?.EventDescription} disabled={disabled}  placeholder='Description'/>
           </div>
+          <button type="submit" className='rounded-lg text-md bg-[#087CA7] h-[5%] sm:mx-auto w-full flex justify-center items-center text-white p-4 font-bold rounded-lg bg-[#087CA7] hover:text-[#087CA7] hover:bg-[#DFC2F2] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out' disabled={disabled} >Submit</button>
      </form>
   )
 }
