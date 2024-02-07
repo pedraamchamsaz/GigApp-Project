@@ -5,7 +5,6 @@ const SearchBar = () => {
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [ticketmasterResults, setTicketmasterResults] = useState([]);
-  const GOOGLE_MAPS_API_KEY = null;
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -19,7 +18,7 @@ const SearchBar = () => {
           const { latitude, longitude } = position.coords;
           try {
             const googleMapsResponse = await axios.get(
-              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=YOUR_GOOGLE_MAPS_API_KEY`
+              `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o`
             );
   
             // Update the city state with the formatted address
@@ -30,7 +29,7 @@ const SearchBar = () => {
             setGoogleMapsResults(googleMapsResponse.data.results);
   
             const ticketmasterResponse = await axios.get(
-              `https://app.ticketmaster.com/discovery/v2/events.json?apikey=YOUR_TICKETMASTER_API_KEY&latlong=${latitude},${longitude}`
+              `https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&latlong=${latitude},${longitude}`
             );
             setTicketmasterResults(ticketmasterResponse.data._embedded.events);
           } catch (error) {
@@ -49,12 +48,12 @@ const SearchBar = () => {
   const search = async (city) => {
     try {
       const googleMapsResponse = await axios.get(
-        `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=GOOGLE_MAPS_API_KEY`
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o`
       );
       setGoogleMapsResults(googleMapsResponse.data.results);
 
       const ticketmasterResponse = await axios.get(
-        `https://app.ticketmaster.com/discovery/v2/events.json?apikey=YOUR_TICKETMASTER_API_KEY&city=${city}`
+        `https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&city=${city}`
       );
       setTicketmasterResults(ticketmasterResponse.data._embedded.events);
     } catch (error) {
