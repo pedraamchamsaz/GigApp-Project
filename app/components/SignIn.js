@@ -31,7 +31,7 @@ const SignIn = ({setAuthProcess, submitHandler}) => {
         <div className="flex w-full flex-col justify-center items-center">
           {/* Username */}
           <div className="flex flex-col w-full h-1/2 items-center p-2 ">
-            <label for="username" className="font-semibold">Username</label>
+            <label htmlFor="username" className="font-semibold">Username</label>
             <input
               type="text"
               name="username"
@@ -40,7 +40,7 @@ const SignIn = ({setAuthProcess, submitHandler}) => {
           </div>
           {/* Passwords */}
           <div className="flex flex-col gap-4x w-full items-center mb-12 ">
-            <label for="password" className="font-semibold">Password</label>
+            <label htmlFor="password" className="font-semibold">Password</label>
             <input
               type="password"
               name="password"
