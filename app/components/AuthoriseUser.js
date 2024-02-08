@@ -34,20 +34,14 @@ const AuthoriseUser = (props) => {
   }
 
   return (
-    <div id="authorisation" className="h-screen w-screen flex flex-1 justify-center items-center ">
+    <div id="authorisation" className="h-screen w-screen flex flex-1 justify-center items-center">
       {!authProcess ? (
         <SignIn submitHandler={submitHandler} setAuthProcess={setAuthProcess} />
       ) : (
         <SignUp submitHandler={submitHandlerSignUp} client={props.client} setAuthProcess={setAuthProcess} />
       )}
 
-      {/* Alfie Code */}
-      {/* login 
-        <form onSubmit={submitHandler}>
-            username <input type="text" name="username" disabled={disabled} />
-            password <input type="password" name="password" disabled={disabled} />
-            <button type="submit" disabled={disabled}>login</button>
-        </form> */}
+      
     </div>
   );
 };

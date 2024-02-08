@@ -3,19 +3,22 @@
 @tailwind utilities;
 
 #authorisation {
-    background-color: #ffffff;
+    background-color: black;
+}
+
+#userprofile {
+    background-color: black;
 }
 
 #signIn {
     color: #221D23;
-    background-color: #ffffff;
-    border-color: #DFC2F2;
+   
+   
 }
 
 #signUp {
     color: #221D23;
-    background-color: white;
-    border-color: #DFC2F2;
+   
 }
 
 .user-border {

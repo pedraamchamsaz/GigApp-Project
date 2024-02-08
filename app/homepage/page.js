@@ -35,12 +35,12 @@ export default function Home() {
 
   return (
     <>
-      {token ? (
+      {/* {token ? ( */}
         <Dashboard setToken={setToken} client={client}/>
-      ) : (
+      {/* ) : (
         <AuthoriseUser loggedIn={(token) => login(token)} client={client} />
 
-      )}
+      )} */}
     </>  
   );
 }
