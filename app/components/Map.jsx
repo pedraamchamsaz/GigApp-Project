@@ -1,34 +1,36 @@
-// components/GoogleMap.jsx
 import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const GoogleMapComponent = ({ locations }) => {
-  // You can obtain your Google Maps API key from the Google Cloud Console
-  const apiKey = 'YOUR_GOOGLE_MAPS_API_KEY';
+const GoogleMapComponent = ({ locations, center }) => {
+  
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <div
         style={{
           height: '400px',
-          width: '400px', // Set the width to be equal to the height for a circular shape
-          borderRadius: '50%', // Set border-radius to 50% for a circular shape
-          overflow: 'hidden', // Hide overflow to maintain circular shape
+          width: '400px', 
+          borderRadius: '5%', 
+          overflow: 'hidden', 
         }}
       >
         <GoogleMap
-          center={{ lat: 0, lng: 0 }} // Default center, will be updated based on user's location or search results
-          zoom={10} // Default zoom level, adjust as needed
+          center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
+          zoom={10} 
           mapContainerStyle={{
             height: '100%',
-            width: '100%', // Set the width to 100% for full coverage within the circular container
+            width: '100%', 
           }}
         >
           {/* Display markers for each location */}
           {locations.map((location, index) => (
             <Marker
               key={index}
-              position={{ lat: location.latitude, lng: location.longitude }}
+              position={{
+                lat: typeof location.latitude === 'number' ? location.latitude : 0,
+                lng: typeof location.longitude === 'number' ? location.longitude : 0,
+              }}
               title={location.name}
             />
           ))}
