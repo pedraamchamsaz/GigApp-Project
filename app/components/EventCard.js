@@ -11,31 +11,26 @@ const EventCard = (props) => {
               {props.EventName}
             </h2>
 
-            <div className="flex items-center justify-center mb-5"></div>
+            <div className="flex items-center justify-center"></div>
             <div className="flex flex-col mb-10">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-x-36">
+              <div className="">
                 <div>
                   <p className="whitespace-normal hover:text-[#087CA7] text-[#221D23] text-center font-bold text-xs md:text-sm transition-colors duration-200 ease-in-out">
-                    Location
+                    Location: {props.EventCity}
                   </p>
-                  <p className="whitespace-normal text-[#221D23] text-center md:text-xl ">
-                    {props.EventCity}
-                  </p>
-                </div>
-                <div>
+                                 
+                
                   <p className="whitespace-normal hover:text-[#087CA7] text-[#221D23] text-center font-bold text-xs md:text-sm transition-colors duration-200 ease-in-out">
-                    Date
+                    Date: {props.EventDate}
                   </p>
-                  <p className="whitespace-normal text-[#221D23] text-center md:text-xl ">
-                    {props.EventDate}
-                  </p>
+                  
                 </div>
-                <div className="col-span-1 md:col-span-2 h-64 rounded-lg border-[#087CA7] border-2 p-4 bg-white">
-                  <p className="whitespace-normal hover:text-[#087CA7] text-slate-400 text-left mt-2 font-bold text-base md:text-md text-gray-800 transition-colors duration-200 ease-in-out">
-                    Description
+                <div className="flex justify-center">
+                  <p className=" flex justify-centerwhitespace-normal hover:text-[#087CA7] text-black text-left mt-2 font-bold text-base md:text-md text-gray-800 transition-colors duration-200 ease-in-out">
+                    Description: {props.EventDescription}
                   </p>
                   <p className="whitespace-normal text-[#221D23] text-left mt-2 md:text-xl text-gray-800">
-                    {props.EventDescription}
+                   
                   </p>
                 </div>
                 <div className="col-span-1 md:col-span-2 flex justify-center">
@@ -43,10 +38,10 @@ const EventCard = (props) => {
                     Ticket Price: £{props.EventPrice}
                   </p>
                 </div>
-                <div className="col-span-1 md:col-span-2 flex gap-20 mx-20 justify-center space-x-4">
+                <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4">
                   <button
                     type="submit"
-                    className="sm:mx-auto w-full flex justify-center items-center text-white p-4 font-bold rounded-lg bg-[#087CA7] hover:text-[#087CA7] hover:bg-[#DFC2F2] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out"
+                    className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
                     onClick={() => props.updateEvents(props)}
                   >
                     Update
@@ -54,7 +49,7 @@ const EventCard = (props) => {
 
                   <button
                     type="submit"
-                    className="sm:mx-auto w-full flex justify-center items-center text-white p-4 font-bold rounded-lg bg-[#087CA7] hover:text-[#087CA7] hover:bg-[#DFC2F2] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out"
+                    className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
                     onClick={() => {
                       props.removeEvents(keyID);
                     }}

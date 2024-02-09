@@ -4,10 +4,13 @@ import Add from "../components/Add";
 import EventForm from "../components/EventForm";
 import EventCard from "../components/EventCard"
 import LogoutButton from "../components/logoutButton";
+import SearchBar from "../components/SearchBar";
 import GetStartedButton from "../components/GetStartedButton";
 import Card from "../components/Card";
+import Link from "next/link";
+import HomeButton from "../components/HomeButton";
 
-const Dashboard = (props) => {
+const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
 
@@ -24,18 +27,18 @@ const Dashboard = (props) => {
   // removes the advert and then calls refresh list so that the list of ads
   //  is updated and doesnt include the ad that the user just deleted.
 
-  // const removeEvents = (id) => {
-  //   props.client.removeEvent(id).then(() => {
-  //     refreshList();
-  //   });
-  // };
+  const removeEvents = (id) => {
+    props.client.removeEvent(id).then(() => {
+      refreshList();
+    });
+  };
 
   // take an ad from a child component and then we will set the current state to that at
   // so that we can edit it later on
 
-  // const updateEvents = (event) => {
-  //   setCurrent(event);
-  // };
+  const updateEvents = (event) => {
+    setCurrent(event);
+  };
 
   useEffect(() => {
     console.log("Update current")
@@ -50,17 +53,22 @@ const Dashboard = (props) => {
   }, []);
 
   return (
-    <div>
+        
+    <div id="userprofile" className="h-screen w-screen" >
       <div className="fixed z-[1] right-4 top-4">
         <LogoutButton setToken={props.setToken} />
       </div>
-      <div className="fixed  right-28 top-4">
+      <div className="fixed right-28 top-4">
         <GetStartedButton />
       </div>
+     <div className="fixed right-[16%] top-4">
+      <HomeButton/>
+        </div>
+
      
       
       <div className="pt-10 md:fixed md:w-[50%] max-sm:w-screen max-sm:h-[50vh] md:h-[50vw] pr-[5%] pl-[5%] pt-[5%] pb-[10%] pb-[1%] sm:pb-[10%]">
-        {/* <EventForm 
+        <EventForm 
           client={props.client}
           refreshList={() => {
             refreshList();
@@ -69,13 +77,13 @@ const Dashboard = (props) => {
             setCurrent()
           }}
           currentEvent={current}
-        /> */}
+        />
       </div>
-      {/* <div className="pt-14 sm:pt-20 md:w-[50%] h-full pl-[5%] pr-[5%] sm:pl-[5%] md:fixed right-0 sm:w-[100vw] md:overflow-y-scroll">
-       
+      <div className="pt-14 sm:pt-20 md:w-[50%] h-full pl-[5%] pr-[5%] sm:pl-[5%] md:fixed right-0 sm:w-[100vw] md:overflow-y-scroll">
+        {/* {buildrows} */}
         {events.map((current) => (
           <div className="mt-[7%] sm:mt-[3%]">
-        
+            {/* {console.log(current._id)} */}
             <EventCard 
               removeEvents={(id) =>
                 removeEvents(id)
@@ -90,13 +98,13 @@ const Dashboard = (props) => {
             />
           </div>
           ))}
-      </div> */}
+      </div>
 
-      <Card />
+      
 
 
     </div>
   );
 };
 
-export default Dashboard;
+export default Profile;
