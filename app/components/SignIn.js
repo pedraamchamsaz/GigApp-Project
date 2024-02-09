@@ -1,7 +1,5 @@
 "use client";
 
-import { useState, useEffect } from "react";
-
 const SignIn = ({setAuthProcess, submitHandler}) => {
   const handleLogin = async (e) => {
     e.preventDefault();

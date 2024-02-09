@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 const SignUp = ({submitHandler, setAuthProcess, client}) => {
   const [userObject, setuserObject] = useState({username:"", password:"", password2:""})

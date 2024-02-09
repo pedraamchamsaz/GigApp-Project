@@ -7,7 +7,7 @@ const EventCard = (props) => {
       <div className="flex item-center w-full sm:justify-end sm:pb-8 md:pb-4 md:pt-8">
         <div className="card w-full bg-white p-2 transition-all duration-300 ease-in-out">
           <div className="card-body flex flex-col px-4 items-center justify-center">
-            <h2 className="card-title hover:text-[#087CA7] text-xl text-[#087CA7] font-bold md:text-3xl text-center p-4 transition-colors duration-200 ease-in-out">
+            <h2 className="card-title text-xl text-black font-bold md:text-xl text-center p-4 transition-colors duration-200 ease-in-out">
               {props.EventName}
             </h2>
 
