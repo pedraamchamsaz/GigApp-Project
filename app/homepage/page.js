@@ -5,6 +5,7 @@ import Dashboard from "@/app/dashboard/dashboard";
 import AuthoriseUser from "@/app/components/AuthoriseUser";
 import Card from "../components/Card";
 import CardContainer from "../components/CardContainer";
+import SearchBar from "../components/SearchBar";
 
 
 export default function Home() {
@@ -43,6 +44,7 @@ export default function Home() {
         <AuthoriseUser loggedIn={(token) => login(token)} client={client} />
 
       )} */}
+      <SearchBar />
       <CardContainer />
     </>  
   );

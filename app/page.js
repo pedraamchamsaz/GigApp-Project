@@ -53,7 +53,7 @@ export default function Home() {
                className='text-white  font-bold rounded-lg uppercase text-sm px-2 py-2.5 text-center me-2 mb-2'>Home</button>
           </Link>
 
-          <SearchBar />
+          {/* <SearchBar /> */}
     </div>
   );
 }
