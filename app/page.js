@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <>
-      <div className="bg-black flex overflow-hidden justify-between items-center px-4 py-2">
+      <div className="bg-green-200 flex justify-between items-center px-4 py-2">
         <HomeButton />
         <>
           {token ? (
@@ -55,7 +55,7 @@ export default function Home() {
               </button>
               {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center">
-                  <div className="p-8 rounded-lg">
+                  <div className="p-8 rounded-lg bg-white">
                     <button
                       className="absolute top-0 right-0 mr-10 mt-10 text-white"
                       onClick={() => setShowPopup(false)}

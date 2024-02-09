@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 #authorisation {
-    background-color: black;
+    background-color: rgb(15, 13, 13);
 }
 
 #userprofile {
