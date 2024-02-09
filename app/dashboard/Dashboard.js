@@ -4,7 +4,6 @@ import Add from "../components/Add";
 import EventForm from "../components/EventForm";
 import EventCard from "../components/EventCard"
 import LogoutButton from "../components/logoutButton";
-import SearchBar from "../components/SearchBar";
 import GetStartedButton from "../components/GetStartedButton";
 import Card from "../components/Card";
 
@@ -59,9 +58,6 @@ const Dashboard = (props) => {
         <GetStartedButton />
       </div>
      
-      
-
-      <SearchBar />
       
       <div className="pt-10 md:fixed md:w-[50%] max-sm:w-screen max-sm:h-[50vh] md:h-[50vw] pr-[5%] pl-[5%] pt-[5%] pb-[10%] pb-[1%] sm:pb-[10%]">
         <EventForm 

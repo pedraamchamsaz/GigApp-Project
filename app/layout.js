@@ -19,7 +19,7 @@ const RootLayout = ({ children }) => {
       </Head>
       <body className={`${inter.className} relative h-screen`}>
         {/* Video Background */}
-        <video
+        {/* <video
           className="absolute top-0 left-0 object-cover w-full h-full"
           autoPlay
           loop
@@ -27,7 +27,7 @@ const RootLayout = ({ children }) => {
         >
           <source src="/public/videos/background-video.mp4" type="video/mp4" />
           Your browser does not support the video tag.
-        </video>
+        </video> */}
 
         {/* Content */}
         <div className="relative z-10 p-8">

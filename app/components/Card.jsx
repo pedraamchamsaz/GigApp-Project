@@ -6,11 +6,12 @@ import axios from 'axios'
 
 const Card = () => {
 
-  const [eventData, setEventData] = useState([])
+  const [eventData, setEventData] = useState([]);
+  const TMapiKey = process.env.REACT_TM_API_KEY;
 
   const getData = async () => {
     try {
-      const response = axios.get('https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm')
+      const response = axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}`)
       console.log(response.data, "DATA")
       setEventData(response.data.body)
     } catch (e) {
