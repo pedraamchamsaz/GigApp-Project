@@ -8,8 +8,10 @@ import Geohash from 'latlon-geohash';
 const Card = () => {
 
   const [eventData, setEventData] = useState([]);
+
   const [radius, setRadius] = useState(10)
   const [location, setLocation] = useState(null)
+
 
   useEffect(() => {
     const currentLocation = async () => {
@@ -31,7 +33,9 @@ const Card = () => {
 
   const getEventData = async (location) => {
     try {
+
       const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc`)
+
       console.log(response.data, "DATA")
       setEventData(response.data._embedded.events)
     } catch (e) {
