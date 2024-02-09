@@ -1,11 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
 import { ApiClient } from "@/apiClient";
-import Dashboard from "@/app/dashboard/dashboard";
+
 import AuthoriseUser from "@/app/components/AuthoriseUser";
 import Card from "../components/Card";
 import CardContainer from "../components/CardContainer";
 import SearchBar from "../components/SearchBar";
+import GetStartedButton from "../components/GetStartedButton";
 
 
 export default function Home() {
@@ -24,7 +25,7 @@ export default function Home() {
   //   if (token) {
   //     setToken(token);
   //   } // if !token, redirect to landing page
-  // }, []);
+  // }, []);n
 
   // const login = (token) => {
   //   localStorage.setItem("token", token);
@@ -37,7 +38,9 @@ export default function Home() {
   // };
 
   return (
-    <>    
+    <>   
+    <div className="w-[7%]">
+    <GetStartedButton /> </div>
       <SearchBar />
       <CardContainer />
 
