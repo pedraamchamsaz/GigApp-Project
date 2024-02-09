@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import LogoutButton from "../components/logoutButton";
-import SearchBar from "../components/SearchBar";
 import GetStartedButton from "../components/GetStartedButton";
 import Card from "../components/Card";
 
@@ -38,11 +37,11 @@ const Dashboard = (props) => {
       <div className="fixed  right-28 top-4">
         <GetStartedButton />
       </div>
+
          
       <SearchBar />
       
       {/* <Card /> */}
-
 
     </div>
   );

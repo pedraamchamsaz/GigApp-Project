@@ -1,9 +1,11 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ApiClient } from "@/apiClient";
 import Dashboard from "@/app/dashboard/dashboard";
 import AuthoriseUser from "@/app/components/AuthoriseUser";
+
 // import GetStartedButton from "@app/components/GetStartedButton";
 import Profile from "./profile/profile";
 import { GrClose } from "react-icons/gr";
@@ -39,6 +41,7 @@ export default function Home() {
   };
 
   return (
+
     <>
       <div className="bg-green-200 flex justify-between items-center px-4 py-2">
         <HomeButton />
@@ -74,5 +77,9 @@ export default function Home() {
         </>
       </div>
     </>
+
+  
+
   );
 }
+
