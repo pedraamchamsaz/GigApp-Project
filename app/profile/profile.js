@@ -11,7 +11,7 @@ const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
 
-  // gets the events from the backend and updates the state in this file
+  
   const refreshList = () => {
     props.client.getEvents().then((response) => {
       setEvents(response.data);
@@ -20,16 +20,14 @@ const Profile = (props) => {
     });
   };
 
-  // removes the advert and then calls refresh list so that the list of ads
-  //  is updated and doesn't include the ad that the user just deleted.
+
   const removeEvents = (id) => {
     props.client.removeEvent(id).then(() => {
       refreshList();
     });
   };
 
-  // take an ad from a child component and then we will set the current state to that at
-  // so that we can edit it later on
+  
   const updateEvents = (event) => {
     setCurrent(event);
   };
@@ -38,8 +36,7 @@ const Profile = (props) => {
     console.log("Update current");
   }, [current]);
 
-  // this function is called when the component renders and it calls the refresh list function
-  // that allows us to see the ads from the db (useeffect)
+  
   useEffect(() => {
     refreshList();
     console.log(events);
@@ -56,7 +53,7 @@ const Profile = (props) => {
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-blue-200 text-center">Hi! User</p>
+      <p className="text-blue-200 text-center">Hi! Good to see you back!</p>
       <div className=" md:fixed md:w-[50%] max-sm:w-screen max-sm:h-[50%] md:h-[50vw] pr-[5%] pl-[5%] pb-[10%] pb-[1%] sm:pb-[10%]">
         <EventForm
           client={props.client}
