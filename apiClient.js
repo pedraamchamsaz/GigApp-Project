@@ -1,6 +1,6 @@
 import axios from "axios";
 const url = "http://localhost:3001/";
-
+// "https://gigapp.onrender.com/"
 
 export class ApiClient {
   // the constructor function takes in two callback functions which change the state in the page.js.
@@ -32,20 +32,40 @@ export class ApiClient {
     });
   }
 
+// fetch events without authentication 
+async nonAuthenticatedCall(method, url, data) {
+  return await axios({
+    method,
+    url,
+    data,
+  }).catch((error) => {
+    console.log(error)
+    if (error.response.status === 405) {
+    } else {
+      throw error;
+    }
+  });
+}
+
+
+
   async getEvents() {
     console.log("Get events - call api")
     return await this.authenticatedCall("get", url);
   }
+
+  // new func to fetch all events
+  async getAllEvents() {
+    console.log("Get all database events - call api")
+    return await this.nonAuthenticatedCall("get", `${url}events`);
+  }
+
 
   addEvent(name, city, date, price, description) {
     console.log("addEvent Api Client called")
     return this.authenticatedCall("post", url, { name, city, date, price, description });
   }
 
-  addAd(name, price) {
-    console.log("addAd Api Client called")
-    return this.authenticatedCall("post", url, { name, price }); // "http://localhost:3001/"
-  }
 
   removeEvent(id) {
     return this.authenticatedCall("delete", `${url}${id}`);
@@ -71,15 +91,10 @@ export class ApiClient {
   async checkUsername(userDetails) {
     console.log("Checking username in database")
     console.log(userDetails)
-    const username = "Potato"
     return this.authenticatedCall('get', `${url}username/${userDetails.username}`);
   }
 }
 
-// name: String,
-// city: String,
-// date: Number,
-// price: Number,
-// description: String
+
 
   

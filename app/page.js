@@ -11,6 +11,7 @@ import Profile from "./profile/profile";
 import { GrClose } from "react-icons/gr";
 import HomeButton from "@/app/components/HomeButton";
 
+
 export default function Home() {
   const [token, setToken] = useState(null);
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
@@ -41,8 +42,9 @@ export default function Home() {
   };
 
   return (
-
     <>
+     
+      {/* <img src='./assets/images/Logoblack.png'></img> */}
       <div className="bg-green-200 flex justify-between items-center px-4 py-2">
         <HomeButton />
         <>
@@ -50,12 +52,20 @@ export default function Home() {
             <Profile setToken={setToken} client={client} />
           ) : (
             <>
-              <button
-                className="text-white hover:text-[#13C3B5] w-full text-white p-4 font-bold"
-                onClick={() => setShowPopup(true)}
-              >
-                Sign In | Sign Up
-              </button>
+              <div>
+                <button
+                  className="text-white hover:text-[#13C3B5] w-full text-white p-4 font-bold"
+                  onClick={() => setShowPopup(true)}
+                >
+                  Sign In
+                </button>
+                <button
+                  className="text-white hover:text-[#13C3B5] w-full text-white p-4 font-bold"
+                  onClick={() => setShowPopup(true)}
+                >
+                  Get Started
+                </button>
+              </div>
               {showPopup && (
                 <div className="fixed inset-0 flex items-center justify-center">
                   <div className="p-8 rounded-lg bg-white">
@@ -77,9 +87,5 @@ export default function Home() {
         </>
       </div>
     </>
-
-  
-
   );
 }
-
