@@ -135,7 +135,7 @@ if (userLocation && typeof userLocation.lat === 'number' && typeof userLocation.
   }
 
   return (
-    <div className='bg-white h-screen flex flex-col items-center justify-center'>
+    <div className=' h-screen flex flex-col items-center justify-center'>
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
           <input
