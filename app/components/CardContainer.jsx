@@ -1,10 +1,12 @@
 import React from 'react'
 import Card from './Card'
 
-const CardContainer = () => {
+const CardContainer = (props) => {
+
   return (
     <div className='w-full flex'>
-        <Card />
+        <Card 
+            {...props} />
     </div>
   )
 }
