@@ -7,14 +7,7 @@ const GoogleMapComponent = ({ locations, center }) => {
 
   return (
     <LoadScript googleMapsApiKey={apiKey}>
-      <div
-        style={{
-          height: '400px',
-          width: '400px', 
-          borderRadius: '5%', 
-          overflow: 'hidden', 
-        }}
-      >
+      <div className="relative h-96 w-96 rounded-2xl mb-10 border-4 border-cyan-500 overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
           zoom={10} 
@@ -23,17 +16,7 @@ const GoogleMapComponent = ({ locations, center }) => {
             width: '100%', 
           }}
         >
-          {/* Display markers for each location */}
-          {locations.map((location, index) => (
-            <Marker
-              key={index}
-              position={{
-                lat: typeof location.latitude === 'number' ? location.latitude : 0,
-                lng: typeof location.longitude === 'number' ? location.longitude : 0,
-              }}
-              title={location.name}
-            />
-          ))}
+          {/* Markers or other Google Map components go here */}
         </GoogleMap>
       </div>
     </LoadScript>
