@@ -10,37 +10,37 @@ const EventCardHome = (props) => {
     <div className="border p-10">
       
           
-            <h2 className="card-title text-xl text-black font-bold md:text-xl text-center p-4">
+            <h2 className="text-white card-title text-xl text-black font-bold md:text-xl text-center p-4">
               {props.EventName}
             </h2>
             
             <div className="">
               <div className="">
                 <div>
-                  <p className="whitespace-normal text-[#221D23] text-center font-bold text-xs md:text-sm">
+                  <p className="text-white whitespace-normal text-[#221D23] text-center font-bold text-xs md:text-sm">
                     Location: {props.EventCity}
                   </p>
                                  
                 
-                  <p className="whitespace-normal text-[#221D23] text-center font-bold text-xs md:text-sm">
+                  <p className="text-white whitespace-normal text-[#221D23] text-center font-bold text-xs md:text-sm">
                     Date: {props.EventDate}
                   </p>
                   
                 </div>
-                <div className="flex justify-center">
+                <div className="text-white flex justify-center">
                   <p className="">
                     Description: {props.EventDescription}
                   </p>
-                  <p className="whitespace-normal text-[#221D23] text-left mt-2 md:text-xl text-gray-800">
+                  <p className="text-white whitespace-normal text-[#221D23] text-left mt-2 md:text-xl text-gray-800">
                    
                   </p>
                 </div>
-                <div className="col-span-1 md:col-span-2 flex justify-center">
+                <div className="text-white col-span-1 md:col-span-2 flex justify-center">
                   <p className="">
                     Ticket Price: £{props.EventPrice}
                   </p>
                 </div>
-                <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4">
+                <div className="text-white col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4">
                  
                 </div>
               </div>

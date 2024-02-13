@@ -47,7 +47,7 @@ const Profile = (props) => {
     <div id="userprofile" className="fixed top-0 left-0 w-screen h-screen bg-black overflow-y-auto">
        
       <div className="flex justify-end items-center h-12">
-      <img className="w-[3%] mt-[4%] ml-7" src='./assets/images/Logowhite.png'></img>
+      {/* <img className="w-[3%] mt-[4%] ml-7" src='./assets/images/Logowhite.png'></img> */}
       
         <div className="ml-auto mr-4 mt-20">
           <HomeButton />

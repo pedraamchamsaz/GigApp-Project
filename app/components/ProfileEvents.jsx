@@ -30,7 +30,7 @@ const ProfileEvents = (props) => {
     
     <div id="userprofile" className="border">
      
-      <div className=" bg-white flex flex-row gap-3 items-center justify-center md:overflow-x-scroll">
+      <div className=" bg-black flex flex-row gap-3 items-center justify-center md:overflow-x-scroll">
         {events.map((current) => (
           <div className=" sm:mt-[3%] mb-[3%]" key={current._id}>
             <EventCardHome

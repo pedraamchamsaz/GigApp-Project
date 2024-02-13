@@ -91,7 +91,7 @@ const SearchBar = () => {
 
    
 
-    <div className='bg-black flex flex-col items-center justify-center'>
+    <div className=' flex flex-col items-center justify-center'>
 
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
@@ -107,7 +107,7 @@ const SearchBar = () => {
       </form>
 
       <button onClick={handleCurrentLocation} className='bg-black p-2 rounded-full border-4 border-solid border-teal-500 focus:outline-none' title='Use Current Location'>
-        <img src='/images/Logo white.png' alt="Logo" className="w-5 h-6" />
+        <img src='/assets/images/Logowhite.png' alt="Logo" className="w-5 h-6" />
       </button>
 
       <div className='mt-4'>
