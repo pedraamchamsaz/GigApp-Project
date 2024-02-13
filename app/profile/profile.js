@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import EventForm from "../components/EventForm";
 import EventCard from "../components/EventCard";
 import LogoutButton from "../components/logoutButton";
-import GetStartedButton from "../components/GetStartedButton";
 import Link from "next/link";
 import HomeButton from "../components/HomeButton";
 
@@ -46,12 +45,14 @@ const Profile = (props) => {
   return (
     
     <div id="userprofile" className="fixed top-0 left-0 w-screen h-screen bg-black overflow-y-auto">
-      <div className="flex justify-end items-center h-12">
        
-        <div className="ml-auto mr-4">
+      <div className="flex justify-end items-center h-12">
+      <img className="w-[3%] mt-[4%] ml-7" src='./assets/images/Logowhite.png'></img>
+      
+        <div className="ml-auto mr-4 mt-20">
           <HomeButton />
         </div>
-        <div className="mr-4">
+        <div className="mr-4 mt-20 mr-20">
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>

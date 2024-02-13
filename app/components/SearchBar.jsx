@@ -88,7 +88,11 @@ const SearchBar = () => {
   };
 
   return (
+
+   
+
     <div className='bg-black flex flex-col items-center justify-center'>
+
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
           <input
