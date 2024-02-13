@@ -7,6 +7,7 @@ import GetStartedButton from "../components/GetStartedButton";
 import Link from "next/link";
 import HomeButton from "../components/HomeButton";
 
+
 const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
@@ -46,6 +47,7 @@ const Profile = (props) => {
     
     <div id="userprofile" className="fixed top-0 left-0 w-screen h-screen bg-black overflow-y-auto">
       <div className="flex justify-end items-center h-12">
+       
         <div className="ml-auto mr-4">
           <HomeButton />
         </div>

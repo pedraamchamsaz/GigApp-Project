@@ -8,24 +8,13 @@ const ProfileEvents = (props) => {
 
   
   const refreshList = () => {
-    props.client.getEvents().then((response) => {
+    props.client.getAllEvents().then((response) => {
       setEvents(response.data);
     }).catch((err) => {
       console.log("failed to get API request (GET)");
     });
   };
 
-
-//   const removeEvents = (id) => {
-//     props.client.removeEvent(id).then(() => {
-//       refreshList();
-//     });
-//   };
-
-  
-//   const updateEvents = (event) => {
-//     setCurrent(event);
-//   };
 
   useEffect(() => {
     console.log("Update current");
@@ -45,14 +34,14 @@ const ProfileEvents = (props) => {
         {events.map((current) => (
           <div className=" sm:mt-[3%] mb-[3%]" key={current._id}>
             <EventCardHome
-            //   removeEvents={(id) => removeEvents(id)}
+            
               keyA={current._id}
               EventName={current.name}
               EventCity={current.city}
               EventDate={current.date}
               EventPrice={current.price}
               EventDescription={current.description}
-            //   updateEvents={updateEvents}
+          
             />
           </div>
         ))}
