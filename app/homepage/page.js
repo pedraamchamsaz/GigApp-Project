@@ -100,11 +100,12 @@ export default function HomePage(props) {
       </div>
 
         <SearchBar />
-      <div>
-      <ProfileEvents client={client} />   
-        </div>
+      
+         
+        
          <div>
       <FilterContainer />
+      <ProfileEvents client={client} />
       <CardContainer 
         eventData={eventData}
         radius={radius}

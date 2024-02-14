@@ -110,9 +110,9 @@ export default function Home() {
             </>
           </div>
         </div>
-        <p className="text-white text-8xl mt-[12%] ml-20">
+        <div className="text-white text-8xl mt-[12%] ml-20">
           Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
-        </p>
+        </div>
         <p className="text-black text-xl mt-[2%] ml-20">
           "Discover, Navigate, Groove - Your Guide to Entertainment Everywhere"
         </p>

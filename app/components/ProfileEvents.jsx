@@ -30,9 +30,9 @@ const ProfileEvents = (props) => {
     
     <div id="userprofile" className="border">
      
-      <div className=" bg-black flex flex-row gap-3 items-center justify-center md:overflow-x-scroll">
+      <div className=" flex justify-center flex-wrap gap-8 mb-5 mt-5">
         {events.map((current) => (
-          <div className=" sm:mt-[3%] mb-[3%]" key={current._id}>
+         
             <EventCardHome
             
               keyA={current._id}
@@ -40,10 +40,12 @@ const ProfileEvents = (props) => {
               EventCity={current.city}
               EventDate={current.date}
               EventPrice={current.price}
-              EventDescription={current.description}
+         
+              EventTime={current.time}
+              EventPhoto={current.photo}
           
             />
-          </div>
+          
         ))}
       </div>
     </div>

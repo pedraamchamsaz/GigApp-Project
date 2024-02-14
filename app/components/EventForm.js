@@ -23,7 +23,9 @@ const EventForm = (props) => {
       !e.target.EventName.value ||
       !e.target.EventDate.value ||
       !e.target.EventCity.value ||
-      !e.target.EventDescription.value ||
+     
+      !e.target.EventTime.value ||
+      !e.target.EventPhoto.value ||
       typeof e.target.EventPrice.value !== "number"
     ) {
       if (!e.target.EventName.value) {
@@ -32,8 +34,12 @@ const EventForm = (props) => {
       } else if (!e.target.EventDate.value) {
         alert("Please enter Event Date");
         setDisabled(false);
-      } else if (!e.target.EventDescription.value) {
-        alert("Please enter Event Description");
+  
+      } else if (!e.target.EventTime.value) {
+        alert("Please enter Event Time");
+        setDisabled(false);
+      } else if (!e.target.EventPhoto.value) {
+        alert("Please enter Event Photo");
         setDisabled(false);
       } else if (!e.target.EventCity.value) {
         alert("Please enter Event City");
@@ -55,7 +61,9 @@ const EventForm = (props) => {
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-        e.target.EventDescription.value
+      
+        e.target.EventTime.value,
+        e.target.EventPhoto.value,
       );
     } else {
       console.log("Submit Event to addEvent");
@@ -64,7 +72,9 @@ const EventForm = (props) => {
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-        e.target.EventDescription.value
+        
+        e.target.EventTime.value,
+        e.target.EventPhoto.value,
       );
     }
 
@@ -82,7 +92,7 @@ const EventForm = (props) => {
   };
   return (
     <form
-      className="flex flex-col w-[70%] h-full rounded-md bg-gray-200 items-center font-semibold p-[5%] mt-[15%]"
+      className="flex flex-col w-[70%] h-4/5 rounded-md bg-gray-200 items-center font-semibold p-[5%] mt-[15%]"
       onSubmit={submitHandler}
       id="addForm"
     >
@@ -97,10 +107,10 @@ const EventForm = (props) => {
           name="EventName"
         />
       </div>
-      <div className="mx-[10%] h-[10%] w-[54%]">
+      <div className="mx-[10%] h-[10%] mt-3">
         <input
           type="date"
-          className="rounded-full w-full p-1 border border-black text-gray-400"
+          className="w-full p-1 border border-black rounded-full text-gray-400"
           defaultValue={props.currentEvent?.EventDate}
           disabled={disabled}
           name="EventDate"
@@ -111,7 +121,7 @@ const EventForm = (props) => {
         <input
           type="text"
           className="rounded-full w-full p-1 border border-black"
-          placeholder="City"
+          placeholder="Vanue - City, Country Code"
           defaultValue={props.currentEvent?.EventCity}
           disabled={disabled}
           name="EventCity"
@@ -133,21 +143,22 @@ const EventForm = (props) => {
         <input
           type="text"
           className="rounded-full w-full p-1 border border-black"
-          defaultValue={props.currentEvent?.EventPrice}
+          defaultValue={props.currentEvent?.EventPhoto}
           disabled={disabled}
           name="EventPhoto"
           placeholder="Photo"
         />
       </div>
-      <p>Description</p>
+    
+      <p>Time</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
           className="rounded-full w-full p-1 border border-black"
-          defaultValue={props.currentEvent?.EventDescription}
+          defaultValue={props.currentEvent?.EventTime}
           disabled={disabled}
-          name="EventDescription"
-          placeholder="Description"
+          name="EventTime"
+          placeholder="HH:MM"
         />
       </div>
 
