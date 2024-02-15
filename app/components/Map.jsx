@@ -1,12 +1,15 @@
 import React from 'react';
 import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 
-const GoogleMapComponent = ({ locations, center }) => {
+const GoogleMapComponent = ({ locations, center, markerLocations }) => {
   
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+
+  // setMarkers(markerLocations)
+  // console.log(markers)
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
+    <LoadScript googleMapsApiKey={apiKey} markerLocations={markerLocations}>
       <div className="relative h-96 w-96 rounded-2xl mb-10 border-4 border-cyan-500 overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
@@ -16,7 +19,17 @@ const GoogleMapComponent = ({ locations, center }) => {
             width: '100%', 
           }}
         >
-          {/* Markers or other Google Map components go here */}
+          {/* Display markers for each location */}
+          {markerLocations.map((location, index) => (
+            <Marker
+              key={index}
+              position={{
+                lat: Number(location.latitude),
+                lng: Number(location.longitude)
+              }}
+              title='hello'
+            />
+          ))}
         </GoogleMap>
       </div>
     </LoadScript>

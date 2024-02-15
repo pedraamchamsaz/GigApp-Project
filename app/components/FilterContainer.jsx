@@ -2,11 +2,11 @@ import React from 'react'
 import RefineButton from './RefineButton'
 import Dropdown from './Dropdown'
 
-const FilterContainer = () => {
+const FilterContainer = (props) => {
   return (
     <div className='flex justify-between'>
         <Dropdown />
-        <RefineButton />
+        <RefineButton {...props}/>
     </div>
   )
 }
