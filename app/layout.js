@@ -1,5 +1,6 @@
 import { Inter } from "next/font/google";
 import Head from "next/head";
+import Link from "next/link";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -17,22 +18,18 @@ const RootLayout = ({ children }) => {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </Head>
-      <body className={`${inter.className} relative h-screen`}>
-        {/* Video Background */}
-        {/* <video
-          className="absolute top-0 left-0 object-cover w-full h-full"
-          autoPlay
-          loop
-          muted
-        >
-          <source src="/public/videos/background-video.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video> */}
+      <body className={`${inter.className} relative h-screen bg-black`}>
+        {/* <img
+          className="fixed w-[3%] mt-[1%] ml-7"
+          src="./assets/images/Logowhite.png"
+        ></img> */}
 
-        {/* Content */}
-        <div className="relative z-10 p-8">
-          {children}
-        </div>
+        <img
+          src="./assets/images/Logowhite.png"
+          alt="Logo"
+          className="w-15 h-20 fixed top-0 left-0 m-4"
+        />
+        <div className="relative z-10 p-8">{children}</div>
       </body>
     </html>
   );

@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import LogoutButton from "../components/logoutButton";
-import GetStartedButton from "../components/GetStartedButton";
+import GetStartedButton from "../components/ProfileButton";
 import Card from "../components/Card";
 
 const Dashboard = (props) => {

@@ -8,14 +8,15 @@ import HomeButton from "@/app/components/HomeButton";
 import ProfileEvents from "../components/ProfileEvents";
 import CardContainer from "../components/CardContainer";
 import SearchBar from "../components/SearchBar";
-import GetStartedButton from "../components/GetStartedButton";
+import ProfileButton from "../components/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
-import EventsContainer from "../components/EventsContainer";
+import FilterContainer from "../components/FilterContainer";
+import LogoutButton from "../components/logoutButton";
 
 
 
-export default function HomePage() {
+export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [radius, setRadius] = useState(10)
@@ -232,9 +233,16 @@ export default function HomePage() {
 
     <>   
       <div>
-        <div className="w-[7%]">
-            <GetStartedButton />
+        <div className="flex justify-end items-center ">
+       {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
+      
+        <div className="ml-auto mr-4 mt-15">
+        <HomeButton />
         </div>
+        <div className="mr-4 mr-15">
+         <ProfileButton />
+        </div>
+      </div>
           <SearchBar 
             city={city}
             setCity={setCity}

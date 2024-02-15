@@ -9,16 +9,8 @@ const GoogleMapComponent = ({ locations, center, markerLocations }) => {
   // console.log(markers)
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
-      <div
-        style={{
-          height: '400px',
-          width: '400px', 
-          borderRadius: '5%', 
-          overflow: 'hidden', 
-        }}
-        markerLocations={markerLocations}
-      >
+    <LoadScript googleMapsApiKey={apiKey} markerLocations={markerLocations}>
+      <div className="relative h-96 w-96 rounded-2xl mb-10 border-4 border-cyan-500 overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
           zoom={10} 
