@@ -1,17 +1,41 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
+import EventUserCardExpanded from './EventUserCardExpanded';
+
 const EventCard = (props) => {
   const keyID = props.keyA;
+
+  const [open, setOpen] = useState(false);
+  const [stateEvent, setStateEvent] = useState('');
+  const [stateImg, setStateImg] = useState('');
+
+  const handleClickOpen = () => {
+    if (stateEvent) {
+      return;
+    }
+    setOpen(true);
+    setStateEvent(props.EventName, props.EventDate, props.EventTime, props.EventCity); 
+    setStateImg(props.EventPhoto);
+    
+  };
+
+  const handleClose = () => {
+    setStateEvent('');
+    setOpen(false);
+  };
+
+
   return (
   <>
       
       <div
         className="w-[600px] h-[400px] relative mb-5"
-        // onClick={
-        //   () => {
-        //     handleClickOpen(event)
-        //   }
-        // }
+        onClick={
+          () => {
+            handleClickOpen(props)
+          }
+        }
       >
         <img className="object-cover w-screen rounded-xl" src={props.EventPhoto} />
 
@@ -20,8 +44,8 @@ const EventCard = (props) => {
           <p className="text-sm font-medium mt-2">
             {props.EventDate} - {props.EventTime}
           </p>
-          <p className="text-xs mt-2">{props.EventCity}</p>
-          <p className="text-xs mt-2">Price: £{props.EventPrice}</p>
+          <p className="text-xs mt-2">{props.EventVenue} - {props.EventCity}, {props.EventCountryCode}, {props.EventPostcode}</p>
+          <p className="text-xs mt-2">Price: £{props.EventPrice} - </p>
 
           <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4 mt-5">
             <button
@@ -43,13 +67,13 @@ const EventCard = (props) => {
             </button>
           </div>
         </div>
-        {/* <CardExpanded 
+        <EventUserCardExpanded
         open={open}
         handleClose={handleClose}
-        eventData={eventData}
+        {...props}
         event={stateEvent}
         img={stateImg}
-        /> */}
+      />
       </div>
     </>
   );
