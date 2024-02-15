@@ -6,13 +6,12 @@ import { ApiClient } from "@/apiClient";
 // import GetStartedButton from "@app/components/GetStartedButton"
 import HomeButton from "@/app/components/HomeButton";
 import ProfileEvents from "../components/ProfileEvents";
-import CardContainer from "../components/CardContainer";
 import SearchBar from "../components/SearchBar";
 import ProfileButton from "../components/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
-import FilterContainer from "../components/FilterContainer";
 import LogoutButton from "../components/logoutButton";
+import EventsContainer from "../components/EventsContainer";
 
 
 
@@ -29,14 +28,8 @@ export default function HomePage(props) {
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
-  // const markerLocations = []
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-
-  useEffect(() => {
-    console.log("RESULTS ARE CHANGING")
-    console.log(results, "RESULTS")
-  }, [results])
 
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
@@ -50,6 +43,10 @@ export default function HomePage(props) {
     
     setMarkerLocations(splicedOnlyCoordinates)
   }, [eventData, results])
+
+  useEffect(() => {
+    getEventData(location)
+  }, [radius])
   
   const client = new ApiClient(
     () => token,
@@ -76,9 +73,6 @@ export default function HomePage(props) {
   const handleSearch = async (e) => {
     e.preventDefault();
     await search(city);
-    // console.log(googleMapsResults, 'GOOGLE')
-    // await setLocation(city)
-    // getEventData()
   };
 
   const search = async (city) => {
@@ -156,7 +150,7 @@ export default function HomePage(props) {
 
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.NEXT_PUBLIC_TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120`)
       console.log(response.data, "DATA")
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       setEventData(onSale)

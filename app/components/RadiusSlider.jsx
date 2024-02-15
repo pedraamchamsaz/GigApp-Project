@@ -10,7 +10,6 @@ export default function RadiusSlider( {setRadius, getEventData}) {
 
   const handleRadius = (e) => {
     setRadius(e.target.value)
-    getEventData(location)
   }
 
   return (

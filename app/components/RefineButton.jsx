@@ -25,7 +25,7 @@ export default function RefineButton( {setResults, setRadius, getEventData}) {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <img className='h-10 w-10' src="filter.png" alt="" />
+        <img className='h-10 w-10' src="filter-white.png" alt="" />
       </Button>
       <Menu
         id="basic-menu"
