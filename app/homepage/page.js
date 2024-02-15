@@ -27,8 +27,28 @@ export default function HomePage() {
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
-  const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
+  const [markerLocations, setMarkerLocations] = useState([])
+  // const markerLocations = []
+  // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+
+  useEffect(() => {
+    console.log("RESULTS ARE CHANGING")
+    console.log(results, "RESULTS")
+  }, [results])
+
+  useEffect(() => {
+    console.log(eventData, "EVENT DATA")
+    const spliced = eventData.slice(0, results)
+    let splicedOnlyCoordinates = spliced.map(event => {
+      const { latitude, longitude } = event._embedded.venues[0].location
+     
+      return {latitude, longitude}
+    }
+    )
+    
+    setMarkerLocations(splicedOnlyCoordinates)
+  }, [eventData, results])
   
   const client = new ApiClient(
     () => token,
@@ -42,7 +62,6 @@ export default function HomePage() {
           console.log(position.coords)
           const { latitude, longitude } = position.coords
           const geoHash = Geohash.encode(latitude, longitude, 8)
-          console.log(geoHash)
           setLocation(geoHash)
           getEventData(geoHash)
         })
@@ -67,7 +86,6 @@ export default function HomePage() {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GoogleapiKey}`
       );
       setGoogleMapsResults(googleMapsResponse.data.results);
-      console.log(googleMapsResults, 'HELLO')
 
       if (googleMapsResponse.data.results.length > 0) {
         const userLocation = googleMapsResponse.data.results[0].geometry.location;
@@ -98,7 +116,7 @@ export default function HomePage() {
                 const distance1 = calculateDistance(userLocation.lat, userLocation.lng, venueLocation1.latitude, venueLocation1.longitude);
                 const distance2 = calculateDistance(userLocation.lat, userLocation.lng, venueLocation2.latitude, venueLocation2.longitude);
 
-                return distance1 - distance2;
+                return distance1 - distance2;F
               }
 
               return 0;
@@ -106,8 +124,6 @@ export default function HomePage() {
 
           const closestEvents = sortedEvents.slice(0, 9);
           setTicketmasterResults(closestEvents);
-          console.log('Google Maps Results:', googleMapsResponse.data.results);
-          console.log('Ticketmaster Music Events:', closestEvents);
         } else {
           console.error('No music events found for the city:', city);
         }
@@ -139,7 +155,7 @@ export default function HomePage() {
 
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${process.env.NEXT_PUBLIC_TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120`)
       console.log(response.data, "DATA")
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       setEventData(onSale)
@@ -148,10 +164,53 @@ export default function HomePage() {
     }
   }
 
-  useEffect(() => {
-    console.log("Page Log out");
-  }, [token]);
-
+  const handleCurrentLocation = async () => {
+    if (navigator.geolocation) {
+      try {
+        const position = await new Promise((resolve, reject) => {
+          navigator.geolocation.getCurrentPosition(resolve, reject);
+        });
+  
+        const { latitude, longitude } = position.coords;
+  
+        const googleMapsResponse = await axios.get(
+          `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GoogleapiKey}`
+        );
+  
+        if (googleMapsResponse.data.results && googleMapsResponse.data.results.length > 0) {
+          const addressComponents = googleMapsResponse.data.results[0].address_components;
+  
+          // Log the entire geolocation response for inspection
+          console.log('Geolocation response:', googleMapsResponse.data);
+  
+          // Find the city in the address components
+          const cityComponent = addressComponents.find(
+            (component) =>
+              component.types.includes('locality') ||
+              component.types.includes('postal_town') ||
+              component.types.includes('administrative_area_level_2')
+          );
+  
+          if (cityComponent) {
+            const formattedAddress = cityComponent.long_name;
+            setCity(formattedAddress); // Update the city state
+            setGoogleMapsResults(googleMapsResponse.data.results);
+  
+            // Trigger the search function with the closest city
+            await search(formattedAddress);
+          } else {
+            console.error('No specific city component found in geolocation response.');
+          }
+        } else {
+          console.error('No results found for geolocation.');
+        }
+      } catch (error) {
+        console.error('Error getting current location:', error);
+      }
+    } else {
+      console.error('Geolocation is not supported by your browser');
+    }
+  };
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -173,20 +232,22 @@ export default function HomePage() {
 
     <>   
       <div>
-      <div className="w-[7%]">
-          <GetStartedButton />
+        <div className="w-[7%]">
+            <GetStartedButton />
         </div>
-        <SearchBar 
-          city={city}
-          setCity={setCity}
-          setLocation={setLocation}
-          getEventData={getEventData}
-          googleMapsResults={googleMapsResults}
-          setGoogleMapsResults={setGoogleMapsResults}
-          search={search}
-          handleSearch={handleSearch}
-          center={mapCenter}
-          />
+          <SearchBar 
+            city={city}
+            setCity={setCity}
+            setLocation={setLocation}
+            getEventData={getEventData}
+            googleMapsResults={googleMapsResults}
+            setGoogleMapsResults={setGoogleMapsResults}
+            search={search}
+            handleSearch={handleSearch}
+            center={mapCenter}
+            handleCurrentLocation={handleCurrentLocation}
+            markerLocations={markerLocations}
+            />
       <div>
       <ProfileEvents client={client} />   
         </div>
@@ -204,7 +265,7 @@ export default function HomePage() {
         results={results}
         setResults={setResults}
         setRadius={setRadius}
-        getEventData={getEventData}/>
+        />
      </div>
     </div>
     </>  
