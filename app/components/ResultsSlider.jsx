@@ -6,7 +6,7 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function ResultsSlider( {setResults}) {
+export default function ResultsSlider( {setResults, results}) {
 
   const handleResults = (e) => {
     setResults(e.target.value)
@@ -16,7 +16,7 @@ export default function ResultsSlider( {setResults}) {
     <Box sx={{ width: 290 }} className='ml-3'>
       <Slider
         aria-label="Results"
-        // defaultValue={15}
+        defaultValue={results}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={30}

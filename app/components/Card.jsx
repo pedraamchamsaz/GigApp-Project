@@ -37,7 +37,7 @@ const Card = ({ eventData, open, setOpen, stateEvent, setStateEvent, stateImg, s
         // markerLocations.push(event._embedded.venues[0].location)
 
         return (
-          <div className='w-80 h-64 relative' onClick={
+          <div className='w-80 h-64 relative rounded-xl' onClick={
             () => {
               handleClickOpen(event)
             }
@@ -45,8 +45,8 @@ const Card = ({ eventData, open, setOpen, stateEvent, setStateEvent, stateImg, s
               <img 
                 className='object-cover w-full h-full rounded-xl' 
                 src={img}/>
-              <div className='absolute top-1 text-white w-full h-full text-center flex flex-col justify-center p-3 backdrop-opacity-50'>
-                <p className='text-base font-bold '>{eventData[index].name}</p>
+              <div className='bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl'>
+                <p className='text-base font-bold'>{eventData[index].name}</p>
                 <p className='text-sm font-medium mt-2'>{eventData[index].dates.start.localDate} - {eventData[index].dates.start.localTime.slice(0, 5)}</p>
                 <p className='text-xs mt-2'>{eventData[index]._embedded.venues[0].name} - {eventData[index]._embedded.venues[0].city.name}, {eventData[index]._embedded.venues[0].country.countryCode}</p>
               </div>

@@ -2,11 +2,10 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import SliderComp from './SliderComp'
 import ResultsSlider from './ResultsSlider';
 import RadiusSlider from './RadiusSlider';
 
-export default function RefineButton( {setResults, setRadius, getEventData}) {
+export default function RefineButton( {setResults, setRadius, getEventData, radius, results}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -41,11 +40,11 @@ export default function RefineButton( {setResults, setRadius, getEventData}) {
         <div className='ml-3 mt-3'>
           <p className='text-xs mb-2 pl-1'>RESULTS</p>
           <div className='mr-3'>
-            <ResultsSlider setResults={setResults}/>
+            <ResultsSlider setResults={setResults} results={results}/>
           </div>
           <p className='text-xs mb-2 pl-1'>RADIUS</p>
           <div className='mr-3'>
-            <RadiusSlider setRadius={setRadius} getEventData={getEventData}/>
+            <RadiusSlider setRadius={setRadius} getEventData={getEventData} radius={radius}/>
           </div>
         </div>
       </Menu>
