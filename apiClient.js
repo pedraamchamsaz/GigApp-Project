@@ -1,6 +1,6 @@
 import axios from "axios";
-const url = "https://gigapp.onrender.com/";
-// "http://localhost:3001/"
+const url =  "http://localhost:3001/";
+//"https://gigapp.onrender.com/"
 
 export class ApiClient {
   // the constructor function takes in two callback functions which change the state in the page.js.
