@@ -2,12 +2,12 @@ import React from 'react'
 
 const CardLarge = ({event, img}) => {
 
-    const startDate = event.dates.start.localDate
-    const startTime = event.dates.start.localTime.slice(0, 5)
+    const startDate = event?.dates.start.localDate
+    const startTime = event?.dates.start.localTime.slice(0, 5)
     const venue = event._embedded.venues[0]
-    const minPrice = event.priceRanges[0].min
-    const maxPrice = event.priceRanges[0].max
-    const currency = event.priceRanges[0].currency
+    const minPrice = event.priceRanges && event.priceRanges[0].min
+    const maxPrice = event.priceRanges && event.priceRanges[0].max
+    const currency = event.priceRanges && event.priceRanges[0].currency
 
     function formatPriceToCurrency(price, currencyCode) {
         const formatter = new Intl.NumberFormat('en-US', {
