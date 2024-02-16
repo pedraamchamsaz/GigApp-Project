@@ -2,9 +2,10 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import SliderComp from './SliderComp'
+import ResultsSlider from './ResultsSlider';
+import RadiusSlider from './RadiusSlider';
 
-export default function BasicMenu() {
+export default function RefineButton( {setResults, setRadius, getEventData, radius, results}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -23,7 +24,7 @@ export default function BasicMenu() {
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
       >
-        <img className='h-10 w-10' src="filter.png" alt="" />
+        <img className='h-10 w-10' src="filter-white.png" alt="" />
       </Button>
       <Menu
         id="basic-menu"
@@ -33,20 +34,19 @@ export default function BasicMenu() {
         MenuListProps={{
           'aria-labelledby': 'basic-button',
         }}
-        className='flex flex-col items-start'
+        className=''
       >
-        <MenuItem onClick={handleClose} className='flex flex-col'>
-            <p>DATE RANGE</p>
-            <SliderComp />
-        </MenuItem>
-        <MenuItem onClick={handleClose} className='flex flex-col'>
-            <p>DISTANCE</p>
-            <SliderComp />
-        </MenuItem>
-        <MenuItem onClick={handleClose} className='flex flex-col'>
-            <p>PRICE RANGE</p>
-            <SliderComp />
-        </MenuItem>
+        <h1 className='font-bold text-center text-sm'>Filters</h1>
+        <div className='ml-3 mt-3'>
+          <p className='text-xs mb-2 pl-1'>RESULTS</p>
+          <div className='mr-3'>
+            <ResultsSlider setResults={setResults} results={results}/>
+          </div>
+          <p className='text-xs mb-2 pl-1'>RADIUS</p>
+          <div className='mr-3'>
+            <RadiusSlider setRadius={setRadius} getEventData={getEventData} radius={radius}/>
+          </div>
+        </div>
       </Menu>
     </div>
   );
