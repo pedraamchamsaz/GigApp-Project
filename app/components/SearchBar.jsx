@@ -1,18 +1,27 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({city, setCity, setLocation, getEventData, googleMapsResults, setGoogleMapsResults, search, handleSearch, center, handleCurrentLocation, markerLocations}) => {
+const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, setSelectedCard, eventData  }) => {
 
-  const [ticketmasterResults, setTicketmasterResults] = useState([]);
+  useEffect(() => {
+    const handleCurrentLocationOnLoad = () => {
+      // Click current location button on page load
+      document.getElementById('currentLocationButton').click();
+    };
 
+    handleCurrentLocationOnLoad();
+  }, []); 
+
+
+  const handleMarkerClick = (index) => {
+    // Pass the selected card information to the parent component
+    if (markerLocations[index]) {
+      setSelectedCard(markerLocations[index]);
+    }
+  };
 
   return (
-
-   
-
-    <div className='bg-black flex flex-col items-center justify-center'>
-
+    <div className='flex flex-col items-center justify-center'>
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
           <input
@@ -26,8 +35,8 @@ const SearchBar = ({city, setCity, setLocation, getEventData, googleMapsResults,
         </div>
       </form>
 
-      <button onClick={handleCurrentLocation} className='bg-black p-2 rounded-full border-4 border-solid border-teal-500 focus:outline-none' title='Use Current Location'>
-        <img src='/images/Logo white.png' alt="Logo" className="w-5 h-6" />
+      <button id="currentLocationButton" onClick={handleCurrentLocation} className='bg-black p-2 rounded-full border-2 border-solid border-teal-500 focus:outline-none' title='Use Current Location'>
+        <img src='assets/images/Logowhite.png' alt="Logo" className="w-5 h-6" />
       </button>
 
       <div className='mt-4'>
@@ -35,7 +44,9 @@ const SearchBar = ({city, setCity, setLocation, getEventData, googleMapsResults,
           locations={googleMapsResults} 
           center={center} 
           markerLocations={markerLocations}
-          />
+          onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
+          eventData={eventData}
+        />
       </div>
     </div>
   );
