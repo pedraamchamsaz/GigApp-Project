@@ -37,9 +37,9 @@ const EventCard = (props) => {
           }
         }
       >
-        <img className="object-cover w-screen rounded-xl" src={props.EventPhoto} />
+        <img className=" object-cover w-screen rounded-xl" src={props.EventPhoto} />
 
-        <div className="absolute top-1 text-white w-full h-full text-center flex flex-col justify-center p-3">
+        <div className="bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl">
           <p className="text-base font-bold"> {props.EventName}</p>
           <p className="text-sm font-medium mt-2">
             {props.EventDate} - {props.EventTime}
