@@ -28,6 +28,8 @@ export default function HomePage(props) {
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
+  const [selectedCard, setSelectedCard] = useState(null);
+  
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
 
@@ -81,46 +83,19 @@ export default function HomePage(props) {
         `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GoogleapiKey}`
       );
       setGoogleMapsResults(googleMapsResponse.data.results);
-
+  
       if (googleMapsResponse.data.results.length > 0) {
         const userLocation = googleMapsResponse.data.results[0].geometry.location;
-        const {lat, lng} = userLocation
-        const geoHash = Geohash.encode(lat, lng, 8)
-        console.log(geoHash, 'geohash')
-        setLocation(geoHash)
-        getEventData(geoHash)
-
-      if (userLocation && typeof userLocation.lat === 'number' && typeof userLocation.lng === 'number') {
-        setMapCenter(userLocation);
-      } else {
-        console.error('Invalid user location:', userLocation);
-      }
-
-        const ticketmasterResponse = await axios.get(
-          `https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&city=${city}&classificationName=music`
-        );
-
-        if (ticketmasterResponse.data._embedded && ticketmasterResponse.data._embedded.events) {
-          const sortedEvents = ticketmasterResponse.data._embedded.events
-            .filter(event => event.classifications.some(classification => classification.segment.name === 'Music'))
-            .sort((event1, event2) => {
-              const venueLocation1 = event1._embedded.venues[0]?.location;
-              const venueLocation2 = event2._embedded.venues[0]?.location;
-
-              if (venueLocation1 && venueLocation2) {
-                const distance1 = calculateDistance(userLocation.lat, userLocation.lng, venueLocation1.latitude, venueLocation1.longitude);
-                const distance2 = calculateDistance(userLocation.lat, userLocation.lng, venueLocation2.latitude, venueLocation2.longitude);
-
-                return distance1 - distance2;F
-              }
-
-              return 0;
-            });
-
-          const closestEvents = sortedEvents.slice(0, 9);
-          setTicketmasterResults(closestEvents);
+        const { lat, lng } = userLocation;
+        const geoHash = Geohash.encode(lat, lng, 8);
+        console.log(geoHash, 'geohash');
+        setLocation(geoHash);
+        getEventData(geoHash);
+  
+        if (userLocation && typeof userLocation.lat === 'number' && typeof userLocation.lng === 'number') {
+          setMapCenter(userLocation);
         } else {
-          console.error('No music events found for the city:', city);
+          console.error('Invalid user location:', userLocation);
         }
       } else {
         console.error('No results found for the city:', city);
@@ -128,25 +103,7 @@ export default function HomePage(props) {
     } catch (error) {
       console.error('Error fetching data:', error);
     }
-  };
-
-  function calculateDistance(lat1, lon1, lat2, lon2) {
-    const R = 6371; // Radius of the earth in kilometers
-    const dLat = deg2rad(lat2 - lat1);
-    const dLon = deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in kilometers
-  
-    // Convert distance to miles
-    return distance * 0.621371;
-  }
-  
-  function deg2rad(deg) {
-    return deg * (Math.PI / 180);
-  }
+  };  
 
   const getEventData = async (location) => {
     try {
@@ -249,6 +206,8 @@ export default function HomePage(props) {
             center={mapCenter}
             handleCurrentLocation={handleCurrentLocation}
             markerLocations={markerLocations}
+            setSelectedCard={setSelectedCard}
+            eventData={eventData}
             />
       <div>
       <ProfileEvents client={client} />   
@@ -267,6 +226,7 @@ export default function HomePage(props) {
         results={results}
         setResults={setResults}
         setRadius={setRadius}
+        setSelectedCard={setSelectedCard}
         />
      </div>
     </div>
