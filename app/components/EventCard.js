@@ -45,7 +45,7 @@ const EventCard = (props) => {
             {props.EventDate} - {props.EventTime}
           </p>
           <p className="text-xs mt-2">{props.EventVenue} - {props.EventCity}, {props.EventCountryCode}, {props.EventPostcode}</p>
-          <p className="text-xs mt-2">Price: £{props.EventPrice} - </p>
+          <p className="text-xs mt-2">Price: {props.EventCurrency}{props.EventPrice} - {props.EventCurrency}{props.EventPriceMax}</p>
 
           <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4 mt-5">
             <button

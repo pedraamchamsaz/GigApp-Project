@@ -34,6 +34,10 @@ export default function EventUserCardExpanded({
   EventVenue,
   EventCountryCode,
   EventPostcode,
+  EventPrice,
+  EventCurrency,
+  EventPriceMax,
+  EventTicketLink
 }) {
   useEffect(() => {
     console.log(event);
@@ -74,6 +78,10 @@ export default function EventUserCardExpanded({
           EventVenue={EventVenue}
           EventCountryCode={EventCountryCode}
           EventPostcode={EventPostcode}
+          EventPrice={EventPrice}
+          EventCurrency={EventCurrency}
+          EventPriceMax={EventPriceMax}
+          EventTicketLink={EventTicketLink}
         />
       </BootstrapDialog>
     </React.Fragment>

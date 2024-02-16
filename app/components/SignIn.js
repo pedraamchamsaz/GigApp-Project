@@ -1,5 +1,7 @@
 "use client";
 
+import { Toaster, toast } from 'sonner'
+
 const SignIn = ({setAuthProcess, submitHandler}) => {
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -10,7 +12,7 @@ const SignIn = ({setAuthProcess, submitHandler}) => {
 
     } catch (error) {
       console.error(error);
-      alert("Wrong username or password.")
+      toast.warning("Wrong username or password.")
       console.error("Failure signing in user");
     }
   };
