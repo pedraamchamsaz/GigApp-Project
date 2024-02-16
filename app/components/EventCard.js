@@ -1,71 +1,81 @@
 "use client";
 
+import React, { useState, useEffect } from 'react';
+import EventUserCardExpanded from './EventUserCardExpanded';
+
 const EventCard = (props) => {
   const keyID = props.keyA;
+
+  const [open, setOpen] = useState(false);
+  const [stateEvent, setStateEvent] = useState('');
+  const [stateImg, setStateImg] = useState('');
+
+  const handleClickOpen = () => {
+    if (stateEvent) {
+      return;
+    }
+    setOpen(true);
+    setStateEvent(props.EventName, props.EventDate, props.EventTime, props.EventCity); 
+    setStateImg(props.EventPhoto);
+    
+  };
+
+  const handleClose = () => {
+    setStateEvent('');
+    setOpen(false);
+  };
+
+
   return (
-    <div className="w-full flex flex-col shadow-lg rounded-lg overflow-hidden">
-      <div className="flex item-center w-full sm:justify-end sm:pb-8 md:pb-4 md:pt-8">
-        <div className="card w-full bg-white p-2 transition-all duration-300 ease-in-out">
-          <div className="card-body flex flex-col px-4 items-center justify-center">
-            <h2 className="card-title text-xl text-black font-bold md:text-xl text-center p-4 transition-colors duration-200 ease-in-out">
-              {props.EventName}
-            </h2>
+  <>
+      
+      <div
+        className="w-[600px] h-[400px] relative mb-5"
+        onClick={
+          () => {
+            handleClickOpen(props)
+          }
+        }
+      >
+        <img className="object-cover w-screen rounded-xl" src={props.EventPhoto} />
 
-            <div className="flex items-center justify-center"></div>
-            <div className="flex flex-col mb-10">
-              <div className="">
-                <div>
-                  <p className="whitespace-normal hover:text-[#087CA7] text-[#221D23] text-center font-bold text-xs md:text-sm transition-colors duration-200 ease-in-out">
-                    Location: {props.EventCity}
-                  </p>
-                                 
-                
-                  <p className="whitespace-normal hover:text-[#087CA7] text-[#221D23] text-center font-bold text-xs md:text-sm transition-colors duration-200 ease-in-out">
-                    Date: {props.EventDate}
-                  </p>
-                  
-                </div>
-                <div className="flex justify-center">
-                  <p className=" flex justify-centerwhitespace-normal hover:text-[#087CA7] text-black text-left mt-2 font-bold text-base md:text-md text-gray-800 transition-colors duration-200 ease-in-out">
-                    Description: {props.EventDescription}
-                  </p>
-                  <p className="whitespace-normal text-[#221D23] text-left mt-2 md:text-xl text-gray-800">
-                   
-                  </p>
-                </div>
-                <div className="col-span-1 md:col-span-2 flex justify-center">
-                  <p className="whitespace-normal mr-2 font-bold hover:text-[#087CA7] text-[#221D23] text-xs md:text-sm transition-colors duration-200 ease-in-out">
-                    Ticket Price: £{props.EventPrice}
-                  </p>
-                </div>
-                <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4">
-                  <button
-                    type="submit"
-                    className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
-                    onClick={() => props.updateEvents(props)}
-                  >
-                    Update
-                  </button>
+        <div className="absolute top-1 text-white w-full h-full text-center flex flex-col justify-center p-3">
+          <p className="text-base font-bold"> {props.EventName}</p>
+          <p className="text-sm font-medium mt-2">
+            {props.EventDate} - {props.EventTime}
+          </p>
+          <p className="text-xs mt-2">{props.EventVenue} - {props.EventCity}, {props.EventCountryCode}, {props.EventPostcode}</p>
+          <p className="text-xs mt-2">Price: £{props.EventPrice} - </p>
 
-                  <button
-                    type="submit"
-                    className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
-                    onClick={() => {
-                      props.removeEvents(keyID);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
+          <div className="col-span-1 md:col-span-2 flex gap-10 mx-20 justify-center space-x-4 mt-5">
+            <button
+              type="submit"
+              className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
+              onClick={() => props.updateEvents(props)}
+            >
+              Update
+            </button>
 
-                {/* <button onClick={() => removeAdvert(current._id)}>Delete Ad</button>
-            <button onClick={() => updateAdvert(current)}>update</button> */}
-              </div>
-            </div>
+            <button
+              type="submit"
+              className="bg-[#13C3B5] p-4 w-[55%] font-semibold text-white rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10"
+              onClick={() => {
+                props.removeEvents(keyID);
+              }}
+            >
+              Delete
+            </button>
           </div>
         </div>
+        <EventUserCardExpanded
+        open={open}
+        handleClose={handleClose}
+        {...props}
+        event={stateEvent}
+        img={stateImg}
+      />
       </div>
-    </div>
+    </>
   );
 };
 

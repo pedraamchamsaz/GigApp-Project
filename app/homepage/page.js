@@ -194,6 +194,10 @@ export default function HomePage(props) {
          <ProfileButton />
         </div>
       </div>
+
+
+     
+
           <SearchBar 
             city={city}
             setCity={setCity}
@@ -214,6 +218,7 @@ export default function HomePage(props) {
         </div>
          <div>
       <EventsContainer
+
         eventData={eventData}
         radius={radius}
         location={location}

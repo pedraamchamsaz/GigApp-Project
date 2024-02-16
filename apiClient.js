@@ -61,9 +61,9 @@ async nonAuthenticatedCall(method, url, data) {
   }
 
 
-  addEvent(name, city, date, price, description) {
+  addEvent(name, city, date, price, time, photo, venue, countrycode, postcode) {
     console.log("addEvent Api Client called")
-    return this.authenticatedCall("post", url, { name, city, date, price, description });
+    return this.authenticatedCall("post", url, { name, city, date, price, time, photo, venue, countrycode, postcode });
   }
 
 
@@ -71,9 +71,9 @@ async nonAuthenticatedCall(method, url, data) {
     return this.authenticatedCall("delete", `${url}${id}`);
   }
 
-  updateEvent(id, name, city, date, price, description) {
+  updateEvent(id, name, city, date, price, time, photo, venue, countrycode, postcode) {
     console.log(`Calling Update: ${id}`)
-    return this.authenticatedCall("put", `${url}${id}`, { name, city, date, price, description });
+    return this.authenticatedCall("put", `${url}${id}`, { name, city, date, price, time, photo, venue, countrycode, postcode });
   }
 
   async login(username, password) {

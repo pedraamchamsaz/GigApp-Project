@@ -21,7 +21,15 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
   };
 
   return (
+
+
+   
+
+  
+
+
     <div className='flex flex-col items-center justify-center'>
+
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
           <input
@@ -35,8 +43,11 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
         </div>
       </form>
 
+
+
       <button id="currentLocationButton" onClick={handleCurrentLocation} className='bg-black p-2 rounded-full border-2 border-solid border-teal-500 focus:outline-none' title='Use Current Location'>
         <img src='assets/images/Logowhite.png' alt="Logo" className="w-5 h-6" />
+
       </button>
 
       <div className='mt-4'>
