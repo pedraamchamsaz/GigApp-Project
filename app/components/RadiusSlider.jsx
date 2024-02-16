@@ -6,7 +6,7 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function RadiusSlider( {setRadius, getEventData}) {
+export default function RadiusSlider( {setRadius, getEventData, radius}) {
 
   const handleRadius = (e) => {
     setRadius(e.target.value)
@@ -16,7 +16,7 @@ export default function RadiusSlider( {setRadius, getEventData}) {
     <Box sx={{ width: 290 }} className='ml-3'>
       <Slider
         aria-label="Results"
-        defaultValue={10}
+        defaultValue={radius}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={10}
