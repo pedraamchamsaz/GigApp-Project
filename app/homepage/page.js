@@ -180,6 +180,24 @@ export default function HomePage(props) {
     setToken(null);
   };
 
+  const handleClose = () => {
+    console.log("this is being clicked")
+    setStateEvent('')
+    setOpen(false);
+  };
+
+  const handleClickOpen = (eventPassedIn) => {
+    if (stateEvent) {
+      return;
+    }
+    setOpen(true);
+    setStateEvent(eventPassedIn)
+
+    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
+    const img = filteredImages.length > 0 && filteredImages[0].url;
+    setStateImg(img)
+  };
+
   return (
 
     <>   
@@ -212,6 +230,12 @@ export default function HomePage(props) {
             markerLocations={markerLocations}
             setSelectedCard={setSelectedCard}
             eventData={eventData}
+            open={open}
+          setOpen={setOpen}
+            stateEvent={stateEvent}
+            setStateEvent={setStateEvent}
+            stateImg={stateImg}
+            setStateImg={setStateImg}
             />
       <div>
       <ProfileEvents client={client} />   
