@@ -1,7 +1,7 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, setSelectedCard, eventData  }) => {
+const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, }) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -46,6 +46,12 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
           markerLocations={markerLocations}
           onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
           eventData={eventData}
+          open={open}
+          setOpen={setOpen}
+            stateEvent={stateEvent}
+            setStateEvent={setStateEvent}
+            stateImg={stateImg}
+            setStateImg={setStateImg}
         />
       </div>
     </div>
