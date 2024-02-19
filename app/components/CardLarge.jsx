@@ -1,4 +1,6 @@
 import React from 'react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 const CardLarge = ({event, img}) => {
 
@@ -30,7 +32,15 @@ const CardLarge = ({event, img}) => {
                 <p className='text-xs font-bold mt-4'>{event.priceRanges ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
             </div>
             <div className='flex justify-center items-center gap-4 bg-black pr-10'>
-                <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="tickets-white.png"/>
+                <Link href={event.url} target='_blank'>
+                    <Image 
+                        className='hover:scale-125 hover:cursor-pointer transition'
+                        src="/tickets-white.png"
+                        width={130}
+                        height={130}
+                    />
+                </Link>
+                {/* <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' /> */}
                 <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="bookmark-white.png"/>
                 <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="calendar-white.png"/>
              
