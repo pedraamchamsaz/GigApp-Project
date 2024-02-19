@@ -36,7 +36,6 @@ export default function BasicMenu() {
       >
         <MenuItem onClick={handleClose}>RECOMMENDED GIGS</MenuItem>
         <MenuItem onClick={handleClose}>INTERESTED</MenuItem>
-        <MenuItem onClick={handleClose}>GOING</MenuItem>
         <MenuItem onClick={handleClose}>USER GIGS</MenuItem>
       </Menu>
     </div>
