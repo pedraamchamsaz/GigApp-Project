@@ -1,6 +1,10 @@
 "use client";
 import { useState } from "react";
 import { Toaster, toast } from 'sonner'
+// new
+// import ImageUpload from "./ImageUpload";
+
+
 
 const EventForm = (props) => {
   const [disabled, setDisabled] = useState(false);
@@ -9,74 +13,57 @@ const EventForm = (props) => {
     // stop the page from refreshing when the user submits the form. That is the default behaviour of HTML forms
     e.preventDefault();
     setDisabled(true);
-    let result;
+    
+    // Array to store validation errors
+    const validationErrors = [];
 
-    // form validation to make sure we send the correct data and types to the backend
-
-    // if (e.target.EventPrice !== "") {
-    //   console.log(e.target.EventPrice);
-
-    //   e.target.EventPrice.value = Number(e.target.EventPrice.value);
-
-    // }
-
-    if (
-      !e.target.EventName.value ||
-      !e.target.EventDate.value ||
-      !e.target.EventCity.value ||
-      !e.target.EventTime.value ||
-      !e.target.EventPhoto.value ||
-      !e.target.EventVenue.value ||
-      !e.target.EventCountryCode.value ||
-      !e.target.EventPostcode.value ||
-      !e.target.EventCurrency.value ||
-      !e.target.EventPriceMax.value ||
-      // typeof e.target.EventPrice.value !== "number"
-      !e.target.EventPrice.value ||
-      !e.target.EventTicketLink.value
-    ) {
-      if (!e.target.EventName.value) {
-         toast.warning("Please enter Event Name");
-        setDisabled(false);
-      } else if (!e.target.EventDate.value) {
-         toast.warning("Please enter Event Date");
-        setDisabled(false);
-      } else if (!e.target.EventCity.value) {
-         toast.warning("Please enter Event City");
-        setDisabled(false);
-      } else if (!e.target.EventVenue.value) {
-         toast.warning("Please enter Event Venue");
-        setDisabled(false);
-      } else if (!e.target.EventCountryCode.value) {
-         toast.warning("Please enter Event Country Code");
-        setDisabled(false);
-      } else if (!e.target.EventPostcode.value) {
-         toast.warning("Please enter Event Postcode");
-        setDisabled(false);
-      } else if (!e.target.EventCurrency.value) {
-         toast.warning("Please enter Event Ticket Currency");
-        setDisabled(false);
-      } else if (typeof e.target.EventPrice.value === "number") {
-         toast.warning("Please enter valid minimum price");
-        setDisabled(false);
-      } else if (!e.target.EventPriceMax.value) {
-         toast.warning("Please enter valid maximum price");
-        setDisabled(false);
-      } else if (!e.target.EventTicketLink.value) {
-         toast.warning("Please enter valid maximum price");
-        setDisabled(false);
-      } else if (!e.target.EventPhoto.value) {
-         toast.warning("Please enter Event Photo");
-        setDisabled(false);
-      } else if (!e.target.EventTime.value) {
-         toast.warning("Please enter Event Time");
-        setDisabled(false);
-      }
+    // Form validation to check for missing values
+    if (!e.target.EventName.value) {
+      validationErrors.push("Please enter Event Name");
+    }
+    if (!e.target.EventDate.value) {
+      validationErrors.push("Please enter Event Date");
+    }
+    if (!e.target.EventCity.value) {
+      validationErrors.push("Please enter Event City");
+    }
+    if (!e.target.EventVenue.value) {
+      validationErrors.push("Please enter Event Venue");
+    }
+    if (!e.target.EventCountryCode.value) {
+      validationErrors.push("Please enter Event Country Code");
+    }
+    if (!e.target.EventPostcode.value) {
+      validationErrors.push("Please enter Event Postcode");
+    }
+    if (!e.target.EventCurrency.value) {
+      validationErrors.push("Please enter Event Ticket Currency");
+    }
+    if (!e.target.EventPrice.value) {
+      validationErrors.push("Please enter valid minimum price");
+    }
+    if (!e.target.EventPriceMax.value) {
+      validationErrors.push("Please enter valid maximum price");
+    }
+    if (!e.target.EventTicketLink.value) {
+      validationErrors.push("Please enter valid ticket link");
+    }
+    if (!e.target.EventPhoto.value) {
+      validationErrors.push("Please enter Event Photo");
+    }
+    if (!e.target.EventTime.value) {
+      validationErrors.push("Please enter Event Time");
     }
 
-    // if there is a current Event, we know that the user is updating an event because in order to have
-    // a current event, the user has to have clicked on the update button for that event
+    // If there are validation errors, display them and stop further execution
+    if (validationErrors.length > 0) {
+      validationErrors.forEach(error => toast.warning(error));
+      setDisabled(false);
+      return;
+    }
 
+    // Proceed to add or update event
+    let result;
     if (props.currentEvent) {
       console.log("Submit Event to UpdateEvent");
       result = props.client.updateEvent(
@@ -85,10 +72,8 @@ const EventForm = (props) => {
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-
         e.target.EventTime.value,
         e.target.EventPhoto.value,
-
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
@@ -103,10 +88,8 @@ const EventForm = (props) => {
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-
         e.target.EventTime.value,
         e.target.EventPhoto.value,
-
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
@@ -124,13 +107,13 @@ const EventForm = (props) => {
         props.setCurrent(undefined);
       })
       .catch((error) => {
-         toast.warning(error);
+        toast.warning(error);
         setDisabled(false);
       });
   };
   return (
     <form
-      className="flex flex-col w-[70%] h-[90%] rounded-md bg-gray-200 items-center font-semibold p-[5%] mt-[15%]"
+      className="flex flex-col w-[60%] h-90 rounded-md bg-gray-200 items-center font-semibold p-[2%] mt-[5%]"
       onSubmit={submitHandler}
       id="addForm"
     >
@@ -238,7 +221,7 @@ const EventForm = (props) => {
         />
       </div>
 
-      <p>Photo</p>
+      <p>Photo Upload</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -247,8 +230,14 @@ const EventForm = (props) => {
           disabled={disabled}
           name="EventPhoto"
           placeholder="Paste Photo URL"
-        />
+        />  
+        
       </div>
+       
+       {/* <div className="mt-3">
+       <p className="text-center">OR</p>
+      <ImageUpload />
+      </div> */}
 
       <p>Time</p>
       <div className="mx-[10%] h-[10%]">
