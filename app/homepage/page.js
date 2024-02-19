@@ -35,15 +35,15 @@ export default function HomePage(props) {
 
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
-    const spliced = eventData.slice(0, results)
-    let splicedOnlyCoordinates = spliced.map(event => {
+    const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
+    let slicedOnlyCoordinates = sliced.map(event => {
       const { latitude, longitude } = event._embedded.venues[0].location
      
       return {latitude, longitude}
     }
     )
     
-    setMarkerLocations(splicedOnlyCoordinates)
+    setMarkerLocations(slicedOnlyCoordinates)
   }, [eventData, results])
 
   useEffect(() => {

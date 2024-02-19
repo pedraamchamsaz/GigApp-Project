@@ -108,7 +108,7 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
                 lat: Number(location.latitude),
                 lng: Number(location.longitude)
               }}
-              title={eventData[index].name}
+              title={eventData[index]?.name}
               onClick={() => {
                 setSelectedMarker(index);
                 onMarkerClick(index);
