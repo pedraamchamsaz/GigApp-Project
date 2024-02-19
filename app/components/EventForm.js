@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import { Toaster, toast } from 'sonner'
 
 const EventForm = (props) => {
   const [disabled, setDisabled] = useState(false);
@@ -35,40 +36,40 @@ const EventForm = (props) => {
       !e.target.EventTicketLink.value
     ) {
       if (!e.target.EventName.value) {
-        alert("Please enter Event Name");
+         toast.warning("Please enter Event Name");
         setDisabled(false);
       } else if (!e.target.EventDate.value) {
-        alert("Please enter Event Date");
+         toast.warning("Please enter Event Date");
         setDisabled(false);
       } else if (!e.target.EventCity.value) {
-        alert("Please enter Event City");
+         toast.warning("Please enter Event City");
         setDisabled(false);
       } else if (!e.target.EventVenue.value) {
-        alert("Please enter Event Venue");
+         toast.warning("Please enter Event Venue");
         setDisabled(false);
       } else if (!e.target.EventCountryCode.value) {
-        alert("Please enter Event Country Code");
+         toast.warning("Please enter Event Country Code");
         setDisabled(false);
       } else if (!e.target.EventPostcode.value) {
-        alert("Please enter Event Postcode");
+         toast.warning("Please enter Event Postcode");
         setDisabled(false);
       } else if (!e.target.EventCurrency.value) {
-        alert("Please enter Event Ticket Currency");
+         toast.warning("Please enter Event Ticket Currency");
         setDisabled(false);
       } else if (typeof e.target.EventPrice.value === "number") {
-        alert("Please enter valid minimum price");
+         toast.warning("Please enter valid minimum price");
         setDisabled(false);
       } else if (!e.target.EventPriceMax.value) {
-        alert("Please enter valid maximum price");
+         toast.warning("Please enter valid maximum price");
         setDisabled(false);
       } else if (!e.target.EventTicketLink.value) {
-        alert("Please enter valid maximum price");
+         toast.warning("Please enter valid maximum price");
         setDisabled(false);
       } else if (!e.target.EventPhoto.value) {
-        alert("Please enter Event Photo");
+         toast.warning("Please enter Event Photo");
         setDisabled(false);
       } else if (!e.target.EventTime.value) {
-        alert("Please enter Event Time");
+         toast.warning("Please enter Event Time");
         setDisabled(false);
       }
     }
@@ -123,7 +124,7 @@ const EventForm = (props) => {
         props.setCurrent(undefined);
       })
       .catch((error) => {
-        alert(error);
+         toast.warning(error);
         setDisabled(false);
       });
   };

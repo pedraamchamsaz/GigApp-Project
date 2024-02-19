@@ -55,7 +55,7 @@ const SignUp = ({submitHandler, setAuthProcess, client}) => {
         }
       } else {
         
-        toast.warning("Password must be: \n8-20 characters long.\ncontain at least one special character.\ncontain at least one number.\ncontain at least one capital and lowecase letter.")
+        toast.warning("Password must be:\n\n • 8-20 characters long.\n\n • Contain at least one special character.\n\n • Contain at least one number.\n\n • Contain at least one capital and lowercase letter.")
         return;
       } 
     }
