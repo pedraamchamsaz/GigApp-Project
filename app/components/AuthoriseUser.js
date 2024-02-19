@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import { Toaster, toast } from 'sonner'
 
 const AuthoriseUser = (props) => {
   const [disabled, setDisabled] = useState(false);
@@ -19,7 +20,7 @@ const AuthoriseUser = (props) => {
           setDisabled(false);
           props.loggedIn(response.data.token)
       }).catch(() => {
-        alert("Wrong Username or Password.\nTry again.")
+        toast.warning("Wrong Username or Password.\nTry again.")
         setDisabled(false);
       })
   }

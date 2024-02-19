@@ -11,6 +11,9 @@ import Profile from "./profile/profile";
 import { GrClose } from "react-icons/gr";
 import HomeButton from "@/app/components/HomeButton";
 
+
+
+
 export default function Home() {
   const [token, setToken] = useState(null);
   const [showPopup, setShowPopup] = useState(false); // State to control popup visibility
@@ -42,6 +45,7 @@ export default function Home() {
 
   return (
     <>
+   
       {/* Video Background */}
 
       <video

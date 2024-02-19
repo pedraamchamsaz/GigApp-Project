@@ -47,6 +47,9 @@ const ProfileEvents = (props) => {
             EventVenue={current.venue}
             EventCountryCode={current.countrycode}
             EventPostcode={current.postcode}
+            EventCurrency={current.currency}
+            EventPriceMax={current.price2}
+            EventTicketLink={current.ticketlink}
             
           />
         ))}

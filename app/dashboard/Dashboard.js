@@ -1,50 +1,50 @@
-"use client";
-import { useEffect, useState } from "react";
-import LogoutButton from "../components/logoutButton";
-import GetStartedButton from "../components/ProfileButton";
-import Card from "../components/Card";
+// "use client";
+// import { useEffect, useState } from "react";
+// import LogoutButton from "../components/logoutButton";
+// import GetStartedButton from "../components/ProfileButton";
+// import Card from "../components/Card";
 
-const Dashboard = (props) => {
-  const [events, setEvents] = useState([]);
-  const [current, setCurrent] = useState(undefined);
+// const Dashboard = (props) => {
+//   const [events, setEvents] = useState([]);
+//   const [current, setCurrent] = useState(undefined);
 
-  // gets the events from the backend and updates the state in this file
+//   // gets the events from the backend and updates the state in this file
 
-  const refreshList = () => {
-    props.client.getEvents().then((response) => {
-      setEvents(response.data);
-    }).catch((err) => {
-      console.log("failed to get API request (GET)")
-    });
-  };
-
-
-  useEffect(() => {
-    console.log("Update current")
-  }, [current])
+//   const refreshList = () => {
+//     props.client.getEvents().then((response) => {
+//       setEvents(response.data);
+//     }).catch((err) => {
+//       console.log("failed to get API request (GET)")
+//     });
+//   };
 
 
-  useEffect(() => {
-    refreshList();
-    console.log(events);
-  }, []);
+//   useEffect(() => {
+//     console.log("Update current")
+//   }, [current])
 
-  return (
-    <div>
-      <div className="fixed z-[1] right-4 top-4">
-        <LogoutButton setToken={props.setToken} />
-      </div>
-      <div className="fixed  right-28 top-4">
-        <GetStartedButton />
-      </div>
+
+//   useEffect(() => {
+//     refreshList();
+//     console.log(events);
+//   }, []);
+
+//   return (
+//     <div>
+//       <div className="fixed z-[1] right-4 top-4">
+//         <LogoutButton setToken={props.setToken} />
+//       </div>
+//       <div className="fixed  right-28 top-4">
+//         <GetStartedButton />
+//       </div>
 
          
-      <SearchBar />
+//       <SearchBar />
       
-      {/* <Card /> */}
+//       {/* <Card /> */}
 
-    </div>
-  );
-};
+//     </div>
+//   );
+// };
 
-export default Dashboard;
+// export default Dashboard;
