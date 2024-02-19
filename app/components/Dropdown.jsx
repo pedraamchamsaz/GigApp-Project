@@ -21,7 +21,7 @@ export default function BasicMenu() {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
-        className='bg-[#1AA297] text-white rounded-3xl hover:text-black p-2'
+        className='bg-[#1AA297] text-white rounded-3xl hover:text-white hover:bg-[#13C3b5] hover:border hover:border-[#13C3b5] p-2'
       >
         Select a List ▼
       </Button>

@@ -5,7 +5,7 @@ import Dropdown from './Dropdown'
 const FilterContainer = (props) => {
   return (
     <div className='flex justify-between'>
-        <Dropdown />
+        <Dropdown/>
         <RefineButton {...props}/>
     </div>
   )
