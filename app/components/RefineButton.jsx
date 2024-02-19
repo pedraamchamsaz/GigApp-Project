@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ResultsSlider from './ResultsSlider';
 import RadiusSlider from './RadiusSlider';
 
-export default function RefineButton( {setResults, setRadius, getEventData, radius, results}) {
+export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDate, setStartDate, endDate, setEndDate}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -14,6 +14,15 @@ export default function RefineButton( {setResults, setRadius, getEventData, radi
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleStartDate = (e) => {
+    setStartDate(e.target.value)
+    console.log(startDate)
+  }
+
+  const handleEndDate = (e) => {
+    setEndDate(e.target.value)
+  }
 
   return (
     <div>
@@ -45,6 +54,16 @@ export default function RefineButton( {setResults, setRadius, getEventData, radi
           <p className='text-xs mb-2 pl-1'>RADIUS</p>
           <div className='mr-3'>
             <RadiusSlider setRadius={setRadius} getEventData={getEventData} radius={radius}/>
+          </div>
+          <div className='flex gap-3 mb-3 ml-1 mt-2 text-xs'>
+            <div className='flex flex-col'>
+              <p className='text-xs mb-2'>START DATE</p>
+              <input type="date" className='h-[2rem] w-28 border p-2' value={startDate} onChange={handleStartDate}/>
+            </div>
+            <div className='flex flex-col'>
+              <p className='text-xs mb-2'>END DATE</p>
+              <input type="date" className='h-[2rem] w-28 border p-2' value={endDate} onChange={handleEndDate}/>
+            </div>
           </div>
         </div>
       </Menu>

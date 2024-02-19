@@ -4,28 +4,8 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import CardExpanded from './CardExpanded'
 
-const Card = ({ eventData, open, setOpen, stateEvent, setStateEvent, stateImg, setStateImg, results, setResults, markerLocations, 
+const Card = ({ eventData, open, setOpen, stateEvent, setStateEvent, stateImg, setStateImg, results, handleClickOpen, handleClose
 }) => {
-  
-  const handleClickOpen = (eventPassedIn) => {
-    if (stateEvent) {
-      return;
-    }
-    setOpen(true);
-    setStateEvent(eventPassedIn)
-
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img)
-  };
-
-  const handleClose = () => {
-    console.log("this is being clicked")
-    setStateEvent('')
-    setOpen(false);
-  };
-
-  // console.log(markerLocations, 'MARKER LOCATIONS')
 
   return (
     <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
