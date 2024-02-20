@@ -1,19 +1,22 @@
 "use client";
-import { useState } from "react";
-import { Toaster, toast } from 'sonner'
+import { useState, useEffect } from "react";
+import { Toaster, toast } from "sonner";
 // new
-// import ImageUpload from "./ImageUpload";
-
-
+import { CldUploadWidget } from "next-cloudinary";
 
 const EventForm = (props) => {
   const [disabled, setDisabled] = useState(false);
+  const [photo, setPhoto] = useState(null);
+
+  useEffect(() => {
+    console.log("Photo Variable:", photo);
+  }, [photo]);
 
   const submitHandler = (e) => {
     // stop the page from refreshing when the user submits the form. That is the default behaviour of HTML forms
     e.preventDefault();
     setDisabled(true);
-    
+
     // Array to store validation errors
     const validationErrors = [];
 
@@ -48,7 +51,10 @@ const EventForm = (props) => {
     if (!e.target.EventTicketLink.value) {
       validationErrors.push("Please enter valid ticket link");
     }
-    if (!e.target.EventPhoto.value) {
+    // if (!e.target.EventPhoto.value) {
+    //   validationErrors.push("Please enter Event Photo");
+    // }
+     if (!photo) {
       validationErrors.push("Please enter Event Photo");
     }
     if (!e.target.EventTime.value) {
@@ -57,7 +63,7 @@ const EventForm = (props) => {
 
     // If there are validation errors, display them and stop further execution
     if (validationErrors.length > 0) {
-      validationErrors.forEach(error => toast.warning(error));
+      validationErrors.forEach((error) => toast.warning(error));
       setDisabled(false);
       return;
     }
@@ -73,13 +79,14 @@ const EventForm = (props) => {
         e.target.EventDate.value,
         e.target.EventPrice.value,
         e.target.EventTime.value,
-        e.target.EventPhoto.value,
+        // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
         e.target.EventCurrency.value,
         e.target.EventPriceMax.value,
         e.target.EventTicketLink.value,
+        photo,
       );
     } else {
       console.log("Submit Event to addEvent");
@@ -89,13 +96,14 @@ const EventForm = (props) => {
         e.target.EventDate.value,
         e.target.EventPrice.value,
         e.target.EventTime.value,
-        e.target.EventPhoto.value,
+        // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
         e.target.EventCurrency.value,
         e.target.EventPriceMax.value,
         e.target.EventTicketLink.value,
+        photo,
       );
     }
 
@@ -213,7 +221,7 @@ const EventForm = (props) => {
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
-          className="rounded-full w-full p-1 border border-black mb-3"
+          className="rounded-full w-full p-1 border border-black mb-1"
           defaultValue={props.currentEvent?.EventTicketLink}
           disabled={disabled}
           name="EventTicketLink"
@@ -221,7 +229,7 @@ const EventForm = (props) => {
         />
       </div>
 
-      <p>Photo Upload</p>
+      {/* <p>Photo Upload</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -230,14 +238,32 @@ const EventForm = (props) => {
           disabled={disabled}
           name="EventPhoto"
           placeholder="Paste Photo URL"
-        />  
-        
-      </div>
-       
-       {/* <div className="mt-3">
-       <p className="text-center">OR</p>
-      <ImageUpload />
+        />
       </div> */}
+
+      
+      {/* Photo Upload Test */}
+      <div>
+       <CldUploadWidget
+          onSuccess={(results) => {
+            toast.success("Upload Completed");
+            setPhoto(results.info.url); // Storing the URL in the photo variable
+            console.log("URL", results.info.url);
+          }}
+          uploadPreset="tevzxzon"
+        >
+          {({ open }) => {
+            return (
+              <button
+                className="bg-[#13C3B5] font-semibold text-white p-2 px-4 rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-5"
+                onClick={() => open()}
+              >
+                Upload an Image
+              </button>
+            );
+          }}
+        </CldUploadWidget>
+      </div>
 
       <p>Time</p>
       <div className="mx-[10%] h-[10%]">
