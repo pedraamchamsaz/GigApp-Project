@@ -78,7 +78,8 @@ const EventForm = (props) => {
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-        e.target.EventTime.value,
+        e.target.EventTime.value, 
+        photo,
         // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
@@ -86,16 +87,17 @@ const EventForm = (props) => {
         e.target.EventCurrency.value,
         e.target.EventPriceMax.value,
         e.target.EventTicketLink.value,
-        photo,
+       
       );
     } else {
-      console.log("Submit Event to addEvent");
+      console.log("Submit Event to addEvent", photo);
       result = props.client.addEvent(
         e.target.EventName.value,
         e.target.EventCity.value,
         e.target.EventDate.value,
         e.target.EventPrice.value,
-        e.target.EventTime.value,
+        e.target.EventTime.value, 
+        photo,
         // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
@@ -103,7 +105,7 @@ const EventForm = (props) => {
         e.target.EventCurrency.value,
         e.target.EventPriceMax.value,
         e.target.EventTicketLink.value,
-        photo,
+       
       );
     }
 
