@@ -51,9 +51,6 @@ const EventForm = (props) => {
     if (!e.target.EventTicketLink.value) {
       validationErrors.push("Please enter valid ticket link");
     }
-    // if (!e.target.EventPhoto.value) {
-    //   validationErrors.push("Please enter Event Photo");
-    // }
      if (!photo) {
       validationErrors.push("Please enter Event Photo");
     }
@@ -80,7 +77,6 @@ const EventForm = (props) => {
         e.target.EventPrice.value,
         e.target.EventTime.value, 
         photo,
-        // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
@@ -98,7 +94,6 @@ const EventForm = (props) => {
         e.target.EventPrice.value,
         e.target.EventTime.value, 
         photo,
-        // e.target.EventPhoto.value,
         e.target.EventVenue.value,
         e.target.EventCountryCode.value,
         e.target.EventPostcode.value,
@@ -230,21 +225,7 @@ const EventForm = (props) => {
           placeholder="Paste Link to your tickets"
         />
       </div>
-
-      {/* <p>Photo Upload</p>
-      <div className="mx-[10%] h-[10%]">
-        <input
-          type="text"
-          className="rounded-full w-full p-1 border border-black"
-          defaultValue={props.currentEvent?.EventPhoto}
-          disabled={disabled}
-          name="EventPhoto"
-          placeholder="Paste Photo URL"
-        />
-      </div> */}
-
-      
-      {/* Photo Upload Test */}
+    
       <div>
        <CldUploadWidget
           onSuccess={(results) => {

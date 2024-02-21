@@ -68,7 +68,6 @@ const Profile = (props) => {
               EventPrice={current.price}
               EventTime={current.time}
               photo={current.photo}
-              // EventPhoto={current.photo}
               EventVenue={current.venue}
               EventCountryCode={current.countrycode}
               EventPostcode={current.postcode}
