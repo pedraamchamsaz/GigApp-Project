@@ -28,8 +28,11 @@ export default function HomePage(props) {
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
+  const [markerLocationsUser, setMarkerLocationsUser] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
+  const [list, setList] = useState('RECOMMENDED GIGS')
+  const [resultsUser, setResultsUser] = useState(15)
 
   const date = new Date()
   const year = String(date.getFullYear())
@@ -43,9 +46,17 @@ export default function HomePage(props) {
   const [endDate, setEndDate] = useState(todayPlusSeven)
   const startDateString = `${startDate}T00:00:00Z`
   const endDateString = `${endDate}T23:59:59Z`
+
+  const [startDateUser, setStartDateUser] = useState(today)
+  const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
   
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+    
+  const client = new ApiClient(
+    () => token,
+    () => logout()
+  );
 
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
@@ -64,11 +75,11 @@ export default function HomePage(props) {
     getEventData(location)
     console.log(startDateString, endDateString)
   }, [radius, startDate, endDate])
-  
-  const client = new ApiClient(
-    () => token,
-    () => logout()
-  );
+
+  useEffect(() => {
+    console.log(list)
+  }, [list])
+
 
   useEffect(() => {
     const currentLocation = async () => {
@@ -188,6 +199,8 @@ export default function HomePage(props) {
   const login = (token) => {
     localStorage.setItem("token", token);
     setToken(token);
+    eventsArray = client.getSavedEvents()
+    setSavedEvents(eventsArray)
   };
 
   const logout = () => {
@@ -210,10 +223,8 @@ export default function HomePage(props) {
   };
 
   const handleClose = () => {
-    console.log("this is being clicked")
     setStateEvent('')
     setOpen(false);
-    // setStateImg(null)
   };
 
   useEffect(() => {
@@ -325,13 +336,13 @@ export default function HomePage(props) {
             handleMapClick={handleMapClick}
             selectedMarker={selectedMarker}
             setSelectedMarker={setSelectedMarker}
+            markerLocationsUser={markerLocationsUser}
             />
-      <div>
+      {/* <div>
       <ProfileEvents client={client} />   
-        </div>
+        </div> */}
          <div>
       <EventsContainer
-
         eventData={eventData}
         radius={radius}
         location={location}
@@ -351,6 +362,17 @@ export default function HomePage(props) {
         setStartDate={setStartDate}
         endDate={endDate}
         setEndDate={setEndDate}
+        setList={setList}
+        list={list}
+        client={client}
+        resultsUser={resultsUser}
+        setResultsUser={setResultsUser}
+        startDateUser={startDateUser}
+        setStartDateUser={setStartDateUser}
+        endDateUser={endDateUser}
+        setEndDateUser={setEndDateUser}
+        today={today}
+        setMarkerLocationsUser={setMarkerLocationsUser}
         />
      </div>
     </div>

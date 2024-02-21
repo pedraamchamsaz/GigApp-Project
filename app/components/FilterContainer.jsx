@@ -1,12 +1,15 @@
 import React from 'react'
 import RefineButton from './RefineButton'
+import RefineButtonUser from './RefineButtonUser'
 import Dropdown from './Dropdown'
 
 const FilterContainer = (props) => {
   return (
     <div className='flex justify-between'>
-        <Dropdown/>
-        <RefineButton {...props}/>
+        <Dropdown {...props}/>
+        {props.list === 'RECOMMENDED GIGS' ?
+        <RefineButton {...props}/> :
+        <RefineButtonUser {...props} />}
     </div>
   )
 }
