@@ -26,6 +26,7 @@ export default function EventUserCardExpanded({
   handleClose,
   event,
   img,
+  keyA,
   EventName,
   EventDate,
   EventCity,
@@ -70,6 +71,7 @@ export default function EventUserCardExpanded({
         <EventUserCardLarge
           event={event}
           img={img}
+          keyA={keyA}
           EventDate={EventDate}
           EventName={EventName}
           EventCity={EventCity}

@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import EventUserCardExpanded from './EventUserCardExpanded';
 
 const EventCardHome = (props) => {
-
+  const keyID = props.keyA;
 
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('');
@@ -14,7 +14,7 @@ const EventCardHome = (props) => {
       return;
     }
     setOpen(true);
-    setStateEvent(props.EventName, props.EventDate, props.EventTime, props.EventCity, props.EventVenue, props.EventCountryCode, props.EventPostcode); 
+    setStateEvent(props.keyA, props.EventName, props.EventDate, props.EventTime, props.EventCity, props.EventVenue, props.EventCountryCode, props.EventPostcode); 
     
     setStateImg(props.photo);
    

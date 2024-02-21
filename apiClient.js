@@ -94,8 +94,49 @@ async nonAuthenticatedCall(method, url, data) {
     console.log(userDetails)
     return this.authenticatedCall('get', `${url}username/${userDetails.username}`);
   }
+
+
+
+// new api calls \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+async addInterestedEvent(eventId) {
+  try {
+    await this.authenticatedCall(
+      "post",
+      `${url}addInterestedEvent`,
+      { eventId }
+    );
+    console.log("Event bookmarked successfully");
+  } catch (error) {
+    console.error("Error bookmarking event:", error);
+    throw error;
+  }
+}
+
+async removeInterestedEvent(eventId) {
+  try {
+    await this.authenticatedCall(
+      "post",
+      `${url}removeInterestedEvent`,
+      { eventId }
+    );
+    console.log("Event removed from bookmarks successfully");
+  } catch (error) {
+    console.error("Error removing event from bookmarks:", error);
+    throw error;
+  }
+}
+
+async getInterestedEvents() {
+  try {
+    return await this.authenticatedCall("get", `${url}interestedEvents`);
+  } catch (error) {
+    console.error("Error fetching interested events:", error);
+    throw error;
+  }
 }
 
 
-
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   
+}
