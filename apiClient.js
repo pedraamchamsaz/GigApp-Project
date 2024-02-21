@@ -11,6 +11,7 @@ export class ApiClient {
   }
 
   async authenticatedCall(method, url, data) {
+    console.log(data)
     return await axios({
       method,
       url,

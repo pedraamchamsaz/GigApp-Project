@@ -67,8 +67,7 @@ const Profile = (props) => {
               EventDate={current.date}
               EventPrice={current.price}
               EventTime={current.time}
-              EventPhoto={current.photo}
-              
+              photo={current.photo}
               EventVenue={current.venue}
               EventCountryCode={current.countrycode}
               EventPostcode={current.postcode}
