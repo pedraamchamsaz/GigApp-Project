@@ -1,17 +1,15 @@
 "use client";
 import { useEffect, useState } from "react";
 import EventCardHome from "./EventCardHome";
-// import EventUserCardLarge from "./EventUserCardLarge";
-import axios from "axios";
 
-const ProfileEvents = (props) => {
+const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, resultsUser, startDateUser, endDateUser, currentCoords, userGigRadius}) => {
   // working code
 
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
   
   const refreshList = () => {
-    props.client
+    client
       .getAllEvents()
       .then((response) => {
         setEvents(response.data);
@@ -74,7 +72,7 @@ const ProfileEvents = (props) => {
       (location) => location !== null
     );
   
-    props.setUserMarkerLocations(filteredLocations);
+    setUserMarkerLocations(filteredLocations);
   };
   
 
@@ -92,12 +90,33 @@ const ProfileEvents = (props) => {
     }
   }, [events]);
 
+  function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    const R = 3963.19; // Radius of the earth in miles
+    const dLat = deg2rad(lat2-lat1);  // deg2rad below
+    const dLon = deg2rad(lon2-lon1); 
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d = R * c; // Distance in miles
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
+  // const eventsWithLatLon = events.map(event => event.coords = getLatLongFromPostcode(event.postcode))
+  // setEventsWithCoords(eventsWithLatLon)
+
   // working code
 
   return (
     <div id="userprofile">
       <div className=" flex justify-center flex-wrap gap-8 mb-5 mt-5">
-        {events.slice(0, props.resultsUser).filter(event => event.date >= props.startDateUser && event.date <= props.endDateUser).map((current) => (
+        {events.slice(0, resultsUser).filter(event => event.date >= startDateUser && event.date <= endDateUser).map((current) => (
           <EventCardHome
             keyA={current._id}
             EventName={current.name}
@@ -123,3 +142,4 @@ const ProfileEvents = (props) => {
 };
 
 export default ProfileEvents;
+

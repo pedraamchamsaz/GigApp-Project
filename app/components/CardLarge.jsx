@@ -30,7 +30,7 @@ const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent,
                 <p className='text-lg font-bold '>{event.name}</p>
                 <p className='text-sm font-medium mt-2'>{startDate} - {startTime}</p>
                 <p className='text-xs mt-2'>{venue.name} - {venue.city.name}, {venue.country.countryCode}</p>
-                <p className='text-xs font-bold mt-4'>{event.priceRanges ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
+                <p className='text-xs font-bold mt-4'>{event.priceRanges && minPrice && maxPrice ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
             </div>
             <div className='flex justify-center items-center gap-4 bg-black pr-10'>
                 <Link href={event.url} target='_blank'>
@@ -41,7 +41,7 @@ const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent,
                         height={130}
                     />
                 </Link>
-                <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src={bookmark ? "bookmark-filled.png" : "bookmark-white.png"}/>
+                <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="bookmark-white.png"/>
                 <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="calendar-white.png"/>
              
             </div>

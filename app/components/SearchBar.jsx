@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, }) => {
+const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, search}) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -18,6 +18,11 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
     if (markerLocations[index]) {
       setSelectedCard(markerLocations[index]);
     }
+  };
+
+  const handleSearch = async (e) => {
+    e.preventDefault();
+    await search(city);
   };
 
   return (
@@ -59,6 +64,9 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
             setStateImg={setStateImg}
             userMarkerLocations={userMarkerLocations} 
       setUserMarkerLocations={setUserMarkerLocations}
+      location={location}
+      currentCoords={currentCoords}
+      userGigRadius={userGigRadius}
         />
       </div>
     </div>
