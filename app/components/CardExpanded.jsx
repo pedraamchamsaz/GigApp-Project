@@ -20,11 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
-export default function CardExpanded( {open, handleClose, event, img} ) {
-
-  useEffect(() => {
-    console.log(event);
-  }, [event])
+export default function CardExpanded( {open, handleClose, event, img } ) {
   
   if (!event) {
     return null
@@ -50,7 +46,10 @@ export default function CardExpanded( {open, handleClose, event, img} ) {
         >
           <CloseIcon />
         </IconButton>
-        <CardLarge event={event} img={img}/>
+        <CardLarge 
+          event={event} 
+          img={img}
+          />
       </BootstrapDialog>
     </React.Fragment>
   );

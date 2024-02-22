@@ -2,90 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
 import CardExpanded from './CardExpanded'
 
-const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen,  }) => {
+const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen, handleClickOpen, handleClose, customMarkerImage, mapOptions, handleMarkerClick, handleMapClick, selectedMarker, setSelectedMarker, markerLocationsUser }) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-  const [selectedMarker, setSelectedMarker] = useState(null);
-
-  useEffect(() => {
-    if (selectedMarker !== null) {
-      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
-      const img = filteredImages.length > 0 && filteredImages[0].url;
-      setStateImg(img);
-    }
-  }, [stateImg, selectedMarker, eventData]);
-
-  const customMarkerImage = 'assets/images/Logoblack.png';
-  
-  const mapOptions = {
-    styles: [
-      {
-        featureType: 'all',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#ffffff' }], 
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.text.stroke',
-        stylers: [{ color: '#000000' }], 
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.icon',
-        stylers: [{ visibility: 'off' }], 
-      },
-      {
-        featureType: 'road',
-        elementType: 'geometry.stroke',
-        stylers: [{ color: '#000000' }], 
-      },
-      {
-        featureType: 'water',
-        elementType: 'geometry.fill',
-        stylers: [{ color: '#00008B' }], 
-      },
-    ],
-    zoomControl: true,
-    mapTypeControl: true,
-    scaleControl: true,
-    streetViewControl: true,
-    rotateControl: true,
-    fullscreenControl: true,
-  };
-
-  const handleClose = () => {
-    console.log("this is being clicked")
-    setStateEvent('')
-    setOpen(false);
-  };
-
-  const handleClickOpen = (eventPassedIn) => {
-    if (stateEvent) {
-      return;
-    }
-    setOpen(true);
-    setStateEvent(eventPassedIn)
-
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img)
-  };
-
-  const handleMarkerClick = (index) => {
-    setSelectedMarker(index);
-    onMarkerClick(index);
-
-    // Update stateImg based on the selected marker
-    const filteredImages = eventData[index].images.filter((image) => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img);
-  };
-
-  const handleMapClick = () => {
-    if (selectedMarker !== null) {
-      // Close InfoWindow when clicking outside
-      setSelectedMarker(null);
-    }
-  };
 
   return (
     <LoadScript googleMapsApiKey={apiKey}>
@@ -108,7 +26,7 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
                 lat: Number(location.latitude),
                 lng: Number(location.longitude)
               }}
-              title={eventData[index].name}
+              title={eventData[index]?.name}
               onClick={() => {
                 setSelectedMarker(index);
                 onMarkerClick(index);
@@ -150,6 +68,7 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
               )}
             </Marker>
           ))}
+          
         </GoogleMap>
       </div>
     </LoadScript>

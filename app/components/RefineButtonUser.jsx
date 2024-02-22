@@ -2,10 +2,10 @@ import * as React from 'react';
 import Button from '@mui/material/Button';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
-import ResultsSlider from './ResultsSlider';
-import RadiusSlider from './RadiusSlider';
+import ResultsSliderUser from './ResultsSliderUser';
+import RadiusSliderUser from './RadiusSliderUser';
 
-export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDate, setStartDate, endDate, setEndDate}) {
+export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDateUser, setStartDateUser, endDateUser, setEndDateUser, resultsUser, setResultsUser}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -15,13 +15,12 @@ export default function RefineButton( {setResults, setRadius, getEventData, radi
     setAnchorEl(null);
   };
 
-  const handleStartDate = (e) => {
-    setStartDate(e.target.value)
-    console.log(startDate)
+  const handleStartDateUser = (e) => {
+    setStartDateUser(e.target.value)
   }
 
-  const handleEndDate = (e) => {
-    setEndDate(e.target.value)
+  const handleEndDateUser = (e) => {
+    setEndDateUser(e.target.value)
   }
 
   return (
@@ -49,20 +48,20 @@ export default function RefineButton( {setResults, setRadius, getEventData, radi
         <div className='ml-3 mt-3'>
           <p className='text-xs mb-2 pl-1'>RESULTS</p>
           <div className='mr-3'>
-            <ResultsSlider setResults={setResults} results={results}/>
+            <ResultsSliderUser setResultsUser={setResultsUser} resultsUser={resultsUser}/>
           </div>
           <p className='text-xs mb-2 pl-1'>RADIUS</p>
           <div className='mr-3'>
-            <RadiusSlider setRadius={setRadius} getEventData={getEventData} radius={radius}/>
+            <RadiusSliderUser setRadius={setRadius} getEventData={getEventData} radius={radius}/>
           </div>
           <div className='flex gap-3 mb-3 ml-1 mt-2 text-xs'>
             <div className='flex flex-col'>
               <p className='text-xs mb-2'>START DATE</p>
-              <input type="date" className='h-[2rem] w-28 border p-2' value={startDate} onChange={handleStartDate}/>
+              <input type="date" className='h-[2rem] w-28 border p-2' value={startDateUser} onChange={handleStartDateUser}/>
             </div>
             <div className='flex flex-col'>
               <p className='text-xs mb-2'>END DATE</p>
-              <input type="date" className='h-[2rem] w-28 border p-2' value={endDate} onChange={handleEndDate}/>
+              <input type="date" className='h-[2rem] w-28 border p-2' value={endDateUser} onChange={handleEndDateUser}/>
             </div>
           </div>
         </div>
