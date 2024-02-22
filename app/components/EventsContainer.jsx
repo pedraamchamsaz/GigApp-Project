@@ -6,7 +6,7 @@ import CardContainer from './CardContainer'
 
 const EventsContainer = (props) => {
   return (
-    <div>
+    <div className='mt-6'>
         <FilterContainer {...props}/>
         <CardContainer {...props} />
     </div>
