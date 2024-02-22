@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/a
 import CardExpanded from './CardExpanded'
 import EventUserCardExpanded from './EventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen, }) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen, location, currentCoords, userGigRadius}) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
   const [selectedMarker, setSelectedMarker] = useState(null);
 
@@ -88,6 +88,24 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
     }
   };
 
+  function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    const R = 3963.19; // Radius of the earth in miles
+    const dLat = deg2rad(lat2-lat1);  // deg2rad below
+    const dLon = deg2rad(lon2-lon1); 
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d = R * c; // Distance in miles
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <div className="relative h-96 w-96 rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
@@ -153,7 +171,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
           ))}
 
 {/* Display markers for each User Event location */}
-{userMarkerLocations?.map((location, index) => (
+{userMarkerLocations?.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= userGigRadius).map((location, index) => (
             <Marker
               key={index}
               position={{
