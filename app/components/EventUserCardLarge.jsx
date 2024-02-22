@@ -6,7 +6,7 @@ import Image from 'next/image';
 const EventUserCardLarge = (props) => {
   return (
     <div className="h-screen w-full border-4">
-      <img className="object-cover w-full h-2/3" src={props.EventPhoto} />
+      <img className="object-cover w-full h-2/3" src={props.photo} alt="EventPhoto"/>
       <div className="flex h-1/3">
         <div className="bg-black text-white w-full flex flex-col items-start justify-center p-3">
           <p className="text-base font-bold "> {props.EventName}</p>
@@ -33,6 +33,7 @@ const EventUserCardLarge = (props) => {
               src="/tickets-white.png"   
               width={130}
               height={130}
+              alt="Ticket Icon"
             />
         </Link> 
           <img

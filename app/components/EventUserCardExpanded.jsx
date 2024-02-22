@@ -30,7 +30,7 @@ export default function EventUserCardExpanded({
   EventDate,
   EventCity,
   EventTime,
-  EventPhoto,
+  photo,
   EventVenue,
   EventCountryCode,
   EventPostcode,
@@ -74,7 +74,7 @@ export default function EventUserCardExpanded({
           EventName={EventName}
           EventCity={EventCity}
           EventTime={EventTime}
-          EventPhoto={EventPhoto}
+          photo={photo}
           EventVenue={EventVenue}
           EventCountryCode={EventCountryCode}
           EventPostcode={EventPostcode}
