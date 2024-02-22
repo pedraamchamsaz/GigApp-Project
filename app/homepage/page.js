@@ -29,9 +29,18 @@ export default function HomePage(props) {
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
+  const [userMarkerLocations, setUserMarkerLocations] = useState([]);
+
+  const client = new ApiClient(
+    () => token,
+    () => logout()
+  );
+
   
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+
+  
 
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
@@ -46,15 +55,11 @@ export default function HomePage(props) {
     setMarkerLocations(splicedOnlyCoordinates)
   }, [eventData, results])
 
+
   useEffect(() => {
     getEventData(location)
   }, [radius])
   
-  const client = new ApiClient(
-    () => token,
-    () => logout()
-  );
-
   useEffect(() => {
     const currentLocation = async () => {
       if (navigator.geolocation) {
@@ -231,14 +236,18 @@ export default function HomePage(props) {
             setSelectedCard={setSelectedCard}
             eventData={eventData}
             open={open}
-          setOpen={setOpen}
+            setOpen={setOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
+            userMarkerLocations={userMarkerLocations}
             />
       <div>
-      <ProfileEvents client={client} />   
+      <ProfileEvents client={client} 
+      userMarkerLocations={userMarkerLocations} 
+      setUserMarkerLocations={setUserMarkerLocations}
+      />   
         </div>
          <div>
       <EventsContainer

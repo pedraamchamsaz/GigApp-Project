@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, }) => {
+const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, }) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -21,12 +21,6 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
   };
 
   return (
-
-
-   
-
-  
-
 
     <div className='flex flex-col items-center justify-center'>
 
@@ -63,6 +57,8 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
             setStateEvent={setStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
+            userMarkerLocations={userMarkerLocations} 
+      setUserMarkerLocations={setUserMarkerLocations}
         />
       </div>
     </div>
