@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, handleClickOpen, handleClose, customMarkerImage, mapOptions, handleMarkerClick, handleMapClick, selectedMarker, setSelectedMarker, markerLocationsUser}) => {
+const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, }) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -11,6 +11,14 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
 
     handleCurrentLocationOnLoad();
   }, []); 
+
+
+  const handleMarkerClick = (index) => {
+    // Pass the selected card information to the parent component
+    if (markerLocations[index]) {
+      setSelectedCard(markerLocations[index]);
+    }
+  };
 
   return (
 
@@ -45,19 +53,12 @@ const SearchBar = ({ city, setCity, googleMapsResults, handleSearch, center, han
           eventData={eventData}
           open={open}
           setOpen={setOpen}
-          stateEvent={stateEvent}
-          setStateEvent={setStateEvent}
-          stateImg={stateImg}
-          setStateImg={setStateImg}
-          handleClickOpen={handleClickOpen}
-          handleClose={handleClose}
-          customMarkerImage={customMarkerImage}
-          mapOptions={mapOptions}
-          handleMarkerClick={handleMarkerClick}
-          handleMapClick={handleMapClick}
-          selectedMarker={selectedMarker}
-          setSelectedMarker={setSelectedMarker}
-          markerLocationsUser={markerLocationsUser}
+            stateEvent={stateEvent}
+            setStateEvent={setStateEvent}
+            stateImg={stateImg}
+            setStateImg={setStateImg}
+            userMarkerLocations={userMarkerLocations} 
+      setUserMarkerLocations={setUserMarkerLocations}
         />
       </div>
     </div>
