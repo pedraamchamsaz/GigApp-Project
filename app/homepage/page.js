@@ -28,8 +28,8 @@ export default function HomePage(props) {
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
-  const [markerLocationsUser, setMarkerLocationsUser] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
+  const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
   const [resultsUser, setResultsUser] = useState(15)
@@ -58,6 +58,8 @@ export default function HomePage(props) {
     () => logout()
   );
 
+  
+
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
     const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
@@ -71,8 +73,10 @@ export default function HomePage(props) {
     setMarkerLocations(slicedOnlyCoordinates)
   }, [eventData, results, startDate, endDate])
 
+
   useEffect(() => {
     getEventData(location)
+
     console.log(startDateString, endDateString)
   }, [radius, startDate, endDate])
 
@@ -191,10 +195,16 @@ export default function HomePage(props) {
             setStateEvent={setStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
+            userMarkerLocations={userMarkerLocations}
             />
-      {/* <div>
-      <ProfileEvents client={client} />   
-        </div> */}
+
+      <div>
+      <ProfileEvents client={client} 
+      userMarkerLocations={userMarkerLocations} 
+      setUserMarkerLocations={setUserMarkerLocations}
+      />   
+        </div>
+
          <div>
       <EventsContainer
         eventData={eventData}

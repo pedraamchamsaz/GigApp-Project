@@ -42,6 +42,9 @@ const EventCardHome = (props) => {
         </p>
         <p className='text-xs mt-2'>{props.EventVenue} - {props.EventCity}, {props.EventCountryCode}, {props.EventPostcode}</p>
       </div>
+      
+      {/* Display all props */}
+      <pre>{JSON.stringify(props, null, 2)}</pre>
       <EventUserCardExpanded
         open={open}
         handleClose={handleClose}
