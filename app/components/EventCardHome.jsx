@@ -1,6 +1,8 @@
 "use client";
 import React, { useState, useEffect } from 'react';
 import EventUserCardExpanded from './EventUserCardExpanded';
+import { ApiClient } from "@/apiClient";
+import { toast } from "sonner";
 
 const EventCardHome = (props) => {
   const keyID = props.keyA;
@@ -8,6 +10,10 @@ const EventCardHome = (props) => {
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('');
   const [stateImg, setStateImg] = useState('');
+  const [bookmarked, setBookmarked] = useState(false); // Add bookmarked state
+  const [token, setToken] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
 
   const handleClickOpen = () => {
     if (stateEvent) {
@@ -20,10 +26,49 @@ const EventCardHome = (props) => {
    
   };
 
+
   const handleClose = () => {
     setStateEvent('');
     setOpen(false);
   };
+
+// testing new code for bookmark - fetching bookmark\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+// ApiClient part
+const apiClient = new ApiClient(() => token);
+
+useEffect(() => {
+  const token = localStorage.getItem("token");
+  if (token) {
+    setToken(token);
+    setIsLoggedIn(true);
+  } // if !token, redirect to landing page
+}, []);
+
+
+  useEffect(() => {
+    // Fetch bookmarked status for the event when component mounts
+    fetchBookmarkStatus();
+  }, []);
+
+  // Function to fetch bookmarked status for the event \\\\\\\\\\\\\\\\\\\\\\\\\\\
+  const fetchBookmarkStatus = async () => {
+    try {
+      if (!isLoggedIn) {
+        
+        return;
+      }
+      const eventId = props.keyA;
+      const isBookmarked = await apiClient.isEventBookmarked(eventId);
+      setBookmarked(isBookmarked);
+      console.log("Bookmark status:", isBookmarked); // Log the bookmark status
+    } catch (error) {
+      console.error("Error fetching bookmark status:", error);
+      // Handle error as needed
+    }
+  };
+
+// end of code for fetchingbookmark \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+  
 
   return (
     
@@ -47,6 +92,7 @@ const EventCardHome = (props) => {
         {...props}
         event={stateEvent}
         img={stateImg}
+        bookmarked={bookmarked} // Pass bookmarked status to EventUserCardExpanded
       />
     </div>
   );

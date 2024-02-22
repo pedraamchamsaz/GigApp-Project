@@ -113,6 +113,17 @@ async addInterestedEvent(eventId) {
   }
 }
 
+async getInterestedEvents() {
+  try {
+    return await this.authenticatedCall("get", `${url}interestedEvents`);
+  } catch (error) {
+    console.error("Error fetching interested events:", error);
+    throw error;
+  }
+}
+
+
+
 async removeInterestedEvent(eventId) {
   try {
     await this.authenticatedCall(
@@ -127,11 +138,20 @@ async removeInterestedEvent(eventId) {
   }
 }
 
-async getInterestedEvents() {
+
+// isEventBookmarked code
+
+async isEventBookmarked(eventId) {
   try {
-    return await this.authenticatedCall("get", `${url}interestedEvents`);
+    const response = await this.authenticatedCall(
+      "get",
+      `${url}isEventBookmarked/${eventId}`
+    );
+    const bookmarked = response.data.bookmarked; // Assuming your backend returns whether the event is bookmarked or not
+    console.log("Bookmark status for event", eventId, ":", bookmarked); // Log the bookmark status
+    return bookmarked;
   } catch (error) {
-    console.error("Error fetching interested events:", error);
+    console.error("Error checking bookmark status:", error);
     throw error;
   }
 }
