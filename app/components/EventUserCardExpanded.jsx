@@ -89,7 +89,7 @@ export default function EventUserCardExpanded({
           EventCurrency={EventCurrency}
           EventPriceMax={EventPriceMax}
           EventTicketLink={EventTicketLink}
-          bookmarked={bookmarked} // Pass the bookmarked prop
+          bookmarked={bookmarked} // to pass the bookmarked prop
           
         />
       </BootstrapDialog>

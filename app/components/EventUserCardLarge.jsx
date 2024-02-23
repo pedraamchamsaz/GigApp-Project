@@ -18,12 +18,15 @@ const EventUserCardLarge = (props) => {
     if (token) {
       setToken(token);
       setIsLoggedIn(true);
-    } // if !token, redirect to landing page
+    } else {
+      console.log("User is not logged in."); 
+    }
   }, []);
 
   const handleBookmarkClick = async () => {
     try {
       if (!isLoggedIn) {
+        
         toast.error("Log in to add the event to Interested!");
         return;
       }
@@ -41,7 +44,7 @@ const EventUserCardLarge = (props) => {
       setBookmarked(!bookmarked);
     } catch (error) {
       console.error("Error handling bookmark:", error);
-      // Handle error as needed
+      
     }
   };
 
@@ -106,3 +109,4 @@ const EventUserCardLarge = (props) => {
 };
 
 export default EventUserCardLarge;
+
