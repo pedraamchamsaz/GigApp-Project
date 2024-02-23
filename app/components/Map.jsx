@@ -3,9 +3,9 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/a
 import CardExpanded from './CardExpanded'
 import EventUserCardExpanded from './EventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius}) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-  const [selectedMarker, setSelectedMarker] = useState(null);
+  // const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
     if (selectedMarker !== null && eventData[selectedMarker]) {
@@ -128,7 +128,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
                 lat: Number(location.latitude),
                 lng: Number(location.longitude)
               }}
-              title={eventData[index].name}
+              title={eventData[index]?.name}
               onClick={() => {
                 setSelectedMarker(index);
                 onMarkerClick(index);
