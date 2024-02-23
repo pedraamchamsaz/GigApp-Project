@@ -14,3 +14,9 @@ const EventsContainer = (props) => {
 }
 
 export default EventsContainer
+
+
+
+{/* <div>
+<InterestedEvents events={events}/>
+</div> */}

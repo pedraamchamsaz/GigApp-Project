@@ -97,7 +97,7 @@ const EventCardHome = (props) => {
         </p>
         <p className='text-xs mt-2'>{props.EventVenue} - {props.EventCity}, {props.EventCountryCode}, {props.EventPostcode}</p>
        {/* Render green text if event is already bookmarked */}
-      {bookmarked && <p className="text-green-500 text-xs">Added to Interested</p>}
+      {bookmarked && <p className="text-green-500 text-xs font-bold">Added to Interested</p>}
       
       </div>
       
