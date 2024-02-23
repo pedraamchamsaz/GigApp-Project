@@ -61,6 +61,16 @@ async nonAuthenticatedCall(method, url, data) {
     return await this.nonAuthenticatedCall("get", `${url}events`);
   }
 
+  // // fetch events saved by user
+  // async getSavedEvents() {
+  //  return await this.authenticatedCall("get", `${url}username/events`);
+  // }
+
+  // // update user's saved events array (replaces array with new array)
+  // async updateSavedEvents(events) {
+  //  return await this.authenticatedCall("put", `${url}username/events`, { events });
+  // }
+
 
   addEvent(name, city, date, price, time, photo, venue, countrycode, postcode, currency, price2, ticketlink) {
     console.log("addEvent Api Client called")
@@ -122,6 +132,8 @@ async getInterestedEvents() {
   }
 }
 
+// updateUserEvents(savedEvents)
+//     return this.authenticatedCall("put", `${url}username/savedEvents`, { savedEvents });
 
 
 async removeInterestedEvent(eventId) {

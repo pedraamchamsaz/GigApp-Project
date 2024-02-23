@@ -20,6 +20,7 @@ export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [radius, setRadius] = useState(10)
+  const [userGigRadius, setUserGigRadius] = useState(10)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
@@ -31,33 +32,81 @@ export default function HomePage(props) {
   const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
 
+
   
+
+
+  const [userMarkerLocations, setUserMarkerLocations] = useState([]);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [list, setList] = useState('RECOMMENDED GIGS')
+  const [resultsUser, setResultsUser] = useState(15)
+  const [currentCoords, setCurrentCoords] = useState(null)
+
+  const date = new Date()
+  const year = String(date.getFullYear())
+  const month = String(date.getMonth() + 1)
+  const day = String(date.getDate())
+  const dayPlusSeven = String(date.getDate() + 7)
+  const today = `${year}-0${month}-${day}`
+  const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
+
+  const [startDate, setStartDate] = useState(today)
+  const [endDate, setEndDate] = useState(todayPlusSeven)
+  const startDateString = `${startDate}T00:00:00Z`
+  const endDateString = `${endDate}T23:59:59Z`
+
+  const [startDateUser, setStartDateUser] = useState(today)
+  const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
 
   
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+    
+  const client = new ApiClient(
+    () => token,
+    () => logout()
+  );
+
+  
 
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
-    const spliced = eventData.slice(0, results)
-    let splicedOnlyCoordinates = spliced.map(event => {
+    const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
+    let slicedOnlyCoordinates = sliced.map(event => { 
       const { latitude, longitude } = event._embedded.venues[0].location
      
       return {latitude, longitude}
     }
     )
     
-    setMarkerLocations(splicedOnlyCoordinates)
-  }, [eventData, results])
+    setMarkerLocations(slicedOnlyCoordinates)
+  }, [eventData, results, startDate, endDate])
+
 
   useEffect(() => {
     getEventData(location)
-  }, [radius])
-  
-  const client = new ApiClient(
-    () => token,
-    () => logout()
-  );
+
+    console.log(startDateString, endDateString)
+  }, [radius, startDate, endDate])
+
+  useEffect(() => {
+    const currentLocation = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setCurrentCoords(position.coords)
+        })
+      }
+    }
+
+    console.log(currentCoords, 'CURRENT COORDS')
+
+  currentLocation()
+  }, [userGigRadius])
+
+  useEffect(() => {
+    console.log(list)
+  }, [list])
+
 
   useEffect(() => {
     const currentLocation = async () => {
@@ -76,10 +125,62 @@ export default function HomePage(props) {
 
   }, [])
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    await search(city);
+
+  const getEventData = async (location) => {
+    try {
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      console.log(response.data, "DATA")
+      const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
+      setEventData(onSale)
+    } catch (e) {
+      console.log(e, "ERROR")
+    }
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    } // if !token, redirect to landing page
+  }, []);
+
+  const login = (token) => {
+    localStorage.setItem("token", token);
+    setToken(token);
+    eventsArray = client.getSavedEvents()
+    setSavedEvents(eventsArray)
   };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
+
+  const handleClickOpen = (eventPassedIn) => {
+    if (stateEvent) {
+      return;
+    }
+    setOpen(true);
+    setStateEvent(eventPassedIn)
+
+    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
+    const img = filteredImages.length > 0 && filteredImages[0].url;
+    setStateImg(img)
+    setSelectedMarker(null)
+  };
+
+  const handleClose = () => {
+    setStateEvent('')
+    setOpen(false);
+  };
+
+  useEffect(() => {
+    if (selectedMarker !== null) {
+      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
+      const img = filteredImages.length > 0 && filteredImages[0].url;
+      setStateImg(img);
+    }
+  }, [selectedMarker, eventData]);
 
   const search = async (city) => {
     try {
@@ -108,17 +209,6 @@ export default function HomePage(props) {
       console.error('Error fetching data:', error);
     }
   };  
-
-  const getEventData = async (location) => {
-    try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120`)
-      console.log(response.data, "DATA")
-      const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
-      setEventData(onSale)
-    } catch (e) {
-      console.log(e, "ERROR")
-    }
-  }
 
   const handleCurrentLocation = async () => {
     if (navigator.geolocation) {
@@ -167,40 +257,13 @@ export default function HomePage(props) {
       console.error('Geolocation is not supported by your browser');
     }
   };
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setToken(token);
     } // if !token, redirect to landing page
   }, []);
-
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setToken(token);
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
-
-  const handleClose = () => {
-    console.log("this is being clicked")
-    setStateEvent('')
-    setOpen(false);
-  };
-
-  const handleClickOpen = (eventPassedIn) => {
-    if (stateEvent) {
-      return;
-    }
-    setOpen(true);
-    setStateEvent(eventPassedIn)
-
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img)
-  };
 
   return (
 
@@ -223,30 +286,40 @@ export default function HomePage(props) {
           <SearchBar 
             city={city}
             setCity={setCity}
+            location={location}
             setLocation={setLocation}
             getEventData={getEventData}
             googleMapsResults={googleMapsResults}
             setGoogleMapsResults={setGoogleMapsResults}
-            search={search}
-            handleSearch={handleSearch}
             center={mapCenter}
-            handleCurrentLocation={handleCurrentLocation}
             markerLocations={markerLocations}
             setSelectedCard={setSelectedCard}
             eventData={eventData}
             open={open}
-          setOpen={setOpen}
+            setOpen={setOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
+            userMarkerLocations={userMarkerLocations}
+            currentCoords={currentCoords}
+            userGigRadius={userGigRadius}
+            search={search}
+            handleCurrentLocation={handleCurrentLocation}
             />
-      <div>
-      <ProfileEvents client={client} />   
-        </div>
+
+      {/* <div>
+      <ProfileEvents client={client} 
+        userMarkerLocations={userMarkerLocations} 
+        setUserMarkerLocations={setUserMarkerLocations}
+        resultsUser={resultsUser}
+        startDateUser={startDateUser}
+        endDateUser={endDateUser}
+      />   
+        </div> */}
+
          <div>
       <EventsContainer
-
         eventData={eventData}
         radius={radius}
         location={location}
@@ -260,6 +333,26 @@ export default function HomePage(props) {
         setResults={setResults}
         setRadius={setRadius}
         setSelectedCard={setSelectedCard}
+        handleClickOpen={handleClickOpen}
+        handleClose={handleClose}
+        startDate={startDate}
+        setStartDate={setStartDate}
+        endDate={endDate}
+        setEndDate={setEndDate}
+        setList={setList}
+        list={list}
+        client={client}
+        resultsUser={resultsUser}
+        setResultsUser={setResultsUser}
+        startDateUser={startDateUser}
+        setStartDateUser={setStartDateUser}
+        endDateUser={endDateUser}
+        setEndDateUser={setEndDateUser}
+        today={today}
+        userGigRadius={userGigRadius}
+        setUserGigRadius={setUserGigRadius}
+        setUserMarkerLocations={setUserMarkerLocations}
+        currentCoords={currentCoords}
         />
      </div>
     </div>

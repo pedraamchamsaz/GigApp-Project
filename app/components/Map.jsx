@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
 import CardExpanded from './CardExpanded'
+import EventUserCardExpanded from './EventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen,  }) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius}) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
-    if (selectedMarker !== null) {
-      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
+    if (selectedMarker !== null && eventData[selectedMarker]) {
+      const filteredImages = eventData[selectedMarker].images?.filter((image) => image.height === 1152) || [];
       const img = filteredImages.length > 0 && filteredImages[0].url;
       setStateImg(img);
     }
-  }, [stateImg, selectedMarker, eventData]);
+  }, [selectedMarker, eventData]);
+  
 
   const customMarkerImage = 'assets/images/Logoblack.png';
   
@@ -87,6 +89,24 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
     }
   };
 
+  function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    const R = 3963.19; // Radius of the earth in miles
+    const dLat = deg2rad(lat2-lat1);  // deg2rad below
+    const dLon = deg2rad(lon2-lon1); 
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d = R * c; // Distance in miles
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
+
   return (
     <LoadScript googleMapsApiKey={apiKey}>
       <div className="relative h-96 w-96 rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
@@ -100,7 +120,7 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
           options={mapOptions}
           onClick={handleMapClick}
         >
-          {/* Display markers for each location */}
+          {/* Display markers for each ticketmaster location */}
           {markerLocations.map((location, index) => (
             <Marker
               key={index}
@@ -150,6 +170,67 @@ const GoogleMapComponent = ({ center, markerLocations, onMarkerClick, eventData,
               )}
             </Marker>
           ))}
+
+{/* Display markers for each User events */}
+{userMarkerLocations?.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= userGigRadius).map((currentEvent, index) => (
+   <Marker
+      key={index}
+      position={{
+         lat: Number(currentEvent.latitude),
+         lng: Number(currentEvent.longitude)
+      }}
+      title={currentEvent.name}
+      onClick={() => {
+
+         onMarkerClick(index);
+         handleMarkerClick(index);
+      }}
+      icon={{
+         url: customMarkerImage,
+         scaledSize: new window.google.maps.Size(25, 35)
+      }}
+   >
+      {/* Display InfoWindow when marker is selected */}
+{selectedMarker === index && (
+  <InfoWindow
+    onCloseClick={() => setSelectedMarker(null)}
+  >
+    <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${currentEvent.photo}) center/cover no-repeat` }}>
+      <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
+        <p className='text-lg text-white shadow-md'><b>{currentEvent.name}</b></p>
+        <p className='font-mono text-white shadow-md'>{currentEvent.date}</p>
+        <p className='text-white shadow-md mt-1'>{currentEvent.venue}</p>
+        <div>
+          <br />
+          <p
+            className='text-cyan-500 cursor-pointer'
+            onClick={() => handleClickOpen(currentEvent)} 
+          >
+            <i>More details...</i>
+          </p>
+          <EventUserCardExpanded 
+         EventName={currentEvent.name}
+         EventCity={currentEvent.city}
+         EventDate={currentEvent.date}
+         EventPrice={currentEvent.price}
+         EventTime={currentEvent.time}
+         photo={currentEvent.photo}
+         EventVenue={currentEvent.venue}
+         EventCountryCode={currentEvent.countrycode}
+         EventPostcode={currentEvent.postcode}
+         EventCurrency={currentEvent.currency}
+         EventPriceMax={currentEvent.price2}
+         EventTicketLink={currentEvent.ticketlink}
+        
+          />
+        </div>
+      </div>
+    </div>
+  </InfoWindow>
+)}
+   </Marker>
+          ))}
+
         </GoogleMap>
       </div>
     </LoadScript>
