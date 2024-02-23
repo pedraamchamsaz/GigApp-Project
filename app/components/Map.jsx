@@ -3,17 +3,18 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/a
 import CardExpanded from './CardExpanded'
 import EventUserCardExpanded from './EventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg,setStateImg, setOpen, location, currentCoords, userGigRadius}) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius}) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
   const [selectedMarker, setSelectedMarker] = useState(null);
 
   useEffect(() => {
-    if (selectedMarker !== null) {
-      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
+    if (selectedMarker !== null && eventData[selectedMarker]) {
+      const filteredImages = eventData[selectedMarker].images?.filter((image) => image.height === 1152) || [];
       const img = filteredImages.length > 0 && filteredImages[0].url;
       setStateImg(img);
     }
-  }, [stateImg, selectedMarker, eventData]);
+  }, [selectedMarker, eventData]);
+  
 
   const customMarkerImage = 'assets/images/Logoblack.png';
   
@@ -119,7 +120,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
           options={mapOptions}
           onClick={handleMapClick}
         >
-          {/* Display markers for each location */}
+          {/* Display markers for each ticketmaster location */}
           {markerLocations.map((location, index) => (
             <Marker
               key={index}
@@ -170,55 +171,64 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
             </Marker>
           ))}
 
-{/* Display markers for each User Event location */}
-{userMarkerLocations?.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= userGigRadius).map((location, index) => (
-            <Marker
-              key={index}
-              position={{
-                lat: Number(location.latitude),
-                lng: Number(location.longitude)
-              }}
-              title={userMarkerLocations.name}
-              onClick={() => {
-                setSelectedMarker(index);
-                onMarkerClick(index);
-                handleMarkerClick(index);
-              }}
-              icon={{
-                url: customMarkerImage,
-                scaledSize: new window.google.maps.Size(25, 35) 
-              }}
-            >
-              {/* Display InfoWindow when marker is selected */}
-              {selectedMarker === index && (
-                <InfoWindow
-                  onCloseClick={() => setSelectedMarker(null)}
-                >
-                  <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${userMarkerLocations.photo}) center/cover no-repeat` }}>
-                    <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
-                <p className='text-lg text-white shadow-md'><b>{userMarkerLocations.name}</b></p>
-                <p className='font-mono text-white shadow-md'>{userMarkerLocations.date}</p>
-                <p className='text-white shadow-md mt-1'>{userMarkerLocations.venue}</p>
-                <div>
-                  <br />
-                <p
-        className='text-cyan-500 cursor-pointer'
-        onClick={() => handleClickOpen()}
-      >
-        <i>More details...</i></p>
-        {/* <EventUserCardExpanded
-        open={open}
-        handleClose={handleClose}
-        {...props}
-        event={stateEvent}
-        img={stateImg}
-      /> */}
-                  </div>
-                  </div>
-              </div>
-                </InfoWindow>
-              )}
-            </Marker>
+{/* Display markers for each User events */}
+{userMarkerLocations?.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= userGigRadius).map((currentEvent, index) => (
+   <Marker
+      key={index}
+      position={{
+         lat: Number(currentEvent.latitude),
+         lng: Number(currentEvent.longitude)
+      }}
+      title={currentEvent.name}
+      onClick={() => {
+
+         onMarkerClick(index);
+         handleMarkerClick(index);
+      }}
+      icon={{
+         url: customMarkerImage,
+         scaledSize: new window.google.maps.Size(25, 35)
+      }}
+   >
+      {/* Display InfoWindow when marker is selected */}
+{selectedMarker === index && (
+  <InfoWindow
+    onCloseClick={() => setSelectedMarker(null)}
+  >
+    <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${currentEvent.photo}) center/cover no-repeat` }}>
+      <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
+        <p className='text-lg text-white shadow-md'><b>{currentEvent.name}</b></p>
+        <p className='font-mono text-white shadow-md'>{currentEvent.date}</p>
+        <p className='text-white shadow-md mt-1'>{currentEvent.venue}</p>
+        <div>
+          <br />
+          <p
+            className='text-cyan-500 cursor-pointer'
+            onClick={() => handleClickOpen(currentEvent)} 
+          >
+            <i>More details...</i>
+          </p>
+          <EventUserCardExpanded 
+         EventName={currentEvent.name}
+         EventCity={currentEvent.city}
+         EventDate={currentEvent.date}
+         EventPrice={currentEvent.price}
+         EventTime={currentEvent.time}
+         photo={currentEvent.photo}
+         EventVenue={currentEvent.venue}
+         EventCountryCode={currentEvent.countrycode}
+         EventPostcode={currentEvent.postcode}
+         EventCurrency={currentEvent.currency}
+         EventPriceMax={currentEvent.price2}
+         EventTicketLink={currentEvent.ticketlink}
+        
+          />
+        </div>
+      </div>
+    </div>
+  </InfoWindow>
+)}
+   </Marker>
           ))}
 
         </GoogleMap>

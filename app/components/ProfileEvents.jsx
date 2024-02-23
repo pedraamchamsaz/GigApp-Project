@@ -47,14 +47,11 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
           if (location) {
             const { latitude, longitude } = location;
             console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-  
+  console.log(currentEvent)
             return {
+              ...currentEvent,
               latitude,
               longitude,
-              name: currentEvent.name,
-              date: currentEvent.date,
-              photo: currentEvent.photo,
-              venue: currentEvent.venue,
             };
           } else {
             // Handle the case when the location is null or undefined
