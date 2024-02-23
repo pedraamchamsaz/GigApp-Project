@@ -104,10 +104,71 @@ async nonAuthenticatedCall(method, url, data) {
     console.log(userDetails)
     return this.authenticatedCall('get', `${url}username/${userDetails.username}`);
   }
+
+
+
+// new api calls \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+async addInterestedEvent(eventId) {
+  try {
+    await this.authenticatedCall(
+      "post",
+      `${url}addInterestedEvent`,
+      { eventId }
+    );
+    console.log("Event bookmarked successfully");
+  } catch (error) {
+    console.error("Error bookmarking event:", error);
+    throw error;
+  }
+}
+
+async getInterestedEvents() {
+  try {
+    return await this.authenticatedCall("get", `${url}interestedEvents`);
+  } catch (error) {
+    console.error("Error fetching interested events:", error);
+    throw error;
+  }
 }
 
 // updateUserEvents(savedEvents)
 //     return this.authenticatedCall("put", `${url}username/savedEvents`, { savedEvents });
 
 
+async removeInterestedEvent(eventId) {
+  try {
+    await this.authenticatedCall(
+      "post",
+      `${url}removeInterestedEvent`,
+      { eventId }
+    );
+    console.log("Event removed from bookmarks successfully");
+  } catch (error) {
+    console.error("Error removing event from bookmarks:", error);
+    throw error;
+  }
+}
+
+
+// isEventBookmarked code
+
+async isEventBookmarked(eventId) {
+  try {
+    const response = await this.authenticatedCall(
+      "get",
+      `${url}isEventBookmarked/${eventId}`
+    );
+    const bookmarked = response.data.bookmarked; // Assuming your backend returns whether the event is bookmarked or not
+    console.log("Bookmark status for event", eventId, ":", bookmarked); // Log the bookmark status
+    return bookmarked;
+  } catch (error) {
+    console.error("Error checking bookmark status:", error);
+    throw error;
+  }
+}
+
+
+// \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   
+}

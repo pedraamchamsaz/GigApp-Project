@@ -5,17 +5,21 @@ import EventCard from "../components/EventCard";
 import LogoutButton from "../components/logoutButton";
 import Link from "next/link";
 import HomeButton from "../components/HomeButton";
+import InterestedEvents from "../components/Interested";
 
 const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
 
   const refreshList = () => {
-    props.client.getEvents().then((response) => {
-      setEvents(response.data);
-    }).catch((err) => {
-      console.log("failed to get API request (GET)");
-    });
+    props.client
+      .getEvents()
+      .then((response) => {
+        setEvents(response.data);
+      })
+      .catch((err) => {
+        console.log("failed to get API request (GET)");
+      });
   };
 
   const removeEvents = (id) => {
@@ -38,7 +42,10 @@ const Profile = (props) => {
   }, []);
 
   return (
-    <div id="userprofile" className="fixed top-0 left-0 w-screen h-full bg-black overflow-y-auto">
+    <div
+      id="userprofile"
+      className="fixed top-0 left-0 w-screen h-full bg-black overflow-y-auto"
+    >
       <div className="flex justify-end items-center h-[3%] mb-6">
         <div className="ml-auto mr-4 mt-20">
           <HomeButton />
@@ -75,10 +82,17 @@ const Profile = (props) => {
               EventPriceMax={current.price2}
               EventTicketLink={current.ticketlink}
               updateEvents={updateEvents}
-              
             />
           </div>
         ))}
+
+
+        <div>
+          <InterestedEvents events={events}/>
+        </div>
+
+
+
       </div>
     </div>
   );

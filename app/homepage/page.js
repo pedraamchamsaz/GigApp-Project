@@ -12,6 +12,7 @@ import Geohash from 'latlon-geohash';
 import axios from 'axios'
 import LogoutButton from "../components/logoutButton";
 import EventsContainer from "../components/EventsContainer";
+import InterestedEvents from "../components/Interested";
 
 
 
@@ -30,6 +31,11 @@ export default function HomePage(props) {
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
+
+
+  
+
+
   const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
@@ -51,6 +57,7 @@ export default function HomePage(props) {
 
   const [startDateUser, setStartDateUser] = useState(today)
   const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
+
   
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
@@ -349,6 +356,11 @@ export default function HomePage(props) {
         />
      </div>
     </div>
+
+    {/* <div>
+      <InterestedEvents   /> 
+    </div> */}
+
     </>  
 
   );

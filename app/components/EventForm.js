@@ -110,6 +110,11 @@ const EventForm = (props) => {
         document.getElementById("addForm").reset();
         props.refreshList();
         props.setCurrent(undefined);
+        if (props.currentEvent) {
+          toast.success("Event updated successfully!");
+        } else {
+          toast.success("Event added successfully!");
+        }
       })
       .catch((error) => {
         toast.warning(error);
