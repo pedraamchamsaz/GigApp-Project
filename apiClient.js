@@ -159,8 +159,8 @@ async isEventBookmarked(eventId) {
       "get",
       `${url}isEventBookmarked/${eventId}`
     );
-    const bookmarked = response.data.bookmarked; // Assuming your backend returns whether the event is bookmarked or not
-    console.log("Bookmark status for event", eventId, ":", bookmarked); // Log the bookmark status
+    const bookmarked = response.data.bookmarked; 
+    console.log("Bookmark status for event", eventId, ":", bookmarked); // Log bookmark status
     return bookmarked;
   } catch (error) {
     console.error("Error checking bookmark status:", error);

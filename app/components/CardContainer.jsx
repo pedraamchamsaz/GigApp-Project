@@ -9,10 +9,18 @@ const CardContainer = (props) => {
       {props.list === 'RECOMMENDED GIGS' ?
         <Card 
             {...props} /> :
+        
+        
         <ProfileEvents 
-        {...props}/>}
+        {...props}/>
+        
+        }
     </div>
   )
 }
 
 export default CardContainer
+
+
+
+{/* <InterestedEvents events={events}/> */}

@@ -64,7 +64,7 @@ const InterestedEvents = () => {
   };
 
   return (
-    <div className="border border-white text-white h-80 w-50">
+    <div className=" text-white h-80 w-50">
       <h2>Interested Events</h2>
       {interestedEvents.map((event) => (
       
