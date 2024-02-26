@@ -64,12 +64,12 @@ const InterestedEvents = () => {
   };
 
   return (
-    <div className="border border-white text-white h-80 w-50">
-      <h2>Interested Events</h2>
+    <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
+      {/* <h2>Interested Events</h2> */}
       {interestedEvents.map((event) => (
       
 
-        <div className="relative w-80 h-64 gap-5">
+        <div className="w-80 h-64 relative rounded-xl'">
           <img
             className="object-cover rounded-xl w-full h-full"
             src={event.photo}
