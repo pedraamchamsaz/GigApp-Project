@@ -357,6 +357,7 @@ export default function HomePage(props) {
         today={today}
         userGigRadius={userGigRadius}
         setUserGigRadius={setUserGigRadius}
+        userMarkerLocations={userMarkerLocations}
         setUserMarkerLocations={setUserMarkerLocations}
         currentCoords={currentCoords}
         setSelectedMarker={setSelectedMarker}
