@@ -16,7 +16,6 @@ const Card = ({ eventData, results, setSelectedMarker
     if (stateEvent) return;
     setOpen(true);
     setStateEvent(eventPassedIn)
-    // setStateEvent(props.keyA, props.EventName, props.EventDate, props.EventTime, props.EventCity, props.EventVenue, props.EventCountryCode, props.EventPostcode); 
     const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
     const img = filteredImages.length > 0 && filteredImages[0].url;
     setStateImg(img)
