@@ -169,6 +169,19 @@ async isEventBookmarked(eventId) {
 }
 
 
+async getLoggedUsername() {
+  try {
+    const response = await this.authenticatedCall("get", `${url}loggedUsername`);
+    const username = response.data.username;
+    console.log("Logged username:", username); // Log the logged username
+    return username;
+  } catch (error) {
+    console.error("Error fetching logged username:", error);
+    throw error;
+  }
+}
+
+
 // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
   
 }

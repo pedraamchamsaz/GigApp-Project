@@ -11,6 +11,7 @@ const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [loggedUsername, setLoggedUsername] = useState("");
 
   const refreshList = () => {
     props.client
@@ -20,6 +21,18 @@ const Profile = (props) => {
       })
       .catch((err) => {
         console.log("failed to get API request (GET)");
+      });
+  };
+
+  // Fetch logged username from the server
+  const fetchLoggedUsername = () => {
+    props.client
+      .getLoggedUsername()
+      .then((username) => {
+        setLoggedUsername(username); 
+      })
+      .catch((err) => {
+        console.log("Failed to fetch logged username:", err);
       });
   };
 
@@ -43,6 +56,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     refreshList();
+    fetchLoggedUsername();
     console.log(events);
   }, []);
 
@@ -52,20 +66,26 @@ const Profile = (props) => {
       className="fixed top-0 left-0 w-screen h-full bg-black overflow-y-auto"
     >
       <div className="flex justify-end items-center h-[3%] mb-6">
+        
         <div className="ml-auto mr-4 mt-20">
-          <HomeButton />
+         <p className="text-cyan-400">Logged User: {loggedUsername} </p>
+        </div>
+        <div className="mr-4 mt-20 mr-20">
+          <HomeButton /> 
         </div>
         <div className="mr-4 mt-20 mr-20">
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-cyan-400 text-center mt-10">Hi! Good to see you back!</p>
+      <p className="text-cyan-400 text-center mt-10">
+        Hi! Good to see you back, {loggedUsername}!
+      </p>
 
       <div className="flex flex-col items-center">
         <h3 className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10">
-        <button onClick={toggleFormVisibility}>
-      {isFormVisible ? "Hide Event Form" : "Add Event"}
-    </button>
+          <button onClick={toggleFormVisibility}>
+            {isFormVisible ? "Hide Event Form" : "Add Event"}
+          </button>
         </h3>
         {isFormVisible && (
           <div className="">
@@ -77,7 +97,7 @@ const Profile = (props) => {
             />
           </div>
         )}
-      
+
         {events.map((current) => (
           <div className="" key={current._id}>
             <EventCard
@@ -100,14 +120,10 @@ const Profile = (props) => {
           </div>
         ))}
 
-
         <div>
-          <InterestedEvents events={events}/>
+          <InterestedEvents events={events} />
         </div>
-
-        </div>
-
-      
+      </div>
     </div>
   );
 };
