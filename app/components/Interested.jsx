@@ -66,6 +66,7 @@ const InterestedEvents = () => {
   return (
     <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
       {/* <h2>Interested Events</h2> */}
+
       {interestedEvents.map((event) => (
       
 
