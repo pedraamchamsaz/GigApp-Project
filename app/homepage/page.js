@@ -18,15 +18,15 @@ import EventsContainer from "../components/EventsContainer";
 export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const [radius, setRadius] = useState(10)
-  const [userGigRadius, setUserGigRadius] = useState(10)
+  const [radius, setRadius] = useState(50)
+  const [userGigRadius, setUserGigRadius] = useState(50)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
   const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
-  const [results, setResults] = useState(15)
+  const [results, setResults] = useState(45)
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
@@ -35,16 +35,21 @@ export default function HomePage(props) {
   const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
-  const [resultsUser, setResultsUser] = useState(15)
+  const [resultsUser, setResultsUser] = useState(45)
   const [currentCoords, setCurrentCoords] = useState(null)
 
   const date = new Date()
-  const year = String(date.getFullYear())
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const dayPlusSeven = String(date.getDate() + 7)
-  const today = `${year}-0${month}-${day}`
-  const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
+  const today = date.toISOString().slice(0, 10)
+  const date2 = new Date(date.setDate(date.getDate() + 7))
+  console.log(date2, 'DATE 2')
+  const todayPlusSeven = date2.toISOString().slice(0, 10)
+
+  // const year = String(date.getFullYear())
+  // const month = String(date.getMonth() + 1)
+  // const day = String(date.getDate())
+  // const dayPlusSeven = String(date.getDate() + 7)
+  // const today = `${year}-0${month}-${day}`
+  // const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
 
   const [startDate, setStartDate] = useState(today)
   const [endDate, setEndDate] = useState(todayPlusSeven)
@@ -123,10 +128,11 @@ export default function HomePage(props) {
 
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
       console.log(response.data, "DATA")
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
-      setEventData(onSale)
+      const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
+      setEventData(sortedOnSale)
     } catch (e) {
       console.log(e, "ERROR")
     }
@@ -151,23 +157,20 @@ export default function HomePage(props) {
     setToken(null);
   };
 
-  const handleClickOpen = (eventPassedIn) => {
-    if (stateEvent) {
-      return;
-    }
-    setOpen(true);
-    setStateEvent(eventPassedIn)
+  // const handleClickOpen = (eventPassedIn) => {
+  //   if (stateEvent) return;
+  //   setOpen(true);
+  //   setStateEvent(eventPassedIn)
+  //   const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
+  //   const img = filteredImages.length > 0 && filteredImages[0].url;
+  //   setStateImg(img)
+  //   setSelectedMarker(null)
+  // };
 
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img)
-    setSelectedMarker(null)
-  };
-
-  const handleClose = () => {
-    setStateEvent('')
-    setOpen(false);
-  };
+  // const handleClose = () => {
+  //   setStateEvent('')
+  //   setOpen(false);
+  // };
 
   useEffect(() => {
     if (selectedMarker !== null) {
@@ -305,6 +308,8 @@ export default function HomePage(props) {
             userGigRadius={userGigRadius}
             search={search}
             handleCurrentLocation={handleCurrentLocation}
+            selectedMarker={selectedMarker}
+            setSelectedMarker={setSelectedMarker}
             />
 
       {/* <div>
@@ -335,8 +340,8 @@ export default function HomePage(props) {
         setResults={setResults}
         setRadius={setRadius}
         setSelectedCard={setSelectedCard}
-        handleClickOpen={handleClickOpen}
-        handleClose={handleClose}
+        // handleClickOpen={handleClickOpen}
+        // handleClose={handleClose}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
@@ -353,8 +358,10 @@ export default function HomePage(props) {
         today={today}
         userGigRadius={userGigRadius}
         setUserGigRadius={setUserGigRadius}
+        userMarkerLocations={userMarkerLocations}
         setUserMarkerLocations={setUserMarkerLocations}
         currentCoords={currentCoords}
+        setSelectedMarker={setSelectedMarker}
         />
      </div>
     </div>

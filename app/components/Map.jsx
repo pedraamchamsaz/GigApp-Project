@@ -7,6 +7,11 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
+// =======
+// const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
+//   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+//   // const [selectedMarker, setSelectedMarker] = useState(null);
+// >>>>>>> Development
 
   useEffect(() => {
     if (selectedMarker !== null && eventData[selectedMarker]) {
@@ -158,7 +163,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
                 lat: Number(location.latitude),
                 lng: Number(location.longitude)
               }}
-              title={eventData[index].name}
+              title={eventData[index]?.name}
               onClick={() => {
                 setSelectedMarker(index);
                 onMarkerClick(index);

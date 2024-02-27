@@ -29,7 +29,7 @@ export default function BasicMenu({setList, list}) {
         onClick={handleClick}
         className='bg-[#1AA297] text-white rounded-3xl hover:text-white hover:bg-[#13C3b5] hover:border hover:border-[#13C3b5] p-2'
       >
-        Select a List ▼
+        {list} ▼
       </Button>
       <Menu
         id="basic-menu"

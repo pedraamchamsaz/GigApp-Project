@@ -7,6 +7,8 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
 
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
+  const [eventsWithLatLon, setEventsWithLatLon] = useState([])
+  // const eventsLatLon = []
   
   const refreshList = () => {
     client
@@ -47,7 +49,7 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
           if (location) {
             const { latitude, longitude } = location;
             console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-  console.log(currentEvent)
+            console.log(currentEvent)
             return {
               ...currentEvent,
               latitude,
@@ -63,7 +65,7 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
         }
       })
     );
-  
+
     // Filter out events with invalid postcodes
     const filteredLocations = updatedUserMarkerLocations.filter(
       (location) => location !== null
@@ -105,15 +107,12 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
     return deg * (Math.PI/180)
   }
 
-  // const eventsWithLatLon = events.map(event => event.coords = getLatLongFromPostcode(event.postcode))
-  // setEventsWithCoords(eventsWithLatLon)
-
   // working code
 
   return (
     <div id="userprofile">
       <div className=" flex justify-center flex-wrap gap-8 mb-5 mt-5">
-        {events.slice(0, resultsUser).filter(event => event.date >= startDateUser && event.date <= endDateUser).map((current) => (
+        {userMarkerLocations.slice(0, resultsUser).filter(event => event.date >= startDateUser && event.date <= endDateUser).filter(event => getDistanceFromLatLon(event.latitude, event.longitude, currentCoords.latitude, currentCoords.longitude) <= userGigRadius).map((current) => (
           <EventCardHome
             keyA={current._id}
             EventName={current.name}

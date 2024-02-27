@@ -4,8 +4,8 @@ import Image from 'next/image'
 import { useState } from 'react'
 
 const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent, eventsArray, }) => {
-    const startDate = event?.dates.start.localDate
-    const startTime = event?.dates.start.localTime.slice(0, 5)
+    const startDate = event?.dates?.start.localDate
+    const startTime = event?.dates?.start.localTime.slice(0, 5)
     const venue = event._embedded.venues[0]
     const minPrice = event.priceRanges && event.priceRanges[0].min
     const maxPrice = event.priceRanges && event.priceRanges[0].max
