@@ -1,7 +1,10 @@
-import { useState, useEffect } from 'react';
+"use client";
+import { useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, search, selectedMarker, setSelectedMarker}) => {
+const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, userOpen, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, location, currentCoords, userGigRadius, search}) => {
+// const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, search, selectedMarker, setSelectedMarker}) => {
+// >>>>>>> Development
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -14,7 +17,6 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
 
 
   const handleMarkerClick = (index) => {
-    // Pass the selected card information to the parent component
     if (markerLocations[index]) {
       setSelectedCard(markerLocations[index]);
     }
@@ -33,7 +35,7 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
         <div className='flex items-center'>
           <input
             type="text"
-            placeholder="Enter city"
+            placeholder="Please enter your location"
             value={city}
             onChange={(e) => setCity(e.target.value)}
             className='p-2 rounded-l-full border-t-4 border-b-4 border-l-4 border-solid border-teal-500 focus:outline-none'
@@ -57,9 +59,13 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
           onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
           eventData={eventData}
           open={open}
+          setUserOpen={setUserOpen}
+          userOpen={userOpen}
           setOpen={setOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
+            userStateEvent={userStateEvent}
+            setUserStateEvent={setUserStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
             userMarkerLocations={userMarkerLocations} 

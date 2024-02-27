@@ -64,6 +64,10 @@ const InterestedEvents = () => {
   };
 
   return (
+// <<<<<<< profileStyleBranch
+//     <div className="text-white h-80 w-50 m-5">
+//       <h3 className="mt-5 mb-2 text-center text-cyan-500">Interested</h3>
+// =======
     <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
       {/* <h2>Interested Events</h2> */}
 

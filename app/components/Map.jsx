@@ -1,11 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
 import CardExpanded from './CardExpanded'
-import EventUserCardExpanded from './EventUserCardExpanded';
+import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, currentCoords, userGigRadius}) => {
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-  // const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedMarker, setSelectedMarker] = useState(null);
+  const [selectedUserMarker, setSelectedUserMarker] = useState(null);
+// =======
+// const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
+//   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+//   // const [selectedMarker, setSelectedMarker] = useState(null);
+// >>>>>>> Development
 
   useEffect(() => {
     if (selectedMarker !== null && eventData[selectedMarker]) {
@@ -14,6 +20,10 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
       setStateImg(img);
     }
   }, [selectedMarker, eventData]);
+
+  useEffect(() => { 
+    console.log(userStateEvent)
+  }, [userStateEvent])
   
 
   const customMarkerImage = 'assets/images/Logoblack.png';
@@ -41,9 +51,29 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
         stylers: [{ color: '#000000' }], 
       },
       {
+        featureType: 'road.highway',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#000000' }], 
+      },
+      {
+        featureType: 'road.highway',
+        elementType: 'geometry.stroke',
+        stylers: [{ color: '#ffffff' }], 
+      },
+      {
         featureType: 'water',
         elementType: 'geometry.fill',
-        stylers: [{ color: '#00008B' }], 
+        stylers: [{ color: '#006666' }], 
+      },
+      {
+        featureType: 'landscape.natural.landcover',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#B0D8D8' }], 
+      },
+      {
+        featureType: 'landscape.man_made',
+        elementType: 'geometry.fill',
+        stylers: [{ color: '#8AB9BF' }], 
       },
     ],
     zoomControl: true,
@@ -82,10 +112,15 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
     setStateImg(img);
   };
 
+  const handleUserMarkerClick = (index) => {
+    setSelectedUserMarker(index);
+  };
+
   const handleMapClick = () => {
-    if (selectedMarker !== null) {
+    if (selectedMarker || selectedUserMarker !== null) {
       // Close InfoWindow when clicking outside
       setSelectedMarker(null);
+      setSelectedUserMarker(null);
     }
   };
 
@@ -109,13 +144,13 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
 
   return (
     <LoadScript googleMapsApiKey={apiKey}>
-      <div className="relative h-96 w-96 rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
+      <div className="relative rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
           zoom={11} 
           mapContainerStyle={{
-            height: '100%',
-            width: '100%', 
+            height: '50vh',
+            width: '95vw', 
           }}
           options={mapOptions}
           onClick={handleMapClick}
@@ -136,7 +171,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
               }}
               icon={{
                 url: customMarkerImage,
-                scaledSize: new window.google.maps.Size(30, 40) 
+                scaledSize: new window.google.maps.Size(40, 50) 
               }}
             >
               {/* Display InfoWindow when marker is selected */}
@@ -181,19 +216,18 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
       }}
       title={currentEvent.name}
       onClick={() => {
-
-         onMarkerClick(index);
-         handleMarkerClick(index);
+         handleUserMarkerClick(index);
       }}
       icon={{
          url: customMarkerImage,
-         scaledSize: new window.google.maps.Size(25, 35)
+         scaledSize: new window.google.maps.Size(30, 40)
       }}
    >
       {/* Display InfoWindow when marker is selected */}
-{selectedMarker === index && (
+{selectedUserMarker === index && (
   <InfoWindow
-    onCloseClick={() => setSelectedMarker(null)}
+    onCloseClick={() => setSelectedUserMarker(null)}
+
   >
     <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${currentEvent.photo}) center/cover no-repeat` }}>
       <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
@@ -204,25 +238,10 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
           <br />
           <p
             className='text-cyan-500 cursor-pointer'
-            onClick={() => handleClickOpen(currentEvent)} 
+            
           >
             <i>More details...</i>
           </p>
-          <EventUserCardExpanded 
-         EventName={currentEvent.name}
-         EventCity={currentEvent.city}
-         EventDate={currentEvent.date}
-         EventPrice={currentEvent.price}
-         EventTime={currentEvent.time}
-         photo={currentEvent.photo}
-         EventVenue={currentEvent.venue}
-         EventCountryCode={currentEvent.countrycode}
-         EventPostcode={currentEvent.postcode}
-         EventCurrency={currentEvent.currency}
-         EventPriceMax={currentEvent.price2}
-         EventTicketLink={currentEvent.ticketlink}
-        
-          />
         </div>
       </div>
     </div>

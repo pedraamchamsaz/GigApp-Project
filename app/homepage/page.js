@@ -12,7 +12,6 @@ import Geohash from 'latlon-geohash';
 import axios from 'axios'
 import LogoutButton from "../components/logoutButton";
 import EventsContainer from "../components/EventsContainer";
-import InterestedEvents from "../components/Interested";
 
 
 
@@ -23,8 +22,9 @@ export default function HomePage(props) {
   const [userGigRadius, setUserGigRadius] = useState(50)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
-  // const [stateEvent, setStateEvent] = useState({})
+  const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
   const [results, setResults] = useState(45)
   const [city, setCity] = useState('');
@@ -32,11 +32,6 @@ export default function HomePage(props) {
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
-
-
-  
-
-
   const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
@@ -63,7 +58,6 @@ export default function HomePage(props) {
 
   const [startDateUser, setStartDateUser] = useState(today)
   const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
-
   
   // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
   const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
@@ -301,8 +295,12 @@ export default function HomePage(props) {
             eventData={eventData}
             open={open}
             setOpen={setOpen}
+            userOpen={userOpen}
+            setUserOpen={setUserOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
+            userStateEvent={userStateEvent}
+            setUserStateEvent={setUserStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
             userMarkerLocations={userMarkerLocations}
@@ -331,8 +329,11 @@ export default function HomePage(props) {
         location={location}
         open={open}
         setOpen={setOpen}
+        setUserOpen={setUserOpen}
         stateEvent={stateEvent}
         setStateEvent={setStateEvent}
+        userStateEvent={userStateEvent}
+        setUserStateEvent={setUserStateEvent}
         stateImg={stateImg}
         setStateImg={setStateImg}
         results={results}
@@ -364,11 +365,6 @@ export default function HomePage(props) {
         />
      </div>
     </div>
-
-    {/* <div>
-      <InterestedEvents   /> 
-    </div> */}
-
     </>  
 
   );
