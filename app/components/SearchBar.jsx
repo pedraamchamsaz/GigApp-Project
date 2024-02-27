@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, userOpen, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, location, currentCoords, userGigRadius, search}) => {
+const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, userOpen, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, location, currentCoords, userGigRadius, search, selectedMarker, setSelectedMarker}) => {
 // const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, search, selectedMarker, setSelectedMarker}) => {
 // >>>>>>> Development
 
