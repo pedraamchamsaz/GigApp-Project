@@ -151,12 +151,12 @@ export default function HomePage(props) {
     } // if !token, redirect to landing page
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setToken(token);
-    eventsArray = client.getSavedEvents()
-    setSavedEvents(eventsArray)
-  };
+  // const login = (token) => {
+  //   localStorage.setItem("token", token);
+  //   setToken(token);
+  //   eventsArray = client.getSavedEvents()
+  //   setSavedEvents(eventsArray)
+  // };
 
   const logout = () => {
     localStorage.removeItem("token");

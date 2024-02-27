@@ -23,7 +23,7 @@ const SignIn = ({setAuthProcess, submitHandler}) => {
   };
 
   return (
-    <div className="h-1/2 sm:w-[27%]  rounded-md bg-gray-200 shadow-lg shadow-black">
+    <div className="h-1/2 sm:w-[27%] rounded-md bg-gray-200 shadow-lg shadow-black">
       
       <form
         onSubmit={handleLogin}
