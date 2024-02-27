@@ -77,14 +77,14 @@ export default function Home() {
                 <Profile setToken={setToken} client={client} />
               ) : (
                 <>
-                  <div>
+                  {/* <div>
                     <button
                       className="text-white px-4 py-2 hover:text-[#13C3B5] sm:mx-auto w-full  text-white p-4 font-semibold"
                       onClick={() => setShowPopup(true)}
                     >
                       Sign In
                     </button>
-                  </div>
+                  </div> */}
                   <div>
                     <button
                       className="text-[#2E2E2E] hover:text-black hover:bg-gray-400 px-5 py-1 rounded transition duration-200 ease-in-out sm:mx-auto w-full flex justify-center items-center text-white p-4 font-bold rounded-full bg-[#534A4A] hover:bg-[#DFC2F2] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-outd"
@@ -95,7 +95,7 @@ export default function Home() {
                   </div>
                   {showPopup && (
                     <div className="fixed inset-0 flex items-center justify-center">
-                      <div className="p-8 rounded-lg bg-white">
+                      <div className="p-8 rounded-lg">
                         <button
                           className="absolute top-0 right-0 mr-10 mt-10 text-white"
                           onClick={() => setShowPopup(false)}

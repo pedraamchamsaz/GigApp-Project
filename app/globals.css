@@ -2,28 +2,28 @@
 @tailwind components;
 @tailwind utilities;
 
-#authorisation {
+/* #authorisation {
     background-color: rgb(15, 13, 13);
-}
+} */
 
-#userprofile {
+/* #userprofile {
     background-color: black;
-}
+} */
 
-#signIn {
+/* #signIn {
     color: #221D23;
    
    
-}
+} */
 
-#signUp {
+/* #signUp {
     color: #221D23;
    
-}
+} */
 
-.user-border {
+/* .user-border {
     border-color: #DFC2F2;
-}
+} */
 
 /* width */
 ::-webkit-scrollbar {

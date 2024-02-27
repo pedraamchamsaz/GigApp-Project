@@ -101,8 +101,7 @@ const EventCardHome = (props) => {
       
       </div>
       
-      {/* Display all props */}
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+    
       
      
       <EventUserCardExpanded
