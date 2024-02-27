@@ -10,6 +10,7 @@ import InterestedEvents from "../components/Interested";
 const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
+  const [isFormVisible, setIsFormVisible] = useState(false);
 
   const refreshList = () => {
     props.client
@@ -30,6 +31,10 @@ const Profile = (props) => {
 
   const updateEvents = (event) => {
     setCurrent(event);
+  };
+
+  const toggleFormVisibility = () => {
+    setIsFormVisible(!isFormVisible);
   };
 
   useEffect(() => {
@@ -54,18 +59,27 @@ const Profile = (props) => {
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-blue-200 text-center">Hi! Good to see you back!</p>
-      <div className="fixed md:w-[50%] max-sm:w-screen max-sm:h-[50%] md:h-[50vw] pr-[5%] pl-[5%] pb-[10%] pb-[1%] sm:pb-[10%]">
-        <EventForm
-          client={props.client}
-          refreshList={refreshList}
-          setCurrent={setCurrent}
-          currentEvent={current}
-        />
-      </div>
-      <div className="w-[50%] h-full fixed right-0 overflow-y-scroll py-8">
+      <p className="text-cyan-400 text-center mt-10">Hi! Good to see you back!</p>
+
+      <div className="flex flex-col items-center">
+        <h3 className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10">
+        <button onClick={toggleFormVisibility}>
+      {isFormVisible ? "Hide Event Form" : "Add Event"}
+    </button>
+        </h3>
+        {isFormVisible && (
+          <div className="">
+            <EventForm
+              client={props.client}
+              refreshList={refreshList}
+              setCurrent={setCurrent}
+              currentEvent={current}
+            />
+          </div>
+        )}
+      
         {events.map((current) => (
-          <div className="mt-[7%]" key={current._id}>
+          <div className="" key={current._id}>
             <EventCard
               removeEvents={(id) => removeEvents(id)}
               keyA={current._id}
@@ -91,9 +105,9 @@ const Profile = (props) => {
           <InterestedEvents events={events}/>
         </div>
 
+        </div>
 
-
-      </div>
+      
     </div>
   );
 };

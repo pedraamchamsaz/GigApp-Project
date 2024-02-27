@@ -123,11 +123,11 @@ const EventForm = (props) => {
   };
   return (
     <form
-      className="flex flex-col w-[60%] h-90 rounded-md bg-gray-200 items-center font-semibold p-[2%] mt-[5%]"
+      className="flex flex-col w-80 h-90 rounded-md bg-gray-200 items-center font-semibold p-[2%]"
       onSubmit={submitHandler}
       id="addForm"
     >
-      <p>Basic Information</p>
+      <p className="m-3">Basic Information</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -147,7 +147,7 @@ const EventForm = (props) => {
           name="EventDate"
         />
       </div>
-      <p>Location</p>
+      <p className="m-3">Location</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -188,7 +188,7 @@ const EventForm = (props) => {
           name="EventPostcode"
         />
       </div>
-      <p>Tickets</p>
+      <p className="m-3">Tickets</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -253,7 +253,7 @@ const EventForm = (props) => {
         </CldUploadWidget>
       </div>
 
-      <p>Time</p>
+      <p className="mt-5 mb-3">Time</p>
       <div className="mx-[10%] h-[10%]">
         <input
           type="text"
@@ -267,7 +267,7 @@ const EventForm = (props) => {
 
       <button
         type="submit"
-        className="bg-[#13C3B5] font-semibold text-white h-15 py-1 sm:w-1/2 rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-5"
+        className="bg-[#13C3B5] font-semibold text-white h-15 py-1 sm:w-1/2 rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-5 mb-5"
         disabled={disabled}
       >
         {props.currentEvent ? "Update Event" : "Create Event"}

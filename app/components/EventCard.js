@@ -28,7 +28,7 @@ const EventCard = (props) => {
 
   return (
   <>
-      
+      <h3 className="mt-5 mb-2 text-cyan-500 text-center">Your Events</h3>
       <div
         className="w-[600px] h-[400px] relative mb-5"
         onClick={
