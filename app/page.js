@@ -110,8 +110,7 @@ export default function Home() {
             </>
           </div>
         </div>
-
-         <div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
+<div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
            Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
          </div>
          <p className="text-black text-xl mt-10 sm:mt-[2%] sm:ml-20 w-full">
