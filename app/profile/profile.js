@@ -71,7 +71,7 @@ const Profile = (props) => {
       <div className="flex justify-end items-center h-[3%] mb-6">
         
         <div className="ml-auto mr-4 mt-20">
-         <p className="text-cyan-400">Logged User: {loggedUsername} </p>
+         <p className="text-cyan-400 invisible sm:visible">Logged User: {loggedUsername} </p>
         </div>
         <div className="mr-4 mt-20">
           <HomeButton /> 
@@ -82,12 +82,9 @@ const Profile = (props) => {
       </div>
       <p className="text-white text-center text-xl font-bold mt-20">Hi! Good to see you back, {loggedUsername}!</p>
 
-      <div className="flex flex-col items-center">
-        <div className="w-full flex justify-between items-center px-5">
+      <div className="flex flex-col items-center mt-5">
+        <div className="w-full flex justify-between items-end px-5">
           <DropdownProfile setProfileList={setProfileList} profileList={profileList}/>
-          <button className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out" onClick={toggleFormVisibility}>
-            {isFormVisible ? "Hide Event Form" : "Add Event"}
-          </button>
           {isFormVisible && (
             <div className="">
               <EventForm
@@ -98,6 +95,9 @@ const Profile = (props) => {
               />
             </div>
           )}
+          <button className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out" onClick={toggleFormVisibility}>
+            {isFormVisible ? "Hide Event Form" : "Add Event"}
+          </button>
         </div>
 
         {profileList === 'YOUR GIGS' ? 
