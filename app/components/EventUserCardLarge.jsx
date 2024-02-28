@@ -72,13 +72,13 @@ const EventUserCardLarge = (props) => {
             {props.EventPriceMax}
           </p>
         </div>
-        <div className="flex justify-center items-center gap-4 bg-black pr-10">
+        <div className="flex flex-col lg:flex-row justify-center items-center gap-4 bg-black pr-10">
           <Link href={props.EventTicketLink}>
             <Image
               className=" hover:scale-125 transition"
               src="/tickets-white.png"
-              width={125}
-              height={125}
+              width={100}
+              height={100}
               alt="Ticket Icon"
             />
           </Link>
@@ -92,16 +92,11 @@ const EventUserCardLarge = (props) => {
                 bookmarked ? "text-red-500" : ""
               }`}
               src={bookmarked ? "/bookmark-red.png" : "/bookmark-white.png"}
-              width={125}
-              height={125}
+              width={100}
+              height={100}
               alt="Bookmark Icon"
             />
           </button>
-
-          <img
-            className="h-10 w-10 hover:scale-125 transition"
-            src="calendar-white.png"
-          />
         </div>
       </div>
     </div>

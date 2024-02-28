@@ -45,19 +45,13 @@ export default function MapEventUserCardExpanded({
     price,
     price2,
     ticketlink,
-    bookmarked,
   } = eventData;
-
-  const handleBookmarkClick = () => {
-    // Implement bookmark click logic
-  };
 
   return (
     <React.Fragment>
     <BootstrapDialog
       open={open}
       onClose={handleClose}
-      fullWidth
       maxWidth="md"
       fullScreen
     >
@@ -100,21 +94,6 @@ export default function MapEventUserCardExpanded({
                 />
               </Link>
             )}
-            <button onClick={handleBookmarkClick}>
-              <Image
-                className={`hover:scale-125 transition ${
-                  bookmarked ? "text-red-500" : ""
-                }`}
-                src={bookmarked ? "/bookmark-red.png" : "/bookmark-white.png"}
-                width={50}
-                height={50}
-                alt="Bookmark Icon"
-              />
-            </button>
-            <img
-              className="h-12 w-12 hover:scale-125 transition"
-              src="calendar-white.png"
-            />
           </div>
         </div>
       </div>

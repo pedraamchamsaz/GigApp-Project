@@ -253,7 +253,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
             <MapEventUserCardExpanded
               open={true}  
               handleClose={() => setShowMapExpandedCard(false)} 
-              eventData={userMarkerLocations[index+7]}
+              eventData={userMarkerLocations[index+6]}
             />
           )}
         </div>

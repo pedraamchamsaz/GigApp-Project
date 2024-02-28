@@ -29,7 +29,7 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
 
   return (
 
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center mt-10'>
 
       <form onSubmit={handleSearch} className='text-center mb-4'>
         <div className='flex items-center'>
