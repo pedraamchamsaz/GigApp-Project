@@ -45,6 +45,7 @@ export default function Home() {
 
   return (
     <>
+    <div className="container max-w-screen max-h-screen overflow-hidden">
       <video
         autoPlay
         loop
@@ -55,7 +56,7 @@ export default function Home() {
       </video>
 
       {/* Content */}
-      <div className="relative w-screen h-screen p-8">
+      <div className="relative w-full h-full p-8">
 
         {/* navbar */}
         <div className="flex justify-between items-center">
@@ -73,7 +74,7 @@ export default function Home() {
           </div>
 
           {/* buttons */}
-          <div className="flex flex-row sm:gap-2 text-sm sm:text-base">
+          <div className="flex flex-row sm:gap-2 text-sm sm:text-base justify-end">
             <HomeButton />
             <>
               {token ? (
@@ -109,21 +110,18 @@ export default function Home() {
             </>
           </div>
         </div>
-
-
-        {/* text */}
-        <div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
-          Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
-        </div>
-        <p className="text-black text-xl mt-10 sm:mt-[2%] sm:ml-20 w-full">
-          "Discover, Navigate, Groove - Your Guide to Entertainment Everywhere"
-        </p>
-        <Link href="/homepage">
-          <button className="mt-10 sm:mt-[5%] sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-
+<div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
+           Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
+         </div>
+         <p className="text-black text-xl mt-10 sm:mt-[2%] sm:ml-20 w-full">
+           "Discover, Navigate, Groove - Your Guide to Entertainment Everywhere"
+</p>
+<Link href="/homepage">
+<button className="mt-10 sm:mt-[5%] sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             Start Searching
           </button>
         </Link>
+      </div>
       </div>
     </>
   );

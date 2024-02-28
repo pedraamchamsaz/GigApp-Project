@@ -157,21 +157,6 @@ export default function HomePage(props) {
     setToken(null);
   };
 
-  // const handleClickOpen = (eventPassedIn) => {
-  //   if (stateEvent) return;
-  //   setOpen(true);
-  //   setStateEvent(eventPassedIn)
-  //   const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-  //   const img = filteredImages.length > 0 && filteredImages[0].url;
-  //   setStateImg(img)
-  //   setSelectedMarker(null)
-  // };
-
-  // const handleClose = () => {
-  //   setStateEvent('')
-  //   setOpen(false);
-  // };
-
   useEffect(() => {
     if (selectedMarker !== null) {
       const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
@@ -265,7 +250,7 @@ export default function HomePage(props) {
 
   return (
 
-    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div>
         <div className="flex justify-end items-center ">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
