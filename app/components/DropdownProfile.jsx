@@ -20,7 +20,7 @@ export default function DropdownProfile({setProfileList, profileList}) {
   };
 
   return (
-    <div className='bg-[#1AA297] text-white rounded-3xl hover:bg-[#13C3b5] border border-[#1AA297] hover:border hover:border-[#13C3b5] p-2'
+    <div className='bg-[#1AA297] text-white rounded-3xl hover:bg-[#13C3b5] border border-[#1AA297] hover:border hover:border-[#13C3b5] sm:p-2'
     >
       <Button
         id="basic-button"
