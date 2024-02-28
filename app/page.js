@@ -109,15 +109,7 @@ export default function Home() {
             </>
           </div>
         </div>
-//         <div className="text-white text-7xl mt-[15%] lg:mt-12% ml-10 lg:ml-20">
-//           Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
-//         </div>
-//         <p className="text-black text-xl mt-[2%] ml-10 lg:ml-20">
-//           "Discover, Navigate, Groove - Your Guide to Entertainment Everywhere"
-//         </p>
-//         <Link href="/homepage">
-//           <button className="mt-[5%] ml-10 lg:ml-20 text-[#2E2E2E] bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 rounded transition duration-200 ease-in-out text-white p-4 font-bold rounded-full hover:bg-[#DFC2F2] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-outd">
-// =======
+
 
         {/* text */}
         <div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
