@@ -20,7 +20,7 @@ const RootLayout = ({ children }) => {
         <title>{metadata.title}</title>
         <meta name="description" content={metadata.description} />
       </Head>
-      <body className={`${inter.className} relative h-screen bg-black`}>
+      <body className={`${inter.className} relative h-full w-full bg-black`}>
        
         <img
           src="./assets/images/Logowhite.png"

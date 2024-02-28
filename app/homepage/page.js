@@ -157,21 +157,6 @@ export default function HomePage(props) {
     setToken(null);
   };
 
-  // const handleClickOpen = (eventPassedIn) => {
-  //   if (stateEvent) return;
-  //   setOpen(true);
-  //   setStateEvent(eventPassedIn)
-  //   const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-  //   const img = filteredImages.length > 0 && filteredImages[0].url;
-  //   setStateImg(img)
-  //   setSelectedMarker(null)
-  // };
-
-  // const handleClose = () => {
-  //   setStateEvent('')
-  //   setOpen(false);
-  // };
-
   useEffect(() => {
     if (selectedMarker !== null) {
       const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
