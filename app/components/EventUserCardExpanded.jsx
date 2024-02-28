@@ -1,6 +1,6 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
-import { styled } from "@mui/material/styles";
+import { styled, useTheme } from '@mui/material/styles';
 import Dialog from "@mui/material/Dialog";
 import DialogTitle from "@mui/material/DialogTitle";
 import DialogContent from "@mui/material/DialogContent";
@@ -53,13 +53,16 @@ export default function EventUserCardExpanded({
     return null;
   }
 
+  const theme = useTheme(); 
+  const isSmallScreen = theme.breakpoints.down('sm');
+
   return (
     <React.Fragment>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        className="w-1/2 mx-auto"
+        className={isSmallScreen ? 'w-full' : 'w-1/2 mx-auto'} 
       >
         <IconButton
           aria-label="close"

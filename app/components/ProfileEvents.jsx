@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import EventCardHome from "./EventCardHome";
 
-const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, resultsUser, startDateUser, endDateUser, currentCoords, userGigRadius}) => {
+const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, resultsUser, startDateUser, endDateUser, currentCoords, userGigRadius }) => {
   // working code
 
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
   const [eventsWithLatLon, setEventsWithLatLon] = useState([])
+  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
+
   // const eventsLatLon = []
   
   const refreshList = () => {
@@ -127,7 +129,13 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
             EventCurrency={current.currency}
             EventPriceMax={current.price2}
             EventTicketLink={current.ticketlink}
-            
+            bookmarked={bookmarkedEvents[current._id] || false}
+      setBookmarked={(isBookmarked) => {
+        setBookmarkedEvents((prevBookmarked) => ({
+          ...prevBookmarked,
+          [current._id]: isBookmarked,
+        }));
+      }}
           />
         ))}
 

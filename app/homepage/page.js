@@ -265,8 +265,7 @@ export default function HomePage(props) {
 
   return (
 
-    <>   
-      <div className="p-8">
+    <div style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
         <div className="flex justify-end items-center ">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
@@ -312,17 +311,7 @@ export default function HomePage(props) {
             setSelectedMarker={setSelectedMarker}
             />
 
-      {/* <div>
-      <ProfileEvents client={client} 
-        userMarkerLocations={userMarkerLocations} 
-        setUserMarkerLocations={setUserMarkerLocations}
-        resultsUser={resultsUser}
-        startDateUser={startDateUser}
-        endDateUser={endDateUser}
-      />   
-        </div> */}
-
-         <div>
+<div style={{ flex: 1, overflow: 'auto' }}>
       <EventsContainer
         eventData={eventData}
         radius={radius}
@@ -365,7 +354,7 @@ export default function HomePage(props) {
         />
      </div>
     </div>
-    </>  
+
 
   );
 }
