@@ -7,6 +7,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
+  const [showMapExpandedCard, setShowMapExpandedCard] = useState(false);
 // =======
 // const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
 //   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
@@ -114,6 +115,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
 
   const handleUserMarkerClick = (index) => {
     setSelectedUserMarker(index);
+    setShowMapExpandedCard(false); // Hide the full-screen card when user marker is clicked
   };
 
   const handleMapClick = () => {
@@ -122,6 +124,10 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
       setSelectedMarker(null);
       setSelectedUserMarker(null);
     }
+  };
+
+  const handleMoreDetailsClick = () => {
+    setShowMapExpandedCard(true);
   };
 
   function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
@@ -147,7 +153,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
       <div className="relative rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
-          zoom={11} 
+          zoom={10} 
           mapContainerStyle={{
             height: '50vh',
             width: '95vw', 
@@ -237,11 +243,19 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
         <div>
           <br />
           <p
-            className='text-cyan-500 cursor-pointer'
-            
+            className="text-cyan-500 cursor-pointer"
+            onClick={handleMoreDetailsClick}
           >
             <i>More details...</i>
           </p>
+          {/* Full-screen card for user events */}
+          {showMapExpandedCard && selectedUserMarker !== null && (
+            <MapEventUserCardExpanded
+              open={true}  
+              handleClose={() => setShowMapExpandedCard(false)} 
+              eventData={userMarkerLocations[index+7]}
+            />
+          )}
         </div>
       </div>
     </div>
@@ -249,6 +263,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
 )}
    </Marker>
           ))}
+
 
         </GoogleMap>
       </div>
