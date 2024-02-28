@@ -73,14 +73,14 @@ const Profile = (props) => {
         <div className="ml-auto mr-4 mt-20">
          <p className="text-cyan-400">Logged User: {loggedUsername} </p>
         </div>
-        <div className="mr-4 mt-20 mr-20">
+        <div className="mr-4 mt-20">
           <HomeButton /> 
         </div>
         <div className="mr-4 mt-20">
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-white text-center text-xl font-bold mt-20">Hi! Good to see you back!</p>
+      <p className="text-white text-center text-xl font-bold mt-20">Hi! Good to see you back, {loggedUsername}!</p>
 
       <div className="flex flex-col items-center">
         <div className="w-full flex justify-between items-center px-5">
