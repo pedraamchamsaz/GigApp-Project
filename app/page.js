@@ -55,7 +55,7 @@ export default function Home() {
       </video>
 
       {/* Content */}
-      <div className="relative border w-screen h-screen p-8 ">
+      <div className="relative w-screen h-screen p-8">
 
         {/* navbar */}
         <div className="flex justify-between items-center">
@@ -108,9 +108,9 @@ export default function Home() {
               )}
             </>
           </div>
+        </div>
 
         {/* text */}
-        </div>
         <div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
           Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
         </div>

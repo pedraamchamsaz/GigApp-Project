@@ -26,19 +26,19 @@ const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent,
             className='object-cover w-full h-2/3' 
             src={img}/>
         <div className='flex h-1/3'>
-            <div className='bg-black text-white w-full flex flex-col items-start justify-center pl-3 pr-5 md:p-3'>
-                <p className='text-md md:text-lg font-bold '>{event.name}</p>
-                <p className='text-xs md:text-sm font-medium mt-2'>{startDate} - {startTime}</p>
+            <div className='bg-black text-white w-full flex flex-col items-start justify-center p-3'>
+                <p className='text-lg font-bold '>{event.name}</p>
+                <p className='text-sm font-medium mt-2'>{startDate} - {startTime}</p>
                 <p className='text-xs mt-2'>{venue.name} - {venue.city.name}, {venue.country.countryCode}</p>
-                <p className='text-xs font-bold mt-10 md:mt-4'>{event.priceRanges && minPrice && maxPrice ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
+                <p className='text-xs font-bold mt-4'>{event.priceRanges && minPrice && maxPrice ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
             </div>
-            <div className='flex flex-col md:flex-row justify-center items-center gap-4 bg-black pr-2 pt-4 md:pt-0 md:pr-10'>
+            <div className='flex justify-center items-center gap-4 bg-black pr-10'>
                 <Link href={event.url} target='_blank'>
                     <Image 
                         className='hover:scale-125 hover:cursor-pointer transition'
                         src="/tickets-white.png"
-                        width={50}
-                        height={50}
+                        width={130}
+                        height={130}
                     />
                 </Link>
                 <img className='h-10 w-10 hover:scale-125 hover:cursor-pointer transition' src="bookmark-white.png"/>

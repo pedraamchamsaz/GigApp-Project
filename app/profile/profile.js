@@ -6,11 +6,13 @@ import LogoutButton from "../components/logoutButton";
 import Link from "next/link";
 import HomeButton from "../components/HomeButton";
 import InterestedEvents from "../components/Interested";
+import DropdownProfile from "../components/DropdownProfile";
 
 const Profile = (props) => {
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
   const [isFormVisible, setIsFormVisible] = useState(false);
+  const [profileList, setProfileList] = useState('YOUR GIGS')
 
   const refreshList = () => {
     props.client
@@ -55,29 +57,32 @@ const Profile = (props) => {
         <div className="ml-auto mr-4 mt-20">
           <HomeButton />
         </div>
-        <div className="mr-4 mt-20 mr-20">
+        <div className="mr-4 mt-20">
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-cyan-400 text-center mt-10">Hi! Good to see you back!</p>
+      <p className="text-white text-center text-xl font-bold mt-20">Hi! Good to see you back!</p>
 
       <div className="flex flex-col items-center">
-        <h3 className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out mt-10">
-        <button onClick={toggleFormVisibility}>
-      {isFormVisible ? "Hide Event Form" : "Add Event"}
-    </button>
-        </h3>
-        {isFormVisible && (
-          <div className="">
-            <EventForm
-              client={props.client}
-              refreshList={refreshList}
-              setCurrent={setCurrent}
-              currentEvent={current}
-            />
-          </div>
-        )}
-      
+        <div className="w-full flex justify-between items-center px-5">
+          <DropdownProfile setProfileList={setProfileList} profileList={profileList}/>
+          <button className="bg-[#13C3B5] p-5 m-2 font-semibold text-white text-xl rounded-md hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out" onClick={toggleFormVisibility}>
+            {isFormVisible ? "Hide Event Form" : "Add Event"}
+          </button>
+          {isFormVisible && (
+            <div className="">
+              <EventForm
+                client={props.client}
+                refreshList={refreshList}
+                setCurrent={setCurrent}
+                currentEvent={current}
+              />
+            </div>
+          )}
+        </div>
+
+        {profileList === 'YOUR GIGS' ? 
+        <div className='flex w-full justify-center flex-wrap gap-8 mt-5'>
         {events.map((current) => (
           <div className="" key={current._id}>
             <EventCard
@@ -98,14 +103,14 @@ const Profile = (props) => {
               updateEvents={updateEvents}
             />
           </div>
-        ))}
-
-
+        ))}          
+        </div>
+        :
         <div>
           <InterestedEvents events={events}/>
         </div>
-
-        </div>
+}
+      </div>
 
       
     </div>

@@ -266,12 +266,12 @@ export default function HomePage(props) {
   return (
 
     <>   
-      <div>
+      <div className="p-8">
         <div className="flex justify-end items-center ">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
         <div className="ml-auto mr-4 mt-15">
-        <HomeButton />
+          <HomeButton />
         </div>
         <div className="mr-4 mr-15">
          <ProfileButton />
