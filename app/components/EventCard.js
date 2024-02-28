@@ -28,16 +28,16 @@ const EventCard = (props) => {
 
   return (
   <>
-      <h3 className="mt-5 mb-2 text-cyan-500 text-center">Your Events</h3>
+      {/* <h3 className="mt-5 mb-2 text-cyan-500 text-center">Your Events</h3> */}
       <div
-        className="w-[600px] h-[400px] relative mb-5"
+        className="w-80 h-64 relative mb-5"
         onClick={
           () => {
             handleClickOpen(props)
           }
         }
       >
-        <img className=" object-cover w-screen rounded-xl" src={props.photo} alt="EventPhoto" />
+        <img className="object-cover w-screen rounded-xl" src={props.photo} alt="EventPhoto" />
 
         <div className="bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl">
           <p className="text-base font-bold"> {props.EventName}</p>

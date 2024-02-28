@@ -19,7 +19,7 @@ export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [radius, setRadius] = useState(50)
-  const [userGigRadius, setUserGigRadius] = useState(50)
+  const [userGigRadius, setUserGigRadius] = useState(1000)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [userOpen, setUserOpen] = useState(false);
@@ -101,7 +101,7 @@ export default function HomePage(props) {
     console.log(currentCoords, 'CURRENT COORDS')
 
   currentLocation()
-  }, [userGigRadius])
+  }, [])
 
   useEffect(() => {
     console.log(list)
@@ -270,7 +270,7 @@ export default function HomePage(props) {
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
         <div className="ml-auto mr-4 mt-15">
-        <HomeButton />
+          <HomeButton />
         </div>
         <div className="mr-4 mr-15">
          <ProfileButton />
@@ -310,16 +310,6 @@ export default function HomePage(props) {
             selectedMarker={selectedMarker}
             setSelectedMarker={setSelectedMarker}
             />
-
-      {/* <div>
-      <ProfileEvents client={client} 
-        userMarkerLocations={userMarkerLocations} 
-        setUserMarkerLocations={setUserMarkerLocations}
-        resultsUser={resultsUser}
-        startDateUser={startDateUser}
-        endDateUser={endDateUser}
-      />   
-        </div> */}
 
 <div style={{ flex: 1, overflow: 'auto' }}>
       <EventsContainer
