@@ -25,9 +25,9 @@ const RootLayout = ({ children }) => {
         <img
           src="./assets/images/Logowhite.png"
           alt="Logo"
-          className="w-15 h-20 fixed top-0 left-0 m-4"
+          className="w-15 h-20 fixed top-0 left-0 ml-4 mt-4"
         />
-        <div className="relative z-10 p-8">{children}</div>
+        <div className="relative z-10">{children}</div>
         <Toaster position="top-center" richColors/>
       </body>
     
