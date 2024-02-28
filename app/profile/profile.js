@@ -13,6 +13,8 @@ const Profile = (props) => {
   const [current, setCurrent] = useState(undefined);
   const [isFormVisible, setIsFormVisible] = useState(false);
   const [profileList, setProfileList] = useState('YOUR GIGS')
+  const [loggedUsername, setLoggedUsername] = useState("");
+
 
   const refreshList = () => {
     props.client
@@ -22,6 +24,18 @@ const Profile = (props) => {
       })
       .catch((err) => {
         console.log("failed to get API request (GET)");
+      });
+  };
+
+  // Fetch logged username from the server
+  const fetchLoggedUsername = () => {
+    props.client
+      .getLoggedUsername()
+      .then((username) => {
+        setLoggedUsername(username); 
+      })
+      .catch((err) => {
+        console.log("Failed to fetch logged username:", err);
       });
   };
 
@@ -45,6 +59,7 @@ const Profile = (props) => {
 
   useEffect(() => {
     refreshList();
+    fetchLoggedUsername();
     console.log(events);
   }, []);
 
@@ -54,8 +69,12 @@ const Profile = (props) => {
       className="fixed top-0 left-0 w-screen h-full bg-black overflow-y-auto"
     >
       <div className="flex justify-end items-center h-[3%] mb-6">
+        
         <div className="ml-auto mr-4 mt-20">
-          <HomeButton />
+         <p className="text-cyan-400">Logged User: {loggedUsername} </p>
+        </div>
+        <div className="mr-4 mt-20 mr-20">
+          <HomeButton /> 
         </div>
         <div className="mr-4 mt-20">
           <LogoutButton setToken={props.setToken} />
@@ -107,12 +126,13 @@ const Profile = (props) => {
         </div>
         :
         <div>
-          <InterestedEvents events={events}/>
+          <InterestedEvents events={events} />
         </div>
 }
       </div>
 
       
+
     </div>
   );
 };

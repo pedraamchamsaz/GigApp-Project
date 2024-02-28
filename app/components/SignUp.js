@@ -1,73 +1,85 @@
 "use client";
 
 import { useState } from "react";
-import { Toaster, toast } from 'sonner'
+import { toast } from 'sonner';
 
 const SignUp = ({submitHandler, setAuthProcess, client}) => {
-  const [userObject, setuserObject] = useState({username:"", password:"", password2:""})
+  const [userObject, setUserObject] = useState({username:"", password:"", password2:""});
+
   const checkPassword = () => {
-        const isRight = /^(?=.*[a-zA-Z0-9])(?=.*[\W_]).{8,20}$/g.test(userObject.password);
-        console.log("checked")
-        return isRight ? true : false 
-      }
+    const isRight = /^(?=.*[a-zA-Z0-9])(?=.*[\W_]).{8,20}$/g.test(userObject.password);
+    console.log("checked");
+    return isRight ? true : false;
+  }
+
   const comparePassword = () => {
     if(userObject.password === userObject.password2) {
       return checkPassword();
     }
     
-    toast.warning("Passwords must match")
+    toast.warning("Passwords must match");
     return false;
   }
 
   const handleInputChange = (event) => {
-    setuserObject({
-    ...userObject,
-    [event.target.name]: event.target.value
-  })
+    const { name, value } = event.target;
+  
+    // Check if the input is for username
+    if (name === 'username') {
+      // Check if the username meets the criteria
+      const isValid = /^\S{0,12}$/.test(value);
+      if (!isValid) {
+        // Show toast if the username criteria are not met
+        toast.warning("Username must be up to 12 characters and contain no spaces");
+        // Return without updating the state
+        return;
+      }
+    }
+      // Update the userObject state
+    setUserObject({
+      ...userObject,
+      [name]: value
+    });
   }
+
   const handleSignUp = async (e) => {
     e.preventDefault();
     let userExists;
 
     try {
-      
       userExists = await client.checkUsername(userObject);
-      console.log(userExists.data)
-
+      console.log(userExists.data);
     } catch (error) {
       console.log(error);
       console.log("Error making request");
     }
     
-    if(userExists.data == false)
-    {
+    if(userExists.data == false) {
       const isPassword = comparePassword();
 
       if (isPassword) {
         // Sign up user
         try {
           await client.signUp(userObject.username, userObject.password);
-          let userObject2 = {username : userObject.username, password: userObject.password}
+          let userObject2 = {username : userObject.username, password: userObject.password};
           await submitHandler(userObject2);
           return;
         } catch (err) {
           console.error(err);
         }
       } else {
-        
-        toast.warning("Password must be:\n\n • 8-20 characters long.\n\n • Contain at least one special character.\n\n • Contain at least one number.\n\n • Contain at least one capital and lowercase letter.")
+        toast.warning("Password must be:\n\n • 8-20 characters long.\n\n • Contain at least one special character.\n\n • Contain at least one number.\n\n • Contain at least one capital and lowercase letter.");
         return;
       } 
     }
 
-    toast.warning("User name taken")
+    toast.warning("Username taken");
   };
 
   const handleLogin = () => {
     setAuthProcess(false);
     console.log("Sign Up");
   };
-
 
   return (
     <div className="h-1/2 sm:w-[27%] bg-white overflow-hidden sm:w-1/4 w-2/3 rounded-md shadow-lg shadow-black">
@@ -78,19 +90,18 @@ const SignUp = ({submitHandler, setAuthProcess, client}) => {
         <div className="flex w-full flex-col justify-center items-center">
           {/* Username */}
           <div className="flex flex-col w-full h-1/2 items-center p-2">
-          <p className="text-center mb-6 text-xl sm:text-2xl font-bold">Join Gignite.</p>
+            <p className="text-center mb-6 text-xl sm:text-2xl font-bold">Join Gignite.</p>
             <input
               type="text"
               name="username"
               placeholder="Username"
               onChange={handleInputChange}
-              value={userObject.name}
+              value={userObject.username}
               className="h-12 w-3/4 sm:w-[55%] bg-white border-black border rounded-full text-center shadow-md shadow-gray-600"
             />
           </div>
           {/* Passwords */}
           <div className="flex flex-col w-full items-center p-2">
-           
             <input
               type="password"
               name="password"
@@ -100,10 +111,8 @@ const SignUp = ({submitHandler, setAuthProcess, client}) => {
               className="h-12 w-3/4 sm:w-[55%] border-black border bg-white rounded-full text-center shadow-md shadow-gray-600"
             />
           </div>
-
           {/* Confirm Password */}
           <div className="flex  flex-col w-full items-center mb-6 p-2">
-           
             <input
               type="password"
               name="password2"
@@ -113,7 +122,6 @@ const SignUp = ({submitHandler, setAuthProcess, client}) => {
               className="h-12 w-3/4 sm:w-[55%] border border-black bg-white rounded-full text-center shadow-md shadow-gray-600"
             />
           </div>
-
           {/* Authorisation */}
           <div className="w-full flex items-center flex-col gap-4">
             <button className="bg-[#13C3B5] font-semibold text-white h-10 sm:w-1/2 w-1/2 rounded-full hover:text-white hover:bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 transition-all duration-300 ease-in-out">
@@ -123,8 +131,13 @@ const SignUp = ({submitHandler, setAuthProcess, client}) => {
           </div>
         </div>
       </form>
+      
     </div>
   );
 };
 
 export default SignUp;
+
+
+
+
