@@ -16,14 +16,14 @@ export default function RadiusSliderUser( {setUserGigRadius, userGigRadius}) {
     <Box sx={{ width: 290 }} className='ml-3'>
       <Slider
         aria-label="Results"
-        defaultValue={userGigRadius}
+        defaultValue={1000}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={10}
         step={10}
         // marks
         min={10}
-        max={300}
+        max={1000}
         onChange={handleUserRadius}
       />
     </Box>
