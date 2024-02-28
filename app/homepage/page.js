@@ -18,29 +18,38 @@ import EventsContainer from "../components/EventsContainer";
 export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const [radius, setRadius] = useState(10)
+  const [radius, setRadius] = useState(50)
+  const [userGigRadius, setUserGigRadius] = useState(1000)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
+  const [userOpen, setUserOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
+  const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
-  const [results, setResults] = useState(15)
+  const [results, setResults] = useState(45)
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
   const [markerLocations, setMarkerLocations] = useState([])
-  const [markerLocationsUser, setMarkerLocationsUser] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
+  const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
-  const [resultsUser, setResultsUser] = useState(15)
+  const [resultsUser, setResultsUser] = useState(45)
+  const [currentCoords, setCurrentCoords] = useState(null)
 
   const date = new Date()
-  const year = String(date.getFullYear())
-  const month = String(date.getMonth() + 1)
-  const day = String(date.getDate())
-  const dayPlusSeven = String(date.getDate() + 7)
-  const today = `${year}-0${month}-${day}`
-  const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
+  const today = date.toISOString().slice(0, 10)
+  const date2 = new Date(date.setDate(date.getDate() + 7))
+  console.log(date2, 'DATE 2')
+  const todayPlusSeven = date2.toISOString().slice(0, 10)
+
+  // const year = String(date.getFullYear())
+  // const month = String(date.getMonth() + 1)
+  // const day = String(date.getDate())
+  // const dayPlusSeven = String(date.getDate() + 7)
+  // const today = `${year}-0${month}-${day}`
+  // const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
 
   const [startDate, setStartDate] = useState(today)
   const [endDate, setEndDate] = useState(todayPlusSeven)
@@ -58,6 +67,8 @@ export default function HomePage(props) {
     () => logout()
   );
 
+  
+
   useEffect(() => {
     console.log(eventData, "EVENT DATA")
     const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
@@ -71,10 +82,26 @@ export default function HomePage(props) {
     setMarkerLocations(slicedOnlyCoordinates)
   }, [eventData, results, startDate, endDate])
 
+
   useEffect(() => {
     getEventData(location)
+
     console.log(startDateString, endDateString)
   }, [radius, startDate, endDate])
+
+  useEffect(() => {
+    const currentLocation = async () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setCurrentCoords(position.coords)
+        })
+      }
+    }
+
+    console.log(currentCoords, 'CURRENT COORDS')
+
+  currentLocation()
+  }, [])
 
   useEffect(() => {
     console.log(list)
@@ -98,10 +125,60 @@ export default function HomePage(props) {
 
   }, [])
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    await search(city);
+
+  const getEventData = async (location) => {
+    try {
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      console.log(response.data, "DATA")
+      const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
+      const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
+      setEventData(sortedOnSale)
+    } catch (e) {
+      console.log(e, "ERROR")
+    }
+  }
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    } // if !token, redirect to landing page
+  }, []);
+
+  // const login = (token) => {
+  //   localStorage.setItem("token", token);
+  //   setToken(token);
+  //   eventsArray = client.getSavedEvents()
+  //   setSavedEvents(eventsArray)
+  // };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
   };
+
+  // const handleClickOpen = (eventPassedIn) => {
+  //   if (stateEvent) return;
+  //   setOpen(true);
+  //   setStateEvent(eventPassedIn)
+  //   const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
+  //   const img = filteredImages.length > 0 && filteredImages[0].url;
+  //   setStateImg(img)
+  //   setSelectedMarker(null)
+  // };
+
+  // const handleClose = () => {
+  //   setStateEvent('')
+  //   setOpen(false);
+  // };
+
+  useEffect(() => {
+    if (selectedMarker !== null) {
+      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
+      const img = filteredImages.length > 0 && filteredImages[0].url;
+      setStateImg(img);
+    }
+  }, [selectedMarker, eventData]);
 
   const search = async (city) => {
     try {
@@ -130,17 +207,6 @@ export default function HomePage(props) {
       console.error('Error fetching data:', error);
     }
   };  
-
-  const getEventData = async (location) => {
-    try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=date,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
-      console.log(response.data, "DATA")
-      const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
-      setEventData(onSale)
-    } catch (e) {
-      console.log(e, "ERROR")
-    }
-  }
 
   const handleCurrentLocation = async () => {
     if (navigator.geolocation) {
@@ -189,6 +255,7 @@ export default function HomePage(props) {
       console.error('Geolocation is not supported by your browser');
     }
   };
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -196,109 +263,15 @@ export default function HomePage(props) {
     } // if !token, redirect to landing page
   }, []);
 
-  const login = (token) => {
-    localStorage.setItem("token", token);
-    setToken(token);
-    eventsArray = client.getSavedEvents()
-    setSavedEvents(eventsArray)
-  };
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
-
-  const handleClickOpen = (eventPassedIn) => {
-    if (stateEvent) {
-      return;
-    }
-    setOpen(true);
-    setStateEvent(eventPassedIn)
-
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img)
-    setSelectedMarker(null)
-    // handleMarkerClick(index)
-  };
-
-  const handleClose = () => {
-    setStateEvent('')
-    setOpen(false);
-  };
-
-  useEffect(() => {
-    if (selectedMarker !== null) {
-      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
-      const img = filteredImages.length > 0 && filteredImages[0].url;
-      setStateImg(img);
-    }
-  }, [selectedMarker, eventData]);
-
-  const customMarkerImage = 'assets/images/Logoblack.png';
-  
-  const mapOptions = {
-    styles: [
-      {
-        featureType: 'all',
-        elementType: 'labels.text.fill',
-        stylers: [{ color: '#ffffff' }], 
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.text.stroke',
-        stylers: [{ color: '#000000' }], 
-      },
-      {
-        featureType: 'all',
-        elementType: 'labels.icon',
-        stylers: [{ visibility: 'off' }], 
-      },
-      {
-        featureType: 'road',
-        elementType: 'geometry.stroke',
-        stylers: [{ color: '#000000' }], 
-      },
-      {
-        featureType: 'water',
-        elementType: 'geometry.fill',
-        stylers: [{ color: '#00008B' }], 
-      },
-    ],
-    zoomControl: true,
-    mapTypeControl: true,
-    scaleControl: true,
-    streetViewControl: true,
-    rotateControl: true,
-    fullscreenControl: true,
-  };
-
-  const handleMarkerClick = (index) => {
-    setSelectedMarker(index);
-    // onMarkerClick(index);
-
-    // Update stateImg based on the selected marker
-    const filteredImages = eventData[index].images.filter((image) => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
-    setStateImg(img);
-  };
-
-  const handleMapClick = () => {
-    if (selectedMarker !== null) {
-      // Close InfoWindow when clicking outside
-      setSelectedMarker(null);
-    }
-  };
-
   return (
 
     <>   
-      <div>
+      <div className="p-8">
         <div className="flex justify-end items-center ">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
         <div className="ml-auto mr-4 mt-15">
-        <HomeButton />
+          <HomeButton />
         </div>
         <div className="mr-4 mr-15">
          <ProfileButton />
@@ -311,36 +284,44 @@ export default function HomePage(props) {
           <SearchBar 
             city={city}
             setCity={setCity}
+            location={location}
             setLocation={setLocation}
             getEventData={getEventData}
             googleMapsResults={googleMapsResults}
             setGoogleMapsResults={setGoogleMapsResults}
-            search={search}
-            handleSearch={handleSearch}
             center={mapCenter}
-            handleCurrentLocation={handleCurrentLocation}
             markerLocations={markerLocations}
             setSelectedCard={setSelectedCard}
             eventData={eventData}
             open={open}
             setOpen={setOpen}
+            userOpen={userOpen}
+            setUserOpen={setUserOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
+            userStateEvent={userStateEvent}
+            setUserStateEvent={setUserStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
-            handleClickOpen={handleClickOpen}
-            handleClose={handleClose}
-            customMarkerImage={customMarkerImage}
-            mapOptions={mapOptions}
-            handleMarkerClick={handleMarkerClick}
-            handleMapClick={handleMapClick}
+            userMarkerLocations={userMarkerLocations}
+            currentCoords={currentCoords}
+            userGigRadius={userGigRadius}
+            search={search}
+            handleCurrentLocation={handleCurrentLocation}
             selectedMarker={selectedMarker}
             setSelectedMarker={setSelectedMarker}
-            markerLocationsUser={markerLocationsUser}
             />
+
       {/* <div>
-      <ProfileEvents client={client} />   
+      <ProfileEvents client={client} 
+        userMarkerLocations={userMarkerLocations} 
+        setUserMarkerLocations={setUserMarkerLocations}
+        resultsUser={resultsUser}
+        startDateUser={startDateUser}
+        endDateUser={endDateUser}
+      />   
         </div> */}
+
          <div>
       <EventsContainer
         eventData={eventData}
@@ -348,16 +329,19 @@ export default function HomePage(props) {
         location={location}
         open={open}
         setOpen={setOpen}
+        setUserOpen={setUserOpen}
         stateEvent={stateEvent}
         setStateEvent={setStateEvent}
+        userStateEvent={userStateEvent}
+        setUserStateEvent={setUserStateEvent}
         stateImg={stateImg}
         setStateImg={setStateImg}
         results={results}
         setResults={setResults}
         setRadius={setRadius}
         setSelectedCard={setSelectedCard}
-        handleClickOpen={handleClickOpen}
-        handleClose={handleClose}
+        // handleClickOpen={handleClickOpen}
+        // handleClose={handleClose}
         startDate={startDate}
         setStartDate={setStartDate}
         endDate={endDate}
@@ -372,7 +356,12 @@ export default function HomePage(props) {
         endDateUser={endDateUser}
         setEndDateUser={setEndDateUser}
         today={today}
-        setMarkerLocationsUser={setMarkerLocationsUser}
+        userGigRadius={userGigRadius}
+        setUserGigRadius={setUserGigRadius}
+        userMarkerLocations={userMarkerLocations}
+        setUserMarkerLocations={setUserMarkerLocations}
+        currentCoords={currentCoords}
+        setSelectedMarker={setSelectedMarker}
         />
      </div>
     </div>

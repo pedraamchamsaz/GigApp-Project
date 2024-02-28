@@ -23,7 +23,7 @@ export default function RadiusSlider( {setRadius, getEventData, radius}) {
         step={10}
         // marks
         min={10}
-        max={100}
+        max={300}
         onChange={handleRadius}
       />
     </Box>

@@ -32,7 +32,7 @@ export default function CardExpanded( {open, handleClose, event, img } ) {
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
         open={open}
-        className='w-1/2 mx-auto'
+        className='w-full md:w-1/2 h-full mx-auto'
       >
         <IconButton
           aria-label="close"

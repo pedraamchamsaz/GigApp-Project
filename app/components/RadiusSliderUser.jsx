@@ -6,25 +6,25 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function RadiusSlider( {setRadius, getEventData, radius}) {
+export default function RadiusSliderUser( {setUserGigRadius, userGigRadius}) {
 
-  const handleRadius = (e) => {
-    setRadius(e.target.value)
+  const handleUserRadius = (e) => {
+    setUserGigRadius(e.target.value)
   }
 
   return (
     <Box sx={{ width: 290 }} className='ml-3'>
       <Slider
         aria-label="Results"
-        defaultValue={radius}
+        defaultValue={1000}
         getAriaValueText={valuetext}
         valueLabelDisplay="auto"
         shiftStep={10}
         step={10}
         // marks
         min={10}
-        max={100}
-        onChange={handleRadius}
+        max={1000}
+        onChange={handleUserRadius}
       />
     </Box>
   );

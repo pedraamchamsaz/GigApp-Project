@@ -8,7 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Typography from "@mui/material/Typography";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import CardLarge from "./CardLarge";
 import EventUserCardLarge from "./EventUserCardLarge";
 
@@ -25,7 +25,8 @@ export default function EventUserCardExpanded({
   open,
   handleClose,
   event,
-  img,
+  // img,
+  keyA,
   EventName,
   EventDate,
   EventCity,
@@ -37,8 +38,13 @@ export default function EventUserCardExpanded({
   EventPrice,
   EventCurrency,
   EventPriceMax,
-  EventTicketLink
+  EventTicketLink,
+  bookmarked,
+  
 }) {
+  
+    
+  
   useEffect(() => {
     console.log(event);
   }, [event]);
@@ -69,7 +75,8 @@ export default function EventUserCardExpanded({
         </IconButton>
         <EventUserCardLarge
           event={event}
-          img={img}
+          // img={img}
+          keyA={keyA}
           EventDate={EventDate}
           EventName={EventName}
           EventCity={EventCity}
@@ -82,6 +89,8 @@ export default function EventUserCardExpanded({
           EventCurrency={EventCurrency}
           EventPriceMax={EventPriceMax}
           EventTicketLink={EventTicketLink}
+          bookmarked={bookmarked} // to pass the bookmarked prop
+          
         />
       </BootstrapDialog>
     </React.Fragment>

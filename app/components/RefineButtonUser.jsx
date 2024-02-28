@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ResultsSliderUser from './ResultsSliderUser';
 import RadiusSliderUser from './RadiusSliderUser';
 
-export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDateUser, setStartDateUser, endDateUser, setEndDateUser, resultsUser, setResultsUser}) {
+export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDateUser, setStartDateUser, endDateUser, setEndDateUser, resultsUser, setResultsUser, userGigRadius, setUserGigRadius}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -52,7 +52,7 @@ export default function RefineButton( {setResults, setRadius, getEventData, radi
           </div>
           <p className='text-xs mb-2 pl-1'>RADIUS</p>
           <div className='mr-3'>
-            <RadiusSliderUser setRadius={setRadius} getEventData={getEventData} radius={radius}/>
+            <RadiusSliderUser setUserGigRadius={setUserGigRadius} getEventData={getEventData} userGigRadius={userGigRadius}/>
           </div>
           <div className='flex gap-3 mb-3 ml-1 mt-2 text-xs'>
             <div className='flex flex-col'>
