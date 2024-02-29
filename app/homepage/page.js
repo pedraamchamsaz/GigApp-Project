@@ -254,9 +254,6 @@ export default function HomePage(props) {
         <div className="flex justify-end mt-10 mr-5 lg:mr-10">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
-        <div className="ml-auto mr-2">
-          <HomeButton />
-        </div>
         <div className="mr-2">
          <ProfileButton />
         </div>
