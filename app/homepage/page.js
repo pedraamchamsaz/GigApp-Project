@@ -59,8 +59,8 @@ export default function HomePage(props) {
   const [startDateUser, setStartDateUser] = useState(today)
   const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
   
-  // const TMapiKey = 'dKxsi9vgsD7XZlAvArfdQv46MgJABpNm';
-  const GoogleapiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+  const TMapiKey = process.env.NEXT_PUBLIC_TM_API_KEY;
+  const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     
   const client = new ApiClient(
     () => token,
@@ -128,7 +128,7 @@ export default function HomePage(props) {
 
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=dKxsi9vgsD7XZlAvArfdQv46MgJABpNm&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
       console.log(response.data, "DATA")
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
@@ -255,7 +255,7 @@ export default function HomePage(props) {
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
         <div className="mr-2">
-         <ProfileButton />
+        <ProfileButton isLoggedIn={token !== null} />
         </div>
       </div>
 

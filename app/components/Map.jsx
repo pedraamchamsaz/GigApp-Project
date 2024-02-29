@@ -4,15 +4,10 @@ import CardExpanded from './CardExpanded'
 import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
 const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, currentCoords, userGigRadius}) => {
-  const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
+  const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
   const [showMapExpandedCard, setShowMapExpandedCard] = useState(false);
-// =======
-// const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, stateImg, setStateImg, setOpen, location, currentCoords, userGigRadius, selectedMarker, setSelectedMarker}) => {
-//   const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-//   // const [selectedMarker, setSelectedMarker] = useState(null);
-// >>>>>>> Development
 
   useEffect(() => {
     if (selectedMarker !== null && eventData[selectedMarker]) {
@@ -149,7 +144,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
   }
 
   return (
-    <LoadScript googleMapsApiKey={apiKey}>
+    <LoadScript googleMapsApiKey={GoogleapiKey}>
       <div className="relative rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London

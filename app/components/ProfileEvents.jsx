@@ -24,8 +24,8 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
   };
 
   const getLatLongFromPostcode = async (postcode) => {
-    const apiKey = 'AIzaSyDh2csaRjBg4qLiYDYOX9HaY1a1gXgjT-o';
-    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${apiKey}`;
+    const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${GoogleapiKey}`;
 
     try {
       const response = await fetch(apiUrl);
@@ -113,7 +113,7 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
 
   return (
     <div id="userprofile">
-      <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
+      <div className=" flex justify-center flex-wrap gap-8 mb-5 mt-5">
         {userMarkerLocations.slice(0, resultsUser).filter(event => event.date >= startDateUser && event.date <= endDateUser).filter(event => getDistanceFromLatLon(event.latitude, event.longitude, currentCoords.latitude, currentCoords.longitude) <= userGigRadius).map((current) => (
           <EventCardHome
             keyA={current._id}
