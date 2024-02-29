@@ -56,7 +56,7 @@ export default function Home() {
       </video>
 
       {/* Content */}
-      <div className="absolute w-[95%] h-[95%] p-8">
+      <div className="absolute w-[96%] h-[96%] p-8">
 
         {/* navbar */}
         <div className="flex justify-between">
@@ -117,7 +117,7 @@ export default function Home() {
          "Your Gateway to Gigs"
 </p>
 <Link href="/homepage">
-<button className="mt-10 sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+<button className="mt-10 mb-10 sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             Start Searching
           </button>
         </Link>
