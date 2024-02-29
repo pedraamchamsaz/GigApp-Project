@@ -25,9 +25,7 @@ const InterestedEvents = () => {
           const response = await apiClient.getInterestedEvents();
           setInterestedEvents(response.data);
         } else {
-          // Redirect to landing page if token is not found
-          // Replace this with your actual redirect logic
-          window.location.href = "/landing";
+          toast.warning("Please log in to see Interested");
         }
       } catch (error) {
         console.error("Error fetching interested events:", error);
