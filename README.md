@@ -149,6 +149,6 @@ This documentation provides a detailed overview of the features and functionalit
 
 Troubleshooting
 
-    If users encounter any issues or have questions about using the homepage features, they can refer to the project's documentation or contact the support team for assistance.
+    If users encounter any issues or have questions about using the homepage features, they can refer to the projects documentation or contact the support team for assistance.
     Common troubleshooting steps may include checking internet connectivity, browser compatibility, and verifying account credentials.
 
