@@ -251,13 +251,13 @@ export default function HomePage(props) {
   return (
 
     <div>
-        <div className="flex justify-end items-center ">
+        <div className="flex justify-end mt-10 mr-5 lg:mr-10">
        {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
       
-        <div className="ml-auto mr-4 mt-15">
+        <div className="ml-auto mr-2">
           <HomeButton />
         </div>
-        <div className="mr-4 mr-15">
+        <div className="mr-2">
          <ProfileButton />
         </div>
       </div>
@@ -296,7 +296,7 @@ export default function HomePage(props) {
             setSelectedMarker={setSelectedMarker}
             />
 
-<div style={{ flex: 1, overflow: 'auto' }}>
+<div style={{ flex: 1, overflow: 'visible' }}>
       <EventsContainer
         eventData={eventData}
         radius={radius}

@@ -22,11 +22,13 @@ const RootLayout = ({ children }) => {
       </Head>
       <body className={`${inter.className} relative h-full w-full bg-black`}>
        
-        <img
-          src="./assets/images/Logowhite.png"
-          alt="Logo"
-          className="w-15 h-20 fixed top-0 left-0 ml-4 mt-4"
-        />
+      <div className="z-10">
+            <img
+              src="./assets/images/Logowhite.png"
+              alt="Logo"
+              className="w-10 h-14 sm:w-14 sm:h-20 fixed top-4 left-4"
+            />
+          </div>
         <div className="relative z-10">{children}</div>
         <Toaster position="top-center" richColors/>
       </body>

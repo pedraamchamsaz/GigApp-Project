@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <>
-    <div className="container max-w-screen max-h-screen overflow-hidden">
+    <div className="container w-screen h-screen overflow-hidden">
       <video
         autoPlay
         loop
@@ -56,10 +56,10 @@ export default function Home() {
       </video>
 
       {/* Content */}
-      <div className="relative w-full h-full p-8">
+      <div className="absolute w-[96%] h-[96%] p-8">
 
         {/* navbar */}
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between">
 
         {/* logo */}
           <div className="z-10">
@@ -74,7 +74,7 @@ export default function Home() {
           </div>
 
           {/* buttons */}
-          <div className="flex flex-row sm:gap-2 text-sm sm:text-base justify-end">
+          <div className="flex flex-row sm:gap-2 text-sm sm:text-base">
             <HomeButton />
             <>
               {token ? (
@@ -82,7 +82,7 @@ export default function Home() {
               ) : (
                 <>
                   <button
-                    className="text-sm sm:text-base hover:text-black hover:bg-gray-400 px-5 py-1 transition duration-200 ease-in-out sm:mx-auto w-full flex justify-center items-center text-white font-bold rounded-full bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
+                    className="text-sm sm:text-base hover:text-black hover:bg-gray-400 px-5 py-1 transition duration-200 ease-in-out sm:mx-auto flex justify-center items-center text-white font-bold rounded-full bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                     onClick={() => setShowPopup(true)}
                   >
                     Get Started
@@ -113,11 +113,11 @@ export default function Home() {
 <div className="text-white text-8xl mt-40 sm:mt-[12%] sm:ml-20">
            Stay <p className="font-bold inline text-[#0C687B]">Tuned.</p>
          </div>
-         <p className="text-black text-xl mt-10 sm:mt-[2%] sm:ml-20 w-full">
-           "Discover, Navigate, Groove - Your Guide to Entertainment Everywhere"
+         <p className="text-gray-400 text-xl mt-10 sm:mt-[2%] sm:ml-20 w-full">
+         "Your Gateway to Gigs"
 </p>
 <Link href="/homepage">
-<button className="mt-10 sm:mt-[5%] sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+<button className="mt-10 sm:ml-20 bg-[#13C3B5] hover:text-black hover:bg-gray-400 px-5 py-2 transition duration-200 ease-in-out text-white p-4 font-bold rounded-full focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
             Start Searching
           </button>
         </Link>

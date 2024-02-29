@@ -71,16 +71,16 @@ const Profile = (props) => {
       <div className="flex justify-end items-center h-[3%] mb-6">
         
         <div className="ml-auto mr-4 mt-20">
-         <p className="text-cyan-400 invisible sm:visible">Logged User: {loggedUsername} </p>
+         <p className="text-cyan-400 invisible sm:visible">User: {loggedUsername} </p>
         </div>
         <div className="mr-4 mt-20">
           <HomeButton /> 
         </div>
-        <div className="mr-4 mt-20">
+        <div className="mr-5 mt-20">
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-white text-center text-xl font-bold mt-20">Hi! Good to see you back, {loggedUsername}!</p>
+      <p className="text-white text-center text-xl font-bold mt-20">Hi {loggedUsername}! Good to see you back!</p>
 
       {isFormVisible && (
             <div className="flex justify-center">
