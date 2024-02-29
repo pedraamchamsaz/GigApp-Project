@@ -49,6 +49,12 @@ const Profile = (props) => {
     setCurrent(event);
   };
 
+  // PEDRAAM - when current is updated above, form becomes visible
+  useEffect(() => {
+      setIsFormVisible(true)
+  }, [current]) 
+
+
   const toggleFormVisibility = () => {
     setIsFormVisible(!isFormVisible);
   };
