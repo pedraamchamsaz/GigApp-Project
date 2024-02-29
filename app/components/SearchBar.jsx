@@ -77,6 +77,7 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
       setSelectedMarker={setSelectedMarker}
         />
       </div>
+      <p className='text-cyan-500'>Click the map markers or scroll down for more...</p>
     </div>
   );
 };
