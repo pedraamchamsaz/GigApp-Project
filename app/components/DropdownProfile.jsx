@@ -28,6 +28,7 @@ export default function DropdownProfile({setProfileList, profileList}) {
         aria-haspopup="true"
         aria-expanded={open ? 'true' : undefined}
         onClick={handleClick}
+        style={{ color: 'white' }}
       >
         {profileList} ▼
       </Button>

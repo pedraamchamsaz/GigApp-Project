@@ -113,7 +113,7 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
 
   return (
     <div id="userprofile">
-      <div className=" flex justify-center flex-wrap gap-8 mb-5 mt-5">
+      <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
         {userMarkerLocations.slice(0, resultsUser).filter(event => event.date >= startDateUser && event.date <= endDateUser).filter(event => getDistanceFromLatLon(event.latitude, event.longitude, currentCoords.latitude, currentCoords.longitude) <= userGigRadius).map((current) => (
           <EventCardHome
             keyA={current._id}
