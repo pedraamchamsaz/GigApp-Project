@@ -89,7 +89,7 @@ Adding Events
     Location: Specify the event`s city, venue, country code, and postcode.
     Tickets: Provide information about ticket currency, price, and ticket link.
     Photo Upload: Upload an image related to the event.
-    Time: Enter the event`s start time in HH:MM format.
+    Time: Enter the events start time in HH:MM format.
     Submit Button: Click "Create Event" to add a new event or "Update Event" to modify an existing event(you may need to upload an event photo again in the updating process to successfuly submit an updated event).
 
 Form Validation
@@ -121,7 +121,7 @@ This documentation provides a detailed overview of the features and functionalit
 1. Search Bar
 
     The search bar allows users to find events based on city names or their current location.
-    The button below the search bar with the GigNite logo, when clicked, populates the map with the user`s location details and displays nearby events on the map.
+    The button below the search bar with the GigNite logo, when clicked, populates the map with the users location details and displays nearby events on the map.
     Users can input a city name manually or use the geolocation feature to automatically detect their current location.
     Search results are dynamically updated based on the entered query, providing real-time event suggestions.
 
@@ -131,7 +131,7 @@ This documentation provides a detailed overview of the features and functionalit
   
 3. Event Listings
 
-    The homepage displays a curated list of recommended gigs and events based on the user`s location and search parameters.
+    The homepage displays a curated list of recommended gigs and events based on the users location and search parameters.
     Event listings include details such as event name, date, venue, and ticket information.
     Users can scroll through the event listings to explore different options or filter events based on specific criteria.
 
