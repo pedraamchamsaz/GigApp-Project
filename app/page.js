@@ -56,7 +56,7 @@ export default function Home() {
       </video>
 
       {/* Content */}
-      <div className="absolute w-[96%] h-[96%] p-8">
+      <div className="absolute w-[95%] h-[95%] p-8">
 
         {/* navbar */}
         <div className="flex justify-between">
