@@ -27,14 +27,12 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ##Landing Page Components
 
-        Navigation Buttons:
-            Home Button: Takes users back to the home page.
-            Sign In Button: Initiates the login process.
-    Login Popup: Upon clicking the "Sign In" button, a popup appears for users to log in.
-        Users can input their credentials and authorize access to their account.
-        Upon successful login, users are redirected to their profile page.
-    Content Section: Displays a message and a call-to-action button for users to start searching for gigs.
-    Footer: Currently not implemented in this version of the landing page.
+Navigation Buttons:
+- Home Button: Takes users back to the home page.
+- Sign In Button: Initiates the login process.
+- Login Popup: Upon clicking the "Sign In" button, a popup appears for users to log in.
+               Users can input their credentials and authorize access to their account.
+               Upon successful login, users are redirected to their profile page.
 
 User Authentication
 
