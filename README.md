@@ -86,7 +86,7 @@ Adding Events
 ## Event Form Components
 
     Basic Information: Enter details such as event name, date, and time.
-    Location: Specify the event`s city, venue, country code, and postcode.
+    Location: Specify the events city, venue, country code, and postcode.
     Tickets: Provide information about ticket currency, price, and ticket link.
     Photo Upload: Upload an image related to the event.
     Time: Enter the events start time in HH:MM format.
