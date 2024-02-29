@@ -6,7 +6,7 @@ import InterestedEvents from './Interested'
 const CardContainer = (props) => {
 
   return (
-    <div className='w-full flex'>
+    <div className='w-full flex justify-center p-8'>
       {props.list === 'RECOMMENDED GIGS' ? (
         <Card {...props} />
       ) : props.list === 'INTERESTED' ? (

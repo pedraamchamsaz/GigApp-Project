@@ -90,7 +90,7 @@ const EventCardHome = (props) => {
       onClick={handleClickOpen}
     >
       <img className='object-cover rounded-xl w-full h-full' src={props.photo} alt={props.EventName} />
-      <div className='bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl'>
+      <div className='p-2 bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl'>
         <p className='text-base font-bold'>{props.EventName}</p>
         <p className='text-sm font-medium mt-2'>
           {props.EventDate} - {props.EventTime}
@@ -102,7 +102,7 @@ const EventCardHome = (props) => {
       </div>
       
       {/* Display all props */}
-      <pre>{JSON.stringify(props, null, 2)}</pre>
+      {/* <pre>{JSON.stringify(props, null, 2)}</pre> */}
       
      
       <EventUserCardExpanded
