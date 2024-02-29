@@ -27,9 +27,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 ##Landing Page Components
 
-    Video Background: A fullscreen video background adds visual appeal to the landing page.
-    Navbar: The navigation bar contains the GigNite logo and navigation buttons.
-        Logo: Displays the GigNite logo.
         Navigation Buttons:
             Home Button: Takes users back to the home page.
             Sign In Button: Initiates the login process.
