@@ -58,22 +58,22 @@ Profile Components
 
     User Information: Displays your username.
     Navigation: Allows you to switch between different sections of your profile.
-        Your Gigs: View and manage the events you've added.
-        Interested: View events you've shown interest in.
+        Your Gigs: View and manage the events you have added.
+        Interested: View events you have shown interest in.
         Add Event Button: Opens a form to add a new event.
         Home Button: Returns you to the home page.
         Logout Button: Logs you out of your GigNite account.
 
 Your Gigs
 
-    View a list of events you've added to GigNite.
+    View a list of events you have added to GigNite.
     Each event is displayed with details such as name, city, date, time, venue, and price.
-    You can remove events from your list by clicking the "Remove" button on each event card.
+    You can remove events from your list by clicking the "Delete" button on each event card.
     Clicking on an event card allows you to edit its details.
 
 Interested
 
-    View events you've shown interest in.
+    View events you have shown interest in.
     Additional functionality related to interested events is not implemented in this version.
 
 Adding Events
