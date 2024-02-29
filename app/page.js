@@ -85,7 +85,7 @@ export default function Home() {
                     className="text-sm sm:text-base hover:text-black hover:bg-gray-400 px-5 py-1 transition duration-200 ease-in-out sm:mx-auto flex justify-center items-center text-white font-bold rounded-full bg-[#534A4A] focus:ring-1 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800"
                     onClick={() => setShowPopup(true)}
                   >
-                    Get Started
+                    Log In
                   </button>
 
                   {/* login */}

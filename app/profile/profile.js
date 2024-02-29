@@ -86,7 +86,7 @@ const Profile = (props) => {
           <LogoutButton setToken={props.setToken} />
         </div>
       </div>
-      <p className="text-white text-center text-xl font-bold mt-20">Hi {loggedUsername}! Good to see you back!</p>
+      <p className="text-white text-center text-xl font-bold mt-20 mb-4">Hi {loggedUsername}! Good to see you back!</p>
 
       {isFormVisible && (
             <div className="flex justify-center">
