@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
-import CardExpanded from './CardExpanded'
+import CardExpanded from '../Card/CardExpanded'
 import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
 const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen, currentCoords, userGigRadius}) => {

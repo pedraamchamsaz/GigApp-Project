@@ -4,12 +4,12 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ApiClient } from "@/apiClient";
 
-import AuthoriseUser from "@/app/components/AuthoriseUser";
+import AuthoriseUser from "@/app/components/Authentication/AuthoriseUser";
 
 // import GetStartedButton from "@app/components/GetStartedButton";
 import Profile from "./profile/profile";
 import { GrClose } from "react-icons/gr";
-import HomeButton from "@/app/components/HomeButton";
+import HomeButton from "@/app/components/Buttons/HomeButton";
 
 
 

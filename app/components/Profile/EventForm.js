@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
-import { Toaster, toast } from "sonner";
+import { toast } from "sonner";
 // new
 import { CldUploadWidget } from "next-cloudinary";
 

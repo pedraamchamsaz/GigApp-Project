@@ -2,19 +2,19 @@
 
 import { useEffect, useState } from "react";
 import { ApiClient } from "@/apiClient";
-import ProfileEvents from "../components/ProfileEvents";
-import SearchBar from "../components/SearchBar";
-import ProfileButton from "../components/ProfileButton";
+import ProfileEvents from "../components/Card/ProfileEvents";
+import SearchBar from "../components/Map/SearchBar";
+import ProfileButton from "../components/Buttons/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
-import EventsContainer from "../components/EventsContainer";
-import FilterContainer from "../components/FilterContainer";
-import Dropdown from "../components/Dropdown";
-import RefineButton from "../components/RefineButton";
-import RefineButtonUser from "../components/RefineButtonUser";
-import CardContainer from "../components/CardContainer";
-import Card from "../components/Card";
-import InterestedEvents from "../components/Interested";
+import EventsContainer from "../components/Card/EventsContainer";
+import FilterContainer from "../components/Filters/FilterContainer";
+import Dropdown from "../components/Filters/Dropdown";
+import RefineButton from "../components/Filters/RefineButton";
+import RefineButtonUser from "../components/Filters/RefineButtonUser";
+import CardContainer from "../components/Card/CardContainer";
+import Card from "../components/Card/Card";
+import InterestedEvents from "../components/Buttons/Interested";
 
 
 export default function HomePage(props) {
@@ -39,31 +39,30 @@ export default function HomePage(props) {
   const [resultsUser, setResultsUser] = useState(45)
   const [currentCoords, setCurrentCoords] = useState(null)
 
+  // DATE FUNCTIONS
   const date = new Date()
   const today = date.toISOString().slice(0, 10)
   const date2 = new Date(date.setDate(date.getDate() + 7))
   const todayPlusSeven = date2.toISOString().slice(0, 10)
-
   const [startDate, setStartDate] = useState(today)
   const [endDate, setEndDate] = useState(todayPlusSeven)
   const startDateString = `${startDate}T00:00:00Z`
   const endDateString = `${endDate}T23:59:59Z`
-
   const [startDateUser, setStartDateUser] = useState(today)
   const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
   
+  // API KEYS
   const TMapiKey = process.env.NEXT_PUBLIC_TM_API_KEY;
   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     
+
   const client = new ApiClient(
     () => token,
     () => logout()
   );
 
-  
 
   useEffect(() => {
-    console.log(eventData, "EVENT DATA")
     const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
     let slicedOnlyCoordinates = sliced.map(event => { 
       const { latitude, longitude } = event._embedded.venues[0].location
@@ -75,12 +74,14 @@ export default function HomePage(props) {
     setMarkerLocations(slicedOnlyCoordinates)
   }, [eventData, results, startDate, endDate])
 
+  useEffect(() => {
+
+  }, [eventData, ])
 
   useEffect(() => {
     getEventData(location)
-
-    console.log(startDateString, endDateString)
   }, [radius, startDate, endDate])
+
 
   useEffect(() => {
     const currentLocation = async () => {
@@ -90,22 +91,14 @@ export default function HomePage(props) {
         })
       }
     }
-
-    console.log(currentCoords, 'CURRENT COORDS')
-
   currentLocation()
   }, [])
-
-  useEffect(() => {
-    console.log(list)
-  }, [list])
 
 
   useEffect(() => {
     const currentLocation = async () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          console.log(position.coords)
           const { latitude, longitude } = position.coords
           const geoHash = Geohash.encode(latitude, longitude, 8)
           setLocation(geoHash)
@@ -122,7 +115,6 @@ export default function HomePage(props) {
   const getEventData = async (location) => {
     try {
       const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
-      console.log(response.data, "DATA")
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
       setEventData(sortedOnSale)
@@ -162,7 +154,6 @@ export default function HomePage(props) {
         const userLocation = googleMapsResponse.data.results[0].geometry.location;
         const { lat, lng } = userLocation;
         const geoHash = Geohash.encode(lat, lng, 8);
-        console.log(geoHash, 'geohash');
         setLocation(geoHash);
         getEventData(geoHash);
   

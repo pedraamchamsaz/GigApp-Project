@@ -7,7 +7,6 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
 
   const [events, setEvents] = useState([]);
   const [current, setCurrent] = useState(undefined);
-  const [eventsWithLatLon, setEventsWithLatLon] = useState([])
   const [bookmarkedEvents, setBookmarkedEvents] = useState({});
 
   // const eventsLatLon = []

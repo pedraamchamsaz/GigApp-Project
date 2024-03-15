@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
-import EventForm from "../components/EventForm";
-import EventCard from "../components/EventCard";
-import LogoutButton from "../components/logoutButton";
+import EventForm from "../components/Profile/EventForm";
+import EventCard from "../components/Card/EventCard";
+import LogoutButton from "../components/Buttons/logoutButton";
 import Link from "next/link";
-import HomeButton from "../components/HomeButton";
-import InterestedEvents from "../components/Interested";
-import DropdownProfile from "../components/DropdownProfile";
+import HomeButton from "../components/Buttons/HomeButton";
+import InterestedEvents from "../components/Buttons/Interested";
+import DropdownProfile from "../components/Filters/DropdownProfile";
 
 const Profile = (props) => {
   const [events, setEvents] = useState([]);
