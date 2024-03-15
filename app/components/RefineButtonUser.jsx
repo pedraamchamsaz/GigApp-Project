@@ -5,7 +5,7 @@ import MenuItem from '@mui/material/MenuItem';
 import ResultsSliderUser from './ResultsSliderUser';
 import RadiusSliderUser from './RadiusSliderUser';
 
-export default function RefineButton( {setResults, setRadius, getEventData, radius, results, startDateUser, setStartDateUser, endDateUser, setEndDateUser, resultsUser, setResultsUser, userGigRadius, setUserGigRadius}) {
+export default function RefineButtonUser( {getEventData, startDateUser, setStartDateUser, endDateUser, setEndDateUser, resultsUser, setResultsUser, userGigRadius, setUserGigRadius}) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {

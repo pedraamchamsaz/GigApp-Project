@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLocation, markerLocations, userMarkerLocations, setUserMarkerLocations, setSelectedCard, eventData, open, userOpen, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, location, currentCoords, userGigRadius, search, selectedMarker, setSelectedMarker}) => {
+const SearchBar = ({ city, setCity, handleCurrentLocation, markerLocations, setSelectedCard, search, googleMapsResults, center, ...props}) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -50,29 +50,10 @@ const SearchBar = ({ city, setCity, googleMapsResults, center, handleCurrentLoca
       </button>
 
       <div className='mt-4'>
-        <GoogleMap 
-          locations={googleMapsResults} 
-          center={center} 
+        <GoogleMap  
+          {...props}
           markerLocations={markerLocations}
           onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
-          eventData={eventData}
-          open={open}
-          setUserOpen={setUserOpen}
-          userOpen={userOpen}
-          setOpen={setOpen}
-            stateEvent={stateEvent}
-            setStateEvent={setStateEvent}
-            userStateEvent={userStateEvent}
-            setUserStateEvent={setUserStateEvent}
-            stateImg={stateImg}
-            setStateImg={setStateImg}
-            userMarkerLocations={userMarkerLocations} 
-      setUserMarkerLocations={setUserMarkerLocations}
-      location={location}
-      currentCoords={currentCoords}
-      userGigRadius={userGigRadius}
-      selectedMarker={selectedMarker}
-      setSelectedMarker={setSelectedMarker}
         />
       </div>
       <p className='text-cyan-500 text-center'>Click the map markers or scroll down for more...</p>

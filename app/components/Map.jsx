@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/a
 import CardExpanded from './CardExpanded'
 import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, setUserStateEvent, stateImg, setStateImg, setOpen, setUserOpen, currentCoords, userGigRadius}) => {
+const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen, currentCoords, userGigRadius}) => {
   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);

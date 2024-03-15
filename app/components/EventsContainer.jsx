@@ -1,22 +1,11 @@
 "use client"
 
 import React from 'react'
-import FilterContainer from './FilterContainer'
-import CardContainer from './CardContainer'
 
-const EventsContainer = (props) => {
+const EventsContainer = () => {
   return (
-    <div className='mt-6'>
-        <FilterContainer {...props}/>
-        <CardContainer {...props} />
-    </div>
+    <div className='mt-6'></div>
   )
 }
 
 export default EventsContainer
-
-
-
-{/* <div>
-<InterestedEvents events={events}/>
-</div> */}

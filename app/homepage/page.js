@@ -1,18 +1,20 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { ApiClient } from "@/apiClient";
-// import GetStartedButton from "@app/components/GetStartedButton"
-import HomeButton from "@/app/components/HomeButton";
 import ProfileEvents from "../components/ProfileEvents";
 import SearchBar from "../components/SearchBar";
 import ProfileButton from "../components/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
-import LogoutButton from "../components/logoutButton";
 import EventsContainer from "../components/EventsContainer";
-
+import FilterContainer from "../components/FilterContainer";
+import Dropdown from "../components/Dropdown";
+import RefineButton from "../components/RefineButton";
+import RefineButtonUser from "../components/RefineButtonUser";
+import CardContainer from "../components/CardContainer";
+import Card from "../components/Card";
+import InterestedEvents from "../components/Interested";
 
 
 export default function HomePage(props) {
@@ -22,7 +24,6 @@ export default function HomePage(props) {
   const [userGigRadius, setUserGigRadius] = useState(1000)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
-  const [userOpen, setUserOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
   const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
@@ -41,15 +42,7 @@ export default function HomePage(props) {
   const date = new Date()
   const today = date.toISOString().slice(0, 10)
   const date2 = new Date(date.setDate(date.getDate() + 7))
-  console.log(date2, 'DATE 2')
   const todayPlusSeven = date2.toISOString().slice(0, 10)
-
-  // const year = String(date.getFullYear())
-  // const month = String(date.getMonth() + 1)
-  // const day = String(date.getDate())
-  // const dayPlusSeven = String(date.getDate() + 7)
-  // const today = `${year}-0${month}-${day}`
-  // const todayPlusSeven = `${year}-0${month}-${dayPlusSeven}`
 
   const [startDate, setStartDate] = useState(today)
   const [endDate, setEndDate] = useState(todayPlusSeven)
@@ -145,13 +138,6 @@ export default function HomePage(props) {
     } // if !token, redirect to landing page
   }, []);
 
-  // const login = (token) => {
-  //   localStorage.setItem("token", token);
-  //   setToken(token);
-  //   eventsArray = client.getSavedEvents()
-  //   setSavedEvents(eventsArray)
-  // };
-
   const logout = () => {
     localStorage.removeItem("token");
     setToken(null);
@@ -241,99 +227,91 @@ export default function HomePage(props) {
     }
   };
   
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
-    } // if !token, redirect to landing page
-  }, []);
-
   return (
 
     <div>
-        <div className="flex justify-end mt-10 mr-5 lg:mr-10">
-       {/* <img className="w-[3%] mt-15 ml-7" src='./assets/images/Logowhite.png'></img> */}
-      
-        <div className="mr-2">
-        <ProfileButton isLoggedIn={token !== null} />
-        </div>
-      </div>
-
-
-     
+          <div className="flex justify-end mt-10 mr-5 lg:mr-10">      
+            <ProfileButton isLoggedIn={token !== null} />
+          </div>
 
           <SearchBar 
             city={city}
             setCity={setCity}
-            location={location}
-            setLocation={setLocation}
-            getEventData={getEventData}
-            googleMapsResults={googleMapsResults}
-            setGoogleMapsResults={setGoogleMapsResults}
-            center={mapCenter}
             markerLocations={markerLocations}
             setSelectedCard={setSelectedCard}
+            search={search}
+            handleCurrentLocation={handleCurrentLocation}
+            center={mapCenter}
+            userMarkerLocations={userMarkerLocations}
             eventData={eventData}
             open={open}
-            setOpen={setOpen}
-            userOpen={userOpen}
-            setUserOpen={setUserOpen}
             stateEvent={stateEvent}
             setStateEvent={setStateEvent}
             userStateEvent={userStateEvent}
-            setUserStateEvent={setUserStateEvent}
             stateImg={stateImg}
             setStateImg={setStateImg}
-            userMarkerLocations={userMarkerLocations}
+            setOpen={setOpen}
             currentCoords={currentCoords}
             userGigRadius={userGigRadius}
-            search={search}
-            handleCurrentLocation={handleCurrentLocation}
-            selectedMarker={selectedMarker}
-            setSelectedMarker={setSelectedMarker}
+            googleMapsResults={googleMapsResults}
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>
-      <EventsContainer
-        eventData={eventData}
-        radius={radius}
-        location={location}
-        open={open}
-        setOpen={setOpen}
-        setUserOpen={setUserOpen}
-        stateEvent={stateEvent}
-        setStateEvent={setStateEvent}
-        userStateEvent={userStateEvent}
-        setUserStateEvent={setUserStateEvent}
-        stateImg={stateImg}
-        setStateImg={setStateImg}
-        results={results}
-        setResults={setResults}
-        setRadius={setRadius}
-        setSelectedCard={setSelectedCard}
-        // handleClickOpen={handleClickOpen}
-        // handleClose={handleClose}
-        startDate={startDate}
-        setStartDate={setStartDate}
-        endDate={endDate}
-        setEndDate={setEndDate}
-        setList={setList}
-        list={list}
-        client={client}
-        resultsUser={resultsUser}
-        setResultsUser={setResultsUser}
-        startDateUser={startDateUser}
-        setStartDateUser={setStartDateUser}
-        endDateUser={endDateUser}
-        setEndDateUser={setEndDateUser}
-        today={today}
-        userGigRadius={userGigRadius}
-        setUserGigRadius={setUserGigRadius}
-        userMarkerLocations={userMarkerLocations}
-        setUserMarkerLocations={setUserMarkerLocations}
-        currentCoords={currentCoords}
-        setSelectedMarker={setSelectedMarker}
-        />
+      <EventsContainer/>
+          <div className='mt-6'>
+            <FilterContainer list={list}/>
+              <div className='flex justify-between px-8'>
+                <Dropdown 
+                  list={list} 
+                  setList={setList}/>
+                {props.list === 'RECOMMENDED GIGS' ?
+                <RefineButton 
+                  setResults={setResults}
+                  setRadius={setRadius}
+                  getEventData={getEventData}
+                  radius={radius}
+                  results={results}
+                  startDate={startDate}
+                  setStartDate={setStartDate}
+                  endDate={endDate}
+                  setEndDate={setEndDate}
+                  /> :
+                <RefineButtonUser 
+                  getEventData={getEventData}
+                  startDateUser={startDateUser}
+                  setStartDateUser={setStartDateUser}
+                  endDateUser={endDateUser}
+                  setEndDateUser={setEndDateUser}
+                  resultsUser={resultsUser}
+                  setResultsUser={setResultsUser}
+                  userGigRadius={userGigRadius}
+                  setUserGigRadius={setUserGigRadius}
+                  />}
+              </div>
+            <CardContainer {...props} />
+              <div className='w-full flex justify-center p-8'>
+                {list === 'RECOMMENDED GIGS' ? (
+                    <Card 
+                      eventData={eventData}
+                      results={results}
+                      setSelectedMarker={setSelectedMarker}
+                    />
+                  ) : list === 'INTERESTED' ? (
+                    <InterestedEvents />
+                  ) : (
+                    <ProfileEvents
+                      client={client}
+                      userMarkerLocations={userMarkerLocations}
+                      setUserMarkerLocations={setUserMarkerLocations}
+                      resultsUser={resultsUser}
+                      startDateUser={startDateUser}
+                      endDateUser={endDateUser}
+                      currentCoords={currentCoords}
+                      userGigRadius={userGigRadius}
+                    />
+                  )}
+              </div>
+          </div>
      </div>
     </div>
 
