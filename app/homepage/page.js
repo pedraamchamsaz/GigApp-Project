@@ -40,6 +40,7 @@ export default function HomePage(props) {
   const [current, setCurrent] = useState(undefined);
   const [bookmarkedEvents, setBookmarkedEvents] = useState({});
   const [allEvents, setAllEvents] = useState([]);
+  const [allMarkerLocations, setAllMarkerLocations] = useState([])
 
   // DATE FUNCTIONS
   const date = new Date()
@@ -63,28 +64,25 @@ export default function HomePage(props) {
     () => logout()
   );
 
-
+  // FILTERS - MARKER LOCATIONS
   useEffect(() => {
     const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
     let slicedOnlyCoordinates = sliced.map(event => { 
-      const { latitude, longitude } = event._embedded.venues[0].location
+      const { latitude, longitude } = event.location
      
       return {latitude, longitude}
     }
     )
     
     setMarkerLocations(slicedOnlyCoordinates)
-  }, [eventData, results, startDate, endDate])
+  }, [allEvents, results, startDate, endDate])
 
-  useEffect(() => {
-
-  }, [eventData, ])
-
+  // FILTERS - RADIUS, DATE
   useEffect(() => {
     getEventData(location)
   }, [radius, startDate, endDate])
 
-
+  // GETS CURRENT POSITION
   useEffect(() => {
     const currentLocation = async () => {
       if (navigator.geolocation) {
@@ -96,7 +94,7 @@ export default function HomePage(props) {
   currentLocation()
   }, [])
 
-
+  // CONVERTS CURRENT COORDS INTO GEOHASH AND GETS TM DATA
   useEffect(() => {
     const currentLocation = async () => {
       if (navigator.geolocation) {
@@ -113,18 +111,67 @@ export default function HomePage(props) {
 
   }, [])
 
-
+  // TM API CALL
   const getEventData = async (location) => {
     try {
       const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
-      setEventData(sortedOnSale)
+
+      // setEventData(sortedOnSale)
+
+      const subset = ['name', '_embedded.venues.0.city', 'dates.start.localDate', 'dates.start.localTime','images', 'url', '_embedded.venues.0.name', '_embedded.venues.0.country.countryCode', '_embedded.venues.0.postalCode', 'priceRanges.0.min', 'priceRanges.0.max', 'priceRanges.0.currency', '_embedded.venues.0.location', '_embedded.venues.0.name']
+
+      const propertyMapping = {
+        "name": "eventName",
+        "_embedded.venues.0.city": "city", 
+        "dates.start.localDate": "date", 
+        "dates.start.localTime": "time",
+        "images": "images", 
+        "url": "ticketlink", 
+        "_embedded.venues.0.name": "venue", 
+        "_embedded.venues.0.country.countryCode": "countrycode", 
+        "_embedded.venues.0.postalCode": "postcode", 
+        "priceRanges.0.min": "price", 
+        "priceRanges.0.max": "price2", 
+        "priceRanges.0.currency": "currency", 
+        "_embedded.venues.0.location": "location"
+      };
+      
+      // Use map() to create a new array with custom property names
+      const newArray = sortedOnSale.map(event => {
+        const newObj = {};
+        for (let prop in propertyMapping) {
+          // If the property is nested, access the nested property using dot notation
+          if (prop.includes('.')) {
+            const nestedProps = prop.split('.');
+            let nestedValue = event;
+            nestedProps.forEach(nestedProp => {
+              if (nestedValue && nestedValue.hasOwnProperty(nestedProp)) {
+                nestedValue = nestedValue[nestedProp];
+              } else {
+                nestedValue = null;
+              }
+            });
+            newObj[propertyMapping[prop]] = nestedValue;
+          } else {
+            // If the property is not nested, directly assign it to the custom property name
+            if (event && event.hasOwnProperty(prop)) {
+              newObj[propertyMapping[prop]] = event[prop];
+            }
+          }
+        }
+        return newObj;
+      });
+      console.log(newArray, 'FILTERED')
+      setEventData(newArray)
+
     } catch (e) {
       console.log(e, "ERROR")
     }
   }
 
+  // BACKEND API CALL
   useEffect(() => {
     client
       .getAllEvents()
@@ -136,14 +183,18 @@ export default function HomePage(props) {
       });
   }, []);
 
-
+  // MERGE TM AND BACKEND DATA
   useEffect(() => {
     setAllEvents([...eventData, ...events])
   }, [eventData, events])
 
   useEffect(() => {
     console.log(allEvents, 'ALL EVENTS')
-  }, allEvents)
+  }, [allEvents])
+
+  useEffect(() => {
+    setAllMarkerLocations([...markerLocations, ...userMarkerLocations])
+  }, [markerLocations, userMarkerLocations])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -239,6 +290,63 @@ export default function HomePage(props) {
       console.error('Geolocation is not supported by your browser');
     }
   };
+
+  const getLatLongFromPostcode = async (postcode) => {
+    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${GoogleapiKey}`;
+
+    try {
+      const response = await fetch(apiUrl);
+      const data = await response.json();
+
+      if (data.status === 'OK' && data.results.length > 0) {
+        const location = data.results[0].geometry.location;
+        return { latitude: location.lat, longitude: location.lng };
+      } else {
+        throw new Error('Invalid postcode or no results found.');
+      }
+    } catch (error) {
+      console.error('Error converting postcode to lat long:', error.message);
+      return null;
+    }
+  };
+
+  const convertPostcodesToLatLong = async () => {
+    const updatedUserMarkerLocations = await Promise.all(
+      events.map(async (currentEvent) => {
+        try {
+          const location = await getLatLongFromPostcode(currentEvent.postcode);
+          if (location) {
+            const { latitude, longitude } = location;
+            return {
+              ...currentEvent,
+              latitude,
+              longitude,
+            };
+          } else {
+            // Handle the case when the location is null or undefined
+            return null;
+          }
+        } catch (error) {
+          console.error(error.message);
+          return null;
+        }
+      })
+    );
+
+    // Filter out events with invalid postcodes
+    const filteredLocations = updatedUserMarkerLocations.filter(
+      (location) => location !== null
+    );
+  
+    setUserMarkerLocations(filteredLocations);
+  };
+
+  
+  useEffect(() => {
+    if (events.length > 0) {
+      convertPostcodesToLatLong();
+    }
+  }, [events]);
   
   return (
 
@@ -250,12 +358,10 @@ export default function HomePage(props) {
           <SearchBar 
             city={city}
             setCity={setCity}
-            markerLocations={markerLocations}
             setSelectedCard={setSelectedCard}
             search={search}
             handleCurrentLocation={handleCurrentLocation}
             center={mapCenter}
-            userMarkerLocations={userMarkerLocations}
             eventData={eventData}
             open={open}
             stateEvent={stateEvent}
@@ -264,9 +370,8 @@ export default function HomePage(props) {
             stateImg={stateImg}
             setStateImg={setStateImg}
             setOpen={setOpen}
-            currentCoords={currentCoords}
-            userGigRadius={userGigRadius}
             googleMapsResults={googleMapsResults}
+            allMarkerLocations={allMarkerLocations}
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>
@@ -302,9 +407,10 @@ export default function HomePage(props) {
               <div className='w-full flex justify-center p-8'>
                 {list === 'RECOMMENDED GIGS' ? (
                     <Card 
-                      eventData={eventData}
+                      // eventData={eventData}
                       results={results}
                       setSelectedMarker={setSelectedMarker}
+                      allEvents={allEvents}
                     />
                   ) : list === 'INTERESTED' ? (
                     <InterestedEvents />

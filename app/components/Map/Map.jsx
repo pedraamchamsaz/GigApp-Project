@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
 import CardExpanded from '../Card/CardExpanded'
-import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
-const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen, currentCoords, userGigRadius}) => {
+const GoogleMapComponent = ({ allMarkerLocations, center, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen}) => {
   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
@@ -157,7 +156,7 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
           onClick={handleMapClick}
         >
           {/* Display markers for each ticketmaster location */}
-          {markerLocations.map((location, index) => (
+          {allMarkerLocations.map((location, index) => (
             <Marker
               key={index}
               position={{
@@ -206,60 +205,6 @@ const GoogleMapComponent = ({ center, markerLocations, userMarkerLocations, onMa
               )}
             </Marker>
           ))}
-
-{/* Display markers for each User events */}
-{userMarkerLocations?.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= userGigRadius).map((currentEvent, index) => (
-   <Marker
-      key={index}
-      position={{
-         lat: Number(currentEvent.latitude),
-         lng: Number(currentEvent.longitude)
-      }}
-      title={currentEvent.name}
-      onClick={() => {
-         handleUserMarkerClick(index);
-      }}
-      icon={{
-         url: customMarkerImage,
-         scaledSize: new window.google.maps.Size(30, 40)
-      }}
-   >
-      {/* Display InfoWindow when marker is selected */}
-{selectedUserMarker === index && (
-  <InfoWindow
-    onCloseClick={() => setSelectedUserMarker(null)}
-
-  >
-    <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${currentEvent.photo}) center/cover no-repeat` }}>
-      <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
-        <p className='text-lg text-white shadow-md'><b>{currentEvent.name}</b></p>
-        <p className='font-mono text-white shadow-md'>{currentEvent.date}</p>
-        <p className='text-white shadow-md mt-1'>{currentEvent.venue}</p>
-        <div>
-          <br />
-          <p
-            className="text-cyan-500 cursor-pointer"
-            onClick={handleMoreDetailsClick}
-          >
-            <i>More details...</i>
-          </p>
-          {/* Full-screen card for user events */}
-          {showMapExpandedCard && selectedUserMarker !== null && (
-            <MapEventUserCardExpanded
-              open={true}  
-              handleClose={() => setShowMapExpandedCard(false)} 
-              eventData={userMarkerLocations[index]}
-            />
-          )}
-        </div>
-      </div>
-    </div>
-  </InfoWindow>
-)}
-   </Marker>
-          ))}
-
-
         </GoogleMap>
       </div>
     </LoadScript>

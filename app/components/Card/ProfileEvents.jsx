@@ -5,70 +5,65 @@ import EventCardHome from "./EventCardHome";
 const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, resultsUser, startDateUser, endDateUser, currentCoords, userGigRadius }) => {
   // working code
 
-  const getLatLongFromPostcode = async (postcode) => {
-    const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
-    const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${GoogleapiKey}`;
+  // const getLatLongFromPostcode = async (postcode) => {
+  //   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  //   const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${GoogleapiKey}`;
 
-    try {
-      const response = await fetch(apiUrl);
-      const data = await response.json();
+  //   try {
+  //     const response = await fetch(apiUrl);
+  //     const data = await response.json();
 
-      if (data.status === 'OK' && data.results.length > 0) {
-        const location = data.results[0].geometry.location;
-        return { latitude: location.lat, longitude: location.lng };
-      } else {
-        throw new Error('Invalid postcode or no results found.');
-      }
-    } catch (error) {
-      console.error('Error converting postcode to lat long:', error.message);
-      return null;
-    }
-  };
+  //     if (data.status === 'OK' && data.results.length > 0) {
+  //       const location = data.results[0].geometry.location;
+  //       return { latitude: location.lat, longitude: location.lng };
+  //     } else {
+  //       throw new Error('Invalid postcode or no results found.');
+  //     }
+  //   } catch (error) {
+  //     console.error('Error converting postcode to lat long:', error.message);
+  //     return null;
+  //   }
+  // };
 
-  const convertPostcodesToLatLong = async () => {
-    const updatedUserMarkerLocations = await Promise.all(
-      events.map(async (currentEvent) => {
-        try {
-          const location = await getLatLongFromPostcode(currentEvent.postcode);
-          if (location) {
-            const { latitude, longitude } = location;
-            console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
-            console.log(currentEvent)
-            return {
-              ...currentEvent,
-              latitude,
-              longitude,
-            };
-          } else {
-            // Handle the case when the location is null or undefined
-            return null;
-          }
-        } catch (error) {
-          console.error(error.message);
-          return null;
-        }
-      })
-    );
+  // const convertPostcodesToLatLong = async () => {
+  //   const updatedUserMarkerLocations = await Promise.all(
+  //     events.map(async (currentEvent) => {
+  //       try {
+  //         const location = await getLatLongFromPostcode(currentEvent.postcode);
+  //         if (location) {
+  //           const { latitude, longitude } = location;
+  //           console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
+  //           console.log(currentEvent)
+  //           return {
+  //             ...currentEvent,
+  //             latitude,
+  //             longitude,
+  //           };
+  //         } else {
+  //           // Handle the case when the location is null or undefined
+  //           return null;
+  //         }
+  //       } catch (error) {
+  //         console.error(error.message);
+  //         return null;
+  //       }
+  //     })
+  //   );
 
-    // Filter out events with invalid postcodes
-    const filteredLocations = updatedUserMarkerLocations.filter(
-      (location) => location !== null
-    );
+  //   // Filter out events with invalid postcodes
+  //   const filteredLocations = updatedUserMarkerLocations.filter(
+  //     (location) => location !== null
+  //   );
   
-    setUserMarkerLocations(filteredLocations);
-  };
-  
-
-  useEffect(() => {
-    console.log("Update current");
-  }, [current]);
+  //   setUserMarkerLocations(filteredLocations);
+  // };
 
 
-  useEffect(() => {
-    if (events.length > 0) {
-      convertPostcodesToLatLong();
-    }
-  }, [events]);
+  // useEffect(() => {
+  //   if (events.length > 0) {
+  //     convertPostcodesToLatLong();
+  //   }
+  // }, [events]);
 
   function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
     const R = 3963.19; // Radius of the earth in miles
