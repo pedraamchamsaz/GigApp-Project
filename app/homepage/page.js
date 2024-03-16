@@ -7,12 +7,9 @@ import SearchBar from "../components/Map/SearchBar";
 import ProfileButton from "../components/Buttons/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
-import EventsContainer from "../components/Card/EventsContainer";
-import FilterContainer from "../components/Filters/FilterContainer";
 import Dropdown from "../components/Filters/Dropdown";
 import RefineButton from "../components/Filters/RefineButton";
 import RefineButtonUser from "../components/Filters/RefineButtonUser";
-import CardContainer from "../components/Card/CardContainer";
 import Card from "../components/Card/Card";
 import InterestedEvents from "../components/Buttons/Interested";
 
@@ -248,9 +245,7 @@ export default function HomePage(props) {
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>
-      <EventsContainer/>
           <div className='mt-6'>
-            <FilterContainer list={list}/>
               <div className='flex justify-between px-8'>
                 <Dropdown 
                   list={list} 
@@ -279,7 +274,6 @@ export default function HomePage(props) {
                   setUserGigRadius={setUserGigRadius}
                   />}
               </div>
-            <CardContainer {...props} />
               <div className='w-full flex justify-center p-8'>
                 {list === 'RECOMMENDED GIGS' ? (
                     <Card 
