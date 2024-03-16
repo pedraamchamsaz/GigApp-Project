@@ -5,23 +5,6 @@ import EventCardHome from "./EventCardHome";
 const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, resultsUser, startDateUser, endDateUser, currentCoords, userGigRadius }) => {
   // working code
 
-  const [events, setEvents] = useState([]);
-  const [current, setCurrent] = useState(undefined);
-  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
-
-  // const eventsLatLon = []
-  
-  const refreshList = () => {
-    client
-      .getAllEvents()
-      .then((response) => {
-        setEvents(response.data);
-      })
-      .catch((err) => {
-        console.log("failed to get API request (GET)");
-      });
-  };
-
   const getLatLongFromPostcode = async (postcode) => {
     const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
     const apiUrl = `https://maps.googleapis.com/maps/api/geocode/json?address=${postcode}&key=${GoogleapiKey}`;
@@ -80,9 +63,6 @@ const ProfileEvents = ({client, userMarkerLocations, setUserMarkerLocations, res
     console.log("Update current");
   }, [current]);
 
-  useEffect(() => {
-    refreshList();  
-  }, []);
 
   useEffect(() => {
     if (events.length > 0) {

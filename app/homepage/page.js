@@ -36,6 +36,11 @@ export default function HomePage(props) {
   const [resultsUser, setResultsUser] = useState(45)
   const [currentCoords, setCurrentCoords] = useState(null)
 
+  const [events, setEvents] = useState([]);
+  const [current, setCurrent] = useState(undefined);
+  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
+  const [allEvents, setAllEvents] = useState([]);
+
   // DATE FUNCTIONS
   const date = new Date()
   const today = date.toISOString().slice(0, 10)
@@ -119,6 +124,26 @@ export default function HomePage(props) {
       console.log(e, "ERROR")
     }
   }
+
+  useEffect(() => {
+    client
+      .getAllEvents()
+      .then((response) => {
+        setEvents(response.data);
+      })
+      .catch((err) => {
+        console.log("failed to get API request (GET)");
+      });
+  }, []);
+
+
+  useEffect(() => {
+    setAllEvents([...eventData, ...events])
+  }, [eventData, events])
+
+  useEffect(() => {
+    console.log(allEvents, 'ALL EVENTS')
+  }, allEvents)
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -293,6 +318,12 @@ export default function HomePage(props) {
                       endDateUser={endDateUser}
                       currentCoords={currentCoords}
                       userGigRadius={userGigRadius}
+                      events={events}
+                      setEvents={setEvents}
+                      current={current}
+                      setCurrent={setCurrent}
+                      bookmarkedEvents={bookmarkedEvents}
+                      setBookmarkedEvents={setBookmarkedEvents}
                     />
                   )}
               </div>
