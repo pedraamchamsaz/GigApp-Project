@@ -17,14 +17,14 @@ import InterestedEvents from "../components/Buttons/Interested";
 export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const [radius, setRadius] = useState(50)
+  const [radius, setRadius] = useState(1000)
   const [userGigRadius, setUserGigRadius] = useState(1000)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
   const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
-  const [results, setResults] = useState(45)
+  const [results, setResults] = useState(120)
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
@@ -67,14 +67,14 @@ export default function HomePage(props) {
 
   // FILTERS - MARKER LOCATIONS
   useEffect(() => {
-    const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
+    const sliced = allEvents.slice(0, allEvents.length < results ? allEvents.length : results)
     let slicedOnlyCoordinates = sliced.map(event => { 
-      const { latitude, longitude } = event.location
+      const { latitude, longitude } = event
       return {latitude, longitude}
     }
     )
     
-    setMarkerLocations(slicedOnlyCoordinates)
+    setAllMarkerLocations(slicedOnlyCoordinates)
   }, [allEvents, results, startDate, endDate])
 
   // FILTERS - RADIUS, DATE
@@ -114,7 +114,7 @@ export default function HomePage(props) {
   // TM API CALL
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=120&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=100&startDateTime=${startDateString}&endDateTime=${endDateString}`)
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
 
@@ -135,7 +135,9 @@ export default function HomePage(props) {
         "priceRanges.0.min": "price", 
         "priceRanges.0.max": "price2", 
         "priceRanges.0.currency": "currency", 
-        "_embedded.venues.0.location": "location"
+        "_embedded.venues.0.location": "location",
+        "_embedded.venues.0.location.latitude": "latitude",
+        "_embedded.venues.0.location.longitude": "longitude",
       };
       
       // Use map() to create a new array with custom property names
@@ -187,9 +189,9 @@ export default function HomePage(props) {
     console.log(allEvents, 'ALL EVENTS')
   }, [allEvents])
 
-  useEffect(() => {
-    setAllMarkerLocations([...markerLocations, ...userMarkerLocations])
-  }, [markerLocations, userMarkerLocations])
+  // useEffect(() => {
+  //   setAllMarkerLocations([...markerLocations, ...userMarkerLocations])
+  // }, [markerLocations, userMarkerLocations])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -197,6 +199,10 @@ export default function HomePage(props) {
       setToken(token);
     } // if !token, redirect to landing page
   }, []);
+
+  useEffect(() => {
+    console.log(allMarkerLocations,'ALL MARKERS')
+  }, [allMarkerLocations])
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -311,7 +317,10 @@ export default function HomePage(props) {
         try {
           const location = await getLatLongFromPostcode(currentEvent.postcode);
           if (location) {
-            const { latitude, longitude } = location;
+            let { latitude, longitude } = location;
+            latitude = latitude.toString()
+            longitude = longitude.toString()
+
             return {
               ...currentEvent,
               latitude,
@@ -334,7 +343,6 @@ export default function HomePage(props) {
     );
   
     setFinalUserEvents(filteredLocations)
-    setUserMarkerLocations(filteredLocations);
   };
 
   
@@ -374,6 +382,9 @@ export default function HomePage(props) {
             setOpen={setOpen}
             googleMapsResults={googleMapsResults}
             allMarkerLocations={allMarkerLocations}
+            currentCoords={currentCoords}
+            radius={radius}
+            allEvents={allEvents}
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>

@@ -3,7 +3,7 @@ import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/a
 import CardExpanded from '../Card/CardExpanded'
 import MapEventUserCardExpanded from './MapEventUserCardExpanded';
 
-const GoogleMapComponent = ({ allMarkerLocations, center, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen}) => {
+const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocations, center, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen}) => {
   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
@@ -157,7 +157,7 @@ const GoogleMapComponent = ({ allMarkerLocations, center, onMarkerClick, eventDa
           onClick={handleMapClick}
         >
           {/* Display markers for each ticketmaster location */}
-          {allMarkerLocations.map((location, index) => (
+          {allEvents.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= radius).map((location, index) => (
             <Marker
               key={index}
               position={{
