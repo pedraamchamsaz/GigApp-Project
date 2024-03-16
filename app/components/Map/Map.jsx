@@ -192,7 +192,7 @@ const GoogleMapComponent = ({ allMarkerLocations, center, onMarkerClick, eventDa
         onClick={() => handleClickOpen(eventData[index])}
       >
         <i>More details...</i></p>
-                  <CardExpanded 
+            <CardExpanded 
               open={open}
               handleClose={handleClose}
               eventData={eventData}
