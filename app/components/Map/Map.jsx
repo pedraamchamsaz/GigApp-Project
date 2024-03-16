@@ -10,12 +10,12 @@ const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocatio
   const [showMapExpandedCard, setShowMapExpandedCard] = useState(false);
 
   useEffect(() => {
-    if (selectedMarker !== null && eventData[selectedMarker]) {
-      const filteredImages = eventData[selectedMarker].images?.filter((image) => image.height === 1152) || [];
+    if (selectedMarker !== null && allEvents[selectedMarker]) {
+      const filteredImages = allEvents[selectedMarker].images?.filter((image) => image.height === 1152) || [];
       const img = filteredImages.length > 0 && filteredImages[0].url;
       setStateImg(img);
     }
-  }, [selectedMarker, eventData]);
+  }, [selectedMarker, allEvents]);
 
   useEffect(() => { 
     console.log(userStateEvent)
@@ -93,8 +93,8 @@ const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocatio
     setOpen(true);
     setStateEvent(eventPassedIn)
 
-    const filteredImages = eventPassedIn.images.filter(image => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
+    const filteredImages = eventPassedIn.images?.filter(image => image.height === 1152);
+    const img = filteredImages?.length > 0 && filteredImages[0].url;
     setStateImg(img)
   };
 
@@ -103,8 +103,8 @@ const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocatio
     onMarkerClick(index);
 
     // Update stateImg based on the selected marker
-    const filteredImages = eventData[index].images.filter((image) => image.height === 1152);
-    const img = filteredImages.length > 0 && filteredImages[0].url;
+    const filteredImages = allEvents[index].images?.filter((image) => image.height === 1152);
+    const img = filteredImages?.length > 0 && filteredImages[0].url;
     setStateImg(img);
   };
 
@@ -164,7 +164,7 @@ const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocatio
                 lat: Number(location.latitude),
                 lng: Number(location.longitude)
               }}
-              title={eventData[index]?.name}
+              title={allEvents[index]?.name}
               onClick={() => {
                 setSelectedMarker(index);
                 onMarkerClick(index);
@@ -182,20 +182,20 @@ const GoogleMapComponent = ({ allEvents, radius, currentCoords, allMarkerLocatio
                 >
                   <div className='text-center w-full h-full p-3 rounded' style={{ background: `url(${stateImg}) center/cover no-repeat` }}>
                     <div className='bg-black/50 rounded hover:bg-black/80 p-2'>
-                <p className='text-lg text-white shadow-md'><b>{eventData[index].name}</b></p>
-                <p className='font-mono text-white shadow-md'>{eventData[index].dates.start.localDate}</p>
-                <p className='text-white shadow-md mt-1'>{eventData[index]._embedded.venues[0].name}</p>
+                <p className='text-lg text-white shadow-md'><b>{allEvents[index].name}</b></p>
+                <p className='font-mono text-white shadow-md'>{allEvents[index].date}</p>
+                <p className='text-white shadow-md mt-1'>{allEvents[index].venue}</p>
                 <div>
                   <br />
                 <p
         className='text-cyan-500 cursor-pointer'
-        onClick={() => handleClickOpen(eventData[index])}
+        onClick={() => handleClickOpen(allEvents[index])}
       >
         <i>More details...</i></p>
             <CardExpanded 
               open={open}
               handleClose={handleClose}
-              eventData={eventData}
+              // eventData={eventData}
               event={stateEvent}
               img={stateImg}
               />

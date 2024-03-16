@@ -2,7 +2,7 @@
 import { useEffect } from 'react';
 import GoogleMap from './Map';
 
-const SearchBar = ({ city, setCity, handleCurrentLocation, markerLocations, setSelectedCard, search, googleMapsResults, center, ...props}) => {
+const SearchBar = ({ allEvents, city, setCity, handleCurrentLocation, markerLocations, setSelectedCard, search, googleMapsResults, center, ...props}) => {
 
   useEffect(() => {
     const handleCurrentLocationOnLoad = () => {
@@ -15,8 +15,8 @@ const SearchBar = ({ city, setCity, handleCurrentLocation, markerLocations, setS
 
 
   const handleMarkerClick = (index) => {
-    if (markerLocations[index]) {
-      setSelectedCard(markerLocations[index]);
+    if (allEvents[index]) {
+      setSelectedCard(allEvents[index]);
     }
   };
 
@@ -52,6 +52,7 @@ const SearchBar = ({ city, setCity, handleCurrentLocation, markerLocations, setS
       <div className='mt-4'>
         <GoogleMap  
           {...props}
+          allEvents={allEvents}
           markerLocations={markerLocations}
           onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
         />
