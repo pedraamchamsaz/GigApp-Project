@@ -18,7 +18,7 @@ export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
   const [radius, setRadius] = useState(1000)
-  const [userGigRadius, setUserGigRadius] = useState(1000)
+  // const [userGigRadius, setUserGigRadius] = useState(1000)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
@@ -28,9 +28,9 @@ export default function HomePage(props) {
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
-  const [markerLocations, setMarkerLocations] = useState([])
+  // const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
-  const [userMarkerLocations, setUserMarkerLocations] = useState([]);
+  // const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
   const [resultsUser, setResultsUser] = useState(45)
@@ -66,16 +66,16 @@ export default function HomePage(props) {
   );
 
   // FILTERS - MARKER LOCATIONS
-  useEffect(() => {
-    const sliced = allEvents.slice(0, allEvents.length < results ? allEvents.length : results)
-    let slicedOnlyCoordinates = sliced.map(event => { 
-      const { latitude, longitude } = event
-      return {latitude, longitude}
-    }
-    )
+  // useEffect(() => {
+  //   const sliced = allEvents.slice(0, allEvents.length < results ? allEvents.length : results)
+  //   let slicedOnlyCoordinates = sliced.map(event => { 
+  //     const { latitude, longitude } = event
+  //     return {latitude, longitude}
+  //   }
+  //   )
     
-    setAllMarkerLocations(slicedOnlyCoordinates)
-  }, [allEvents, results, startDate, endDate])
+  //   setAllMarkerLocations(slicedOnlyCoordinates)
+  // }, [allEvents, results, startDate, endDate])
 
   // FILTERS - RADIUS, DATE
   useEffect(() => {
@@ -185,9 +185,6 @@ export default function HomePage(props) {
       });
   }, []);
 
-  useEffect(() => {
-    console.log(allEvents, 'ALL EVENTS')
-  }, [allEvents])
 
   // useEffect(() => {
   //   setAllMarkerLocations([...markerLocations, ...userMarkerLocations])
@@ -200,9 +197,9 @@ export default function HomePage(props) {
     } // if !token, redirect to landing page
   }, []);
 
-  useEffect(() => {
-    console.log(allMarkerLocations,'ALL MARKERS')
-  }, [allMarkerLocations])
+  // useEffect(() => {
+  //   console.log(allMarkerLocations,'ALL MARKERS')
+  // }, [allMarkerLocations])
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -211,11 +208,11 @@ export default function HomePage(props) {
 
   useEffect(() => {
     if (selectedMarker !== null) {
-      const filteredImages = eventData[selectedMarker].images.filter((image) => image.height === 1152);
+      const filteredImages = allEvents[selectedMarker].images.filter((image) => image.height === 1152);
       const img = filteredImages.length > 0 && filteredImages[0].url;
       setStateImg(img);
     }
-  }, [selectedMarker, eventData]);
+  }, [allEvents]);
 
   const search = async (city) => {
     try {
@@ -357,6 +354,10 @@ export default function HomePage(props) {
   useEffect(() => {
     setAllEvents([...eventData, ...finalUserEvents])
   }, [eventData, finalUserEvents])
+
+  useEffect(() => {
+    console.log(allEvents, 'ALL EVENTS')
+  }, [allEvents])
   
   return (
 
@@ -413,8 +414,8 @@ export default function HomePage(props) {
                   setEndDateUser={setEndDateUser}
                   resultsUser={resultsUser}
                   setResultsUser={setResultsUser}
-                  userGigRadius={userGigRadius}
-                  setUserGigRadius={setUserGigRadius}
+                  // userGigRadius={userGigRadius}
+                  // setUserGigRadius={setUserGigRadius}
                   />}
               </div>
               <div className='w-full flex justify-center p-8'>
@@ -429,13 +430,13 @@ export default function HomePage(props) {
                   ) : (
                     <ProfileEvents
                       client={client}
-                      userMarkerLocations={userMarkerLocations}
-                      setUserMarkerLocations={setUserMarkerLocations}
+                      // userMarkerLocations={userMarkerLocations}
+                      // setUserMarkerLocations={setUserMarkerLocations}
                       resultsUser={resultsUser}
                       startDateUser={startDateUser}
                       endDateUser={endDateUser}
                       currentCoords={currentCoords}
-                      userGigRadius={userGigRadius}
+                      // userGigRadius={userGigRadius}
                       events={events}
                       setEvents={setEvents}
                       current={current}
