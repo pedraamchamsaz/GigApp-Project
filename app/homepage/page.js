@@ -41,6 +41,7 @@ export default function HomePage(props) {
   const [bookmarkedEvents, setBookmarkedEvents] = useState({});
   const [allEvents, setAllEvents] = useState([]);
   const [allMarkerLocations, setAllMarkerLocations] = useState([])
+  const [finalUserEvents, setFinalUserEvents] = useState([])
 
   // DATE FUNCTIONS
   const date = new Date()
@@ -69,7 +70,6 @@ export default function HomePage(props) {
     const sliced = eventData.slice(0, eventData.length < results ? eventData.length : results)
     let slicedOnlyCoordinates = sliced.map(event => { 
       const { latitude, longitude } = event.location
-     
       return {latitude, longitude}
     }
     )
@@ -182,11 +182,6 @@ export default function HomePage(props) {
         console.log("failed to get API request (GET)");
       });
   }, []);
-
-  // MERGE TM AND BACKEND DATA
-  useEffect(() => {
-    setAllEvents([...eventData, ...events])
-  }, [eventData, events])
 
   useEffect(() => {
     console.log(allEvents, 'ALL EVENTS')
@@ -338,6 +333,7 @@ export default function HomePage(props) {
       (location) => location !== null
     );
   
+    setFinalUserEvents(filteredLocations)
     setUserMarkerLocations(filteredLocations);
   };
 
@@ -347,6 +343,12 @@ export default function HomePage(props) {
       convertPostcodesToLatLong();
     }
   }, [events]);
+
+
+  // MERGE TM AND BACKEND DATA
+  useEffect(() => {
+    setAllEvents([...eventData, ...finalUserEvents])
+  }, [eventData, finalUserEvents])
   
   return (
 
@@ -407,7 +409,6 @@ export default function HomePage(props) {
               <div className='w-full flex justify-center p-8'>
                 {list === 'RECOMMENDED GIGS' ? (
                     <Card 
-                      // eventData={eventData}
                       results={results}
                       setSelectedMarker={setSelectedMarker}
                       allEvents={allEvents}
