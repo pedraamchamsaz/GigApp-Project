@@ -32,7 +32,7 @@ const Card = ({ allEvents, results, setSelectedMarker
       {allEvents.slice(0, results).map((event, index) => {
 
         const filteredImages = event.images?.filter(image => image.height === 1152);
-        const img = filteredImages?.length > 0 && filteredImages[0].url;
+        const img = filteredImages?.length > 0 && filteredImages[0].url || event.photo;
 
         // markerLocations.push(event._embedded.venues[0].location)
 
@@ -47,9 +47,9 @@ const Card = ({ allEvents, results, setSelectedMarker
                 className='object-cover w-full h-full rounded-xl' 
                 src={img}/>
               <div className='bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl p-2'>
-                <p className='text-base font-bold'>{allEvents[index].eventName}</p>
+                <p className='text-base font-bold'>{allEvents[index].name}</p>
                 <p className='text-sm font-medium mt-2'>{allEvents[index]?.date} - {allEvents[index].time?.slice(0, 5)}</p>
-                <p className='text-xs mt-2'>{allEvents[index].venue} - {allEvents[index].city.name}, {allEvents[index].countrycode}</p>
+                <p className='text-xs mt-2'>{allEvents[index].venue} - {allEvents[index].city.name || allEvents[index].city}, {allEvents[index].countrycode}</p>
               </div>
             <CardExpanded 
               open={open}

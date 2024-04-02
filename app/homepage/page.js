@@ -2,14 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { ApiClient } from "@/apiClient";
-import ProfileEvents from "../components/Card/ProfileEvents";
 import SearchBar from "../components/Map/SearchBar";
 import ProfileButton from "../components/Buttons/ProfileButton";
 import Geohash from 'latlon-geohash';
 import axios from 'axios'
 import Dropdown from "../components/Filters/Dropdown";
 import RefineButton from "../components/Filters/RefineButton";
-import RefineButtonUser from "../components/Filters/RefineButtonUser";
 import Card from "../components/Card/Card";
 import InterestedEvents from "../components/Buttons/Interested";
 
@@ -17,28 +15,24 @@ import InterestedEvents from "../components/Buttons/Interested";
 export default function HomePage(props) {
   const [token, setToken] = useState(null);
   const [eventData, setEventData] = useState([]);
-  const [radius, setRadius] = useState(1000)
-  // const [userGigRadius, setUserGigRadius] = useState(1000)
+  const [radius, setRadius] = useState(10)
   const [location, setLocation] = useState(null)
   const [open, setOpen] = useState(false);
   const [stateEvent, setStateEvent] = useState('')
   const [userStateEvent, setUserStateEvent] = useState('')
   const [stateImg, setStateImg] = useState('')
-  const [results, setResults] = useState(120)
+  const [results, setResults] = useState(15)
   const [city, setCity] = useState('');
   const [googleMapsResults, setGoogleMapsResults] = useState([]);
   const [mapCenter, setMapCenter] = useState(null);
-  // const [markerLocations, setMarkerLocations] = useState([])
   const [selectedCard, setSelectedCard] = useState(null);
-  // const [userMarkerLocations, setUserMarkerLocations] = useState([]);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
   const [resultsUser, setResultsUser] = useState(45)
   const [currentCoords, setCurrentCoords] = useState(null)
 
   const [events, setEvents] = useState([]);
-  const [current, setCurrent] = useState(undefined);
-  const [bookmarkedEvents, setBookmarkedEvents] = useState({});
+  // const [current, setCurrent] = useState(undefined);
   const [allEvents, setAllEvents] = useState([]);
   const [allMarkerLocations, setAllMarkerLocations] = useState([])
   const [finalUserEvents, setFinalUserEvents] = useState([])
@@ -65,22 +59,11 @@ export default function HomePage(props) {
     () => logout()
   );
 
-  // FILTERS - MARKER LOCATIONS
-  // useEffect(() => {
-  //   const sliced = allEvents.slice(0, allEvents.length < results ? allEvents.length : results)
-  //   let slicedOnlyCoordinates = sliced.map(event => { 
-  //     const { latitude, longitude } = event
-  //     return {latitude, longitude}
-  //   }
-  //   )
-    
-  //   setAllMarkerLocations(slicedOnlyCoordinates)
-  // }, [allEvents, results, startDate, endDate])
 
   // FILTERS - RADIUS, DATE
   useEffect(() => {
     getEventData(location)
-  }, [radius, startDate, endDate])
+  }, [results, radius, startDate, endDate])
 
   // GETS CURRENT POSITION
   useEffect(() => {
@@ -90,6 +73,7 @@ export default function HomePage(props) {
           setCurrentCoords(position.coords)
         })
       }
+      console.log(currentCoords, 'CURRENT COORDS')
     }
   currentLocation()
   }, [])
@@ -114,7 +98,7 @@ export default function HomePage(props) {
   // TM API CALL
   const getEventData = async (location) => {
     try {
-      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&radius=${radius}&geoPoint=${location}&sort=distance,asc&size=100&startDateTime=${startDateString}&endDateTime=${endDateString}`)
+      const response = await axios.get(`https://app.ticketmaster.com/discovery/v2/events.json?apikey=${TMapiKey}&classificationName=music&geoPoint=${location}&radius=${radius}&sort=distance,asc&size=200&startDateTime=${startDateString}&endDateTime=${endDateString}`)
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
 
@@ -123,7 +107,7 @@ export default function HomePage(props) {
       const subset = ['name', '_embedded.venues.0.city', 'dates.start.localDate', 'dates.start.localTime','images', 'url', '_embedded.venues.0.name', '_embedded.venues.0.country.countryCode', '_embedded.venues.0.postalCode', 'priceRanges.0.min', 'priceRanges.0.max', 'priceRanges.0.currency', '_embedded.venues.0.location', '_embedded.venues.0.name']
 
       const propertyMapping = {
-        "name": "eventName",
+        "name": "name",
         "_embedded.venues.0.city": "city", 
         "dates.start.localDate": "date", 
         "dates.start.localTime": "time",
@@ -178,17 +162,14 @@ export default function HomePage(props) {
     client
       .getAllEvents()
       .then((response) => {
-        setEvents(response.data);
+        const filteredDates = response.data.filter(event => event.date > today)
+        setEvents(filteredDates);
       })
       .catch((err) => {
         console.log("failed to get API request (GET)");
       });
   }, []);
 
-
-  // useEffect(() => {
-  //   setAllMarkerLocations([...markerLocations, ...userMarkerLocations])
-  // }, [markerLocations, userMarkerLocations])
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -197,9 +178,6 @@ export default function HomePage(props) {
     } // if !token, redirect to landing page
   }, []);
 
-  // useEffect(() => {
-  //   console.log(allMarkerLocations,'ALL MARKERS')
-  // }, [allMarkerLocations])
 
   const logout = () => {
     localStorage.removeItem("token");
@@ -219,12 +197,16 @@ export default function HomePage(props) {
       const googleMapsResponse = await axios.get(
         `https://maps.googleapis.com/maps/api/geocode/json?address=${city}&key=${GoogleapiKey}`
       );
+      console.log(googleMapsResponse.data.results, 'GOOGLE')
       setGoogleMapsResults(googleMapsResponse.data.results);
   
       if (googleMapsResponse.data.results.length > 0) {
         const userLocation = googleMapsResponse.data.results[0].geometry.location;
         const { lat, lng } = userLocation;
+        const latitude = lat
+        const longitude = lng
         const geoHash = Geohash.encode(lat, lng, 8);
+        setCurrentCoords({latitude: latitude, longitude: longitude})
         setLocation(geoHash);
         getEventData(geoHash);
   
@@ -320,6 +302,7 @@ export default function HomePage(props) {
 
             return {
               ...currentEvent,
+              location,
               latitude,
               longitude,
             };
@@ -352,7 +335,7 @@ export default function HomePage(props) {
 
   // MERGE TM AND BACKEND DATA
   useEffect(() => {
-    setAllEvents([...eventData, ...finalUserEvents])
+    setAllEvents([...eventData, ...finalUserEvents].slice(0, results).sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
   }, [eventData, finalUserEvents])
 
   useEffect(() => {
@@ -386,6 +369,7 @@ export default function HomePage(props) {
             currentCoords={currentCoords}
             radius={radius}
             allEvents={allEvents}
+            results={results}
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>
@@ -394,7 +378,7 @@ export default function HomePage(props) {
                 <Dropdown 
                   list={list} 
                   setList={setList}/>
-                {props.list === 'RECOMMENDED GIGS' ?
+                {list === 'RECOMMENDED GIGS' ?
                 <RefineButton 
                   setResults={setResults}
                   setRadius={setRadius}
@@ -425,26 +409,9 @@ export default function HomePage(props) {
                       setSelectedMarker={setSelectedMarker}
                       allEvents={allEvents}
                     />
-                  ) : list === 'INTERESTED' ? (
+                  ) : 
                     <InterestedEvents />
-                  ) : (
-                    <ProfileEvents
-                      client={client}
-                      // userMarkerLocations={userMarkerLocations}
-                      // setUserMarkerLocations={setUserMarkerLocations}
-                      resultsUser={resultsUser}
-                      startDateUser={startDateUser}
-                      endDateUser={endDateUser}
-                      currentCoords={currentCoords}
-                      // userGigRadius={userGigRadius}
-                      events={events}
-                      setEvents={setEvents}
-                      current={current}
-                      setCurrent={setCurrent}
-                      bookmarkedEvents={bookmarkedEvents}
-                      setBookmarkedEvents={setBookmarkedEvents}
-                    />
-                  )}
+                }
               </div>
           </div>
      </div>
