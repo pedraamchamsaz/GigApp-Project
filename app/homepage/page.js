@@ -86,7 +86,7 @@ export default function HomePage(props) {
           const { latitude, longitude } = position.coords
           const geoHash = Geohash.encode(latitude, longitude, 8)
           setLocation(geoHash)
-          getEventData(geoHash)
+          getEventData(location)
         })
       }
     }
@@ -230,44 +230,65 @@ export default function HomePage(props) {
           navigator.geolocation.getCurrentPosition(resolve, reject);
         });
   
-        const { latitude, longitude } = position.coords;
+        const {latitude, longitude} = position.coords;
   
         const googleMapsResponse = await axios.get(
           `https://maps.googleapis.com/maps/api/geocode/json?latlng=${latitude},${longitude}&key=${GoogleapiKey}`
         );
-  
-        if (googleMapsResponse.data.results && googleMapsResponse.data.results.length > 0) {
-          const addressComponents = googleMapsResponse.data.results[0].address_components;
-  
-          // Log the entire geolocation response for inspection
-          console.log('Geolocation response:', googleMapsResponse.data);
-  
-          // Find the city in the address components
-          const cityComponent = addressComponents.find(
-            (component) =>
-              component.types.includes('locality') ||
-              component.types.includes('postal_town') ||
-              component.types.includes('administrative_area_level_2')
-          );
-  
-          if (cityComponent) {
-            const formattedAddress = cityComponent.long_name;
-            setCity(formattedAddress); // Update the city state
-            setGoogleMapsResults(googleMapsResponse.data.results);
-  
-            // Trigger the search function with the closest city
-            await search(formattedAddress);
+
+        // setGoogleMapsResults(googleMapsResponse.data.results);
+
+        if (googleMapsResponse.data.results.length > 0) {
+          const userLocation = googleMapsResponse.data.results[0].geometry.location;
+          const { lat, lng } = userLocation;
+          const latitude = lat
+          const longitude = lng
+          const geoHash = Geohash.encode(lat, lng, 8);
+          setCurrentCoords({latitude: latitude, longitude: longitude})
+          setLocation(geoHash);
+          getEventData(geoHash);
+    
+          if (userLocation && typeof userLocation.lat === 'number' && typeof userLocation.lng === 'number') {
+            setMapCenter(userLocation);
           } else {
-            console.error('No specific city component found in geolocation response.');
+            console.error('Invalid user location:', userLocation);
           }
         } else {
-          console.error('No results found for geolocation.');
+          console.error('No results found for the city:', city);
         }
+  
+        // if (googleMapsResponse.data.results && googleMapsResponse.data.results.length > 0) {
+        //   const addressComponents = googleMapsResponse.data.results[0].address_components;
+  
+        //   // Log the entire geolocation response for inspection
+        //   console.log('Geolocation response:', googleMapsResponse.data);
+  
+        //   // Find the city in the address components
+        //   const cityComponent = addressComponents.find(
+        //     (component) =>
+        //       component.types.includes('locality') ||
+        //       component.types.includes('postal_town') ||
+        //       component.types.includes('administrative_area_level_2')
+        //   );
+  
+        //   if (cityComponent) {
+        //     const formattedAddress = cityComponent.long_name;
+        //     setCity(formattedAddress); // Update the city state
+        //     setGoogleMapsResults(googleMapsResponse.data.results);
+  
+        //     // Trigger the search function with the closest city
+        //     await search(formattedAddress);
+        //   } else {
+        //     console.error('No specific city component found in geolocation response.');
+        //   }
+        // } else {
+        //   console.error('No results found for geolocation.');
+        // }
       } catch (error) {
         console.error('Error getting current location:', error);
       }
-    } else {
-      console.error('Geolocation is not supported by your browser');
+    // } else {
+    //   console.error('Geolocation is not supported by your browser');
     }
   };
 

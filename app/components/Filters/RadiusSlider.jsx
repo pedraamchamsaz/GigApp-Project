@@ -6,7 +6,7 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function RadiusSlider( {setRadius, getEventData, radius}) {
+export default function RadiusSlider( {setRadius, radius}) {
 
   const handleRadius = (e) => {
     setRadius(e.target.value)
