@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { GoogleMap, LoadScript, Marker, InfoWindow, } from '@react-google-maps/api';
 import CardExpanded from '../Card/CardExpanded'
 
-const GoogleMapComponent = ({ results, allEvents, radius, currentCoords, center, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen}) => {
+const GoogleMapComponent = ({ getDistanceFromLatLon, results, allEvents, radius, currentCoords, center, onMarkerClick, eventData, open, stateEvent, setStateEvent, userStateEvent, stateImg, setStateImg, setOpen}) => {
   const GoogleapiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [selectedUserMarker, setSelectedUserMarker] = useState(null);
@@ -123,24 +123,6 @@ const GoogleMapComponent = ({ results, allEvents, radius, currentCoords, center,
   const handleMoreDetailsClick = () => {
     setShowMapExpandedCard(true);
   };
-
-  function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
-    const R = 3963.19; // Radius of the earth in miles
-    const dLat = deg2rad(lat2-lat1);  // deg2rad below
-    const dLon = deg2rad(lon2-lon1); 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
-      Math.sin(dLon/2) * Math.sin(dLon/2)
-      ; 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
-    const d = R * c; // Distance in miles
-    return d;
-  }
-  
-  function deg2rad(deg) {
-    return deg * (Math.PI/180)
-  }
 
   return (
     <LoadScript googleMapsApiKey={GoogleapiKey}>

@@ -28,7 +28,6 @@ export default function HomePage(props) {
   const [selectedCard, setSelectedCard] = useState(null);
   const [selectedMarker, setSelectedMarker] = useState(null);
   const [list, setList] = useState('RECOMMENDED GIGS')
-  const [resultsUser, setResultsUser] = useState(45)
   const [currentCoords, setCurrentCoords] = useState(null)
 
   const [events, setEvents] = useState([]);
@@ -46,8 +45,6 @@ export default function HomePage(props) {
   const [endDate, setEndDate] = useState(todayPlusSeven)
   const startDateString = `${startDate}T00:00:00Z`
   const endDateString = `${endDate}T23:59:59Z`
-  const [startDateUser, setStartDateUser] = useState(today)
-  const [endDateUser, setEndDateUser] = useState(todayPlusSeven)
   
   // API KEYS
   const TMapiKey = process.env.NEXT_PUBLIC_TM_API_KEY;
@@ -59,41 +56,47 @@ export default function HomePage(props) {
     () => logout()
   );
 
-
-  // FILTERS - RADIUS, DATE
+  // SETS TOKEN, GETS CURRENT POSITION, CONVERTS CURRENT COORDS INTO GEOHASH AND GETS TM DATA
   useEffect(() => {
-    getEventData(location)
-  }, [results, radius, startDate, endDate])
 
-  // GETS CURRENT POSITION
-  useEffect(() => {
+    // TOKEN
+    const token = localStorage.getItem("token");
+    if (token) {
+      setToken(token);
+    } // if !token, redirect to landing page
+
+    // FINDS CURRENT POSITION, CONVERTS TO GEOHASH, SETS LOCATION AND GETS TM DATA
     const currentLocation = async () => {
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
           setCurrentCoords(position.coords)
-        })
-      }
-      console.log(currentCoords, 'CURRENT COORDS')
-    }
-  currentLocation()
-  }, [])
-
-  // CONVERTS CURRENT COORDS INTO GEOHASH AND GETS TM DATA
-  useEffect(() => {
-    const currentLocation = async () => {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
           const { latitude, longitude } = position.coords
           const geoHash = Geohash.encode(latitude, longitude, 8)
           setLocation(geoHash)
           getEventData(location)
         })
       }
+      console.log(currentCoords, 'CURRENT COORDS')
     }
-
   currentLocation()
 
+  // BACKEND API CALL
+  client
+    .getAllEvents()
+    .then((response) => {
+      const filteredDates = response.data.filter(event => event.date >= today)
+      setEvents(filteredDates);
+    })
+    .catch((err) => {
+      console.log("failed to get API request (GET)");
+    });
   }, [])
+
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setToken(null);
+  };
 
   // TM API CALL
   const getEventData = async (location) => {
@@ -102,9 +105,7 @@ export default function HomePage(props) {
       const onSale = response.data._embedded.events.filter(event => event.dates.status.code === 'onsale')
       const sortedOnSale = onSale.sort((a, b) => Date.parse(a.dates.start.localDate) - Date.parse(b.dates.start.localDate));
 
-      // setEventData(sortedOnSale)
-
-      const subset = ['name', '_embedded.venues.0.city', 'dates.start.localDate', 'dates.start.localTime','images', 'url', '_embedded.venues.0.name', '_embedded.venues.0.country.countryCode', '_embedded.venues.0.postalCode', 'priceRanges.0.min', 'priceRanges.0.max', 'priceRanges.0.currency', '_embedded.venues.0.location', '_embedded.venues.0.name']
+      // const subset = ['name', '_embedded.venues.0.city', 'dates.start.localDate', 'dates.start.localTime','images', 'url', '_embedded.venues.0.name', '_embedded.venues.0.country.countryCode', '_embedded.venues.0.postalCode', 'priceRanges.0.min', 'priceRanges.0.max', 'priceRanges.0.currency', '_embedded.venues.0.location', '_embedded.venues.0.name']
 
       const propertyMapping = {
         "name": "name",
@@ -157,41 +158,41 @@ export default function HomePage(props) {
     }
   }
 
-  // BACKEND API CALL
+
+  // MERGE TM AND BACKEND DATA
   useEffect(() => {
+    setAllEvents([...eventData, ...finalUserEvents].slice(0, results).sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
+  }, [eventData, finalUserEvents])
+
+  
+  // FILTERS - RADIUS, DATE
+  useEffect(() => {
+    getEventData(location)
+    
     client
-      .getAllEvents()
-      .then((response) => {
-        const filteredDates = response.data.filter(event => event.date > today)
-        setEvents(filteredDates);
-      })
-      .catch((err) => {
-        console.log("failed to get API request (GET)");
-      });
-  }, []);
+    .getAllEvents()
+    .then((response) => {
+      const filteredDates = response.data.filter(event => event.date >= today)
+      setEvents(filteredDates);
+    })
+    .catch((err) => {
+      console.log("failed to get API request (GET)");
+    });
+  }, [results, radius, startDate, endDate])
 
 
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      setToken(token);
-    } // if !token, redirect to landing page
-  }, []);
-
-
-  const logout = () => {
-    localStorage.removeItem("token");
-    setToken(null);
-  };
-
+  // IMAGE SELECTOR
   useEffect(() => {
     if (selectedMarker !== null) {
       const filteredImages = allEvents[selectedMarker].images.filter((image) => image.height === 1152);
       const img = filteredImages.length > 0 && filteredImages[0].url;
       setStateImg(img);
     }
+    console.log(allEvents, 'ALL EVENTS')
   }, [allEvents]);
 
+
+  // SEARCH FUNCTION
   const search = async (city) => {
     try {
       const googleMapsResponse = await axios.get(
@@ -223,6 +224,7 @@ export default function HomePage(props) {
     }
   };  
 
+  // CURRENT LOCATION
   const handleCurrentLocation = async () => {
     if (navigator.geolocation) {
       try {
@@ -257,38 +259,9 @@ export default function HomePage(props) {
           console.error('No results found for the city:', city);
         }
   
-        // if (googleMapsResponse.data.results && googleMapsResponse.data.results.length > 0) {
-        //   const addressComponents = googleMapsResponse.data.results[0].address_components;
-  
-        //   // Log the entire geolocation response for inspection
-        //   console.log('Geolocation response:', googleMapsResponse.data);
-  
-        //   // Find the city in the address components
-        //   const cityComponent = addressComponents.find(
-        //     (component) =>
-        //       component.types.includes('locality') ||
-        //       component.types.includes('postal_town') ||
-        //       component.types.includes('administrative_area_level_2')
-        //   );
-  
-        //   if (cityComponent) {
-        //     const formattedAddress = cityComponent.long_name;
-        //     setCity(formattedAddress); // Update the city state
-        //     setGoogleMapsResults(googleMapsResponse.data.results);
-  
-        //     // Trigger the search function with the closest city
-        //     await search(formattedAddress);
-        //   } else {
-        //     console.error('No specific city component found in geolocation response.');
-        //   }
-        // } else {
-        //   console.error('No results found for geolocation.');
-        // }
       } catch (error) {
         console.error('Error getting current location:', error);
       }
-    // } else {
-    //   console.error('Geolocation is not supported by your browser');
     }
   };
 
@@ -301,7 +274,7 @@ export default function HomePage(props) {
 
       if (data.status === 'OK' && data.results.length > 0) {
         const location = data.results[0].geometry.location;
-        return { latitude: location.lat, longitude: location.lng };
+        return { latitude: location.lat.toFixed(6), longitude: location.lng.toFixed(6) };
       } else {
         throw new Error('Invalid postcode or no results found.');
       }
@@ -339,9 +312,11 @@ export default function HomePage(props) {
     );
 
     // Filter out events with invalid postcodes
-    const filteredLocations = updatedUserMarkerLocations.filter(
+    const filteredLocations = updatedUserMarkerLocations
+    .filter(
       (location) => location !== null
-    );
+    )
+    .filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= radius);
   
     setFinalUserEvents(filteredLocations)
   };
@@ -354,14 +329,23 @@ export default function HomePage(props) {
   }, [events]);
 
 
-  // MERGE TM AND BACKEND DATA
-  useEffect(() => {
-    setAllEvents([...eventData, ...finalUserEvents].slice(0, results).sort((a, b) => Date.parse(a.date) - Date.parse(b.date)))
-  }, [eventData, finalUserEvents])
-
-  useEffect(() => {
-    console.log(allEvents, 'ALL EVENTS')
-  }, [allEvents])
+  function getDistanceFromLatLon(lat1, lon1, lat2, lon2) {
+    const R = 3963.19; // Radius of the earth in miles
+    const dLat = deg2rad(lat2-lat1);  // deg2rad below
+    const dLon = deg2rad(lon2-lon1); 
+    const a = 
+      Math.sin(dLat/2) * Math.sin(dLat/2) +
+      Math.cos(deg2rad(lat1)) * Math.cos(deg2rad(lat2)) * 
+      Math.sin(dLon/2) * Math.sin(dLon/2)
+      ; 
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)); 
+    const d = R * c; // Distance in miles
+    return d;
+  }
+  
+  function deg2rad(deg) {
+    return deg * (Math.PI/180)
+  }
   
   return (
 
@@ -391,6 +375,7 @@ export default function HomePage(props) {
             radius={radius}
             allEvents={allEvents}
             results={results}
+            getDistanceFromLatLon={getDistanceFromLatLon}
             />
 
 <div style={{ flex: 1, overflow: 'visible' }}>
@@ -399,7 +384,6 @@ export default function HomePage(props) {
                 <Dropdown 
                   list={list} 
                   setList={setList}/>
-                {list === 'RECOMMENDED GIGS' ?
                 <RefineButton 
                   setResults={setResults}
                   setRadius={setRadius}
@@ -410,18 +394,7 @@ export default function HomePage(props) {
                   setStartDate={setStartDate}
                   endDate={endDate}
                   setEndDate={setEndDate}
-                  /> :
-                <RefineButtonUser 
-                  getEventData={getEventData}
-                  startDateUser={startDateUser}
-                  setStartDateUser={setStartDateUser}
-                  endDateUser={endDateUser}
-                  setEndDateUser={setEndDateUser}
-                  resultsUser={resultsUser}
-                  setResultsUser={setResultsUser}
-                  // userGigRadius={userGigRadius}
-                  // setUserGigRadius={setUserGigRadius}
-                  />}
+                  />
               </div>
               <div className='w-full flex justify-center p-8'>
                 {list === 'RECOMMENDED GIGS' ? (
@@ -429,6 +402,9 @@ export default function HomePage(props) {
                       results={results}
                       setSelectedMarker={setSelectedMarker}
                       allEvents={allEvents}
+                      getDistanceFromLatLon={getDistanceFromLatLon}
+                      currentCoords={currentCoords}
+                      radius={radius}
                     />
                   ) : 
                     <InterestedEvents />

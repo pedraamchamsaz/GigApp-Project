@@ -4,7 +4,7 @@ import React from 'react'
 import { useState, useEffect } from 'react'
 import CardExpanded from './CardExpanded'
 
-const Card = ({ allEvents, results, setSelectedMarker
+const Card = ({ allEvents, results, setSelectedMarker, getDistanceFromLatLon, currentCoords, radius
 }) => {
 
   const [open, setOpen] = useState(false);
@@ -29,10 +29,10 @@ const Card = ({ allEvents, results, setSelectedMarker
 
   return (
     <div className="flex justify-center flex-wrap gap-8 pt-3 mt-5">
-      {allEvents.slice(0, results).map((event, index) => {
+      {allEvents.filter(mark => getDistanceFromLatLon(currentCoords?.latitude, currentCoords?.longitude, mark.latitude, mark.longitude) <= radius).slice(0, results).map((event, index) => {
 
         const filteredImages = event.images?.filter(image => image.height === 1152);
-        const img = filteredImages?.length > 0 && filteredImages[0].url || event.photo;
+        const img = filteredImages ? filteredImages.length > 0 && filteredImages[0].url : event.photo;
 
         // markerLocations.push(event._embedded.venues[0].location)
 
