@@ -350,11 +350,16 @@ export default function HomePage(props) {
   return (
 
     <div>
-          <div className="flex justify-end mt-10 mr-5 lg:mr-10">      
+        <div className="flex">
+          <h1 className="text-white text-center pt-8 pl-10 text-3xl w-fit mx-auto">
+                  Gig<b>nite</b>
+          </h1>
+          <div className="flex justify-end pt-4 mr-7">      
             <ProfileButton isLoggedIn={token !== null} />
           </div>
+        </div>
 
-          <SearchBar 
+        <SearchBar 
             city={city}
             setCity={setCity}
             setSelectedCard={setSelectedCard}
@@ -378,24 +383,28 @@ export default function HomePage(props) {
             getDistanceFromLatLon={getDistanceFromLatLon}
             />
 
+          <div className='flex justify-between px-8 absolute top-32'>
+            <Dropdown 
+              list={list} 
+              setList={setList}/>
+          </div>
+          <div className='flex justify-between px-8 absolute top-32 -right-3'>
+            <RefineButton 
+              setResults={setResults}
+              setRadius={setRadius}
+              getEventData={getEventData}
+              radius={radius}
+              results={results}
+              startDate={startDate}
+              setStartDate={setStartDate}
+              endDate={endDate}
+              setEndDate={setEndDate}
+              />
+          </div>
+
+
 <div style={{ flex: 1, overflow: 'visible' }}>
           <div className='mt-6'>
-              <div className='flex justify-between px-8'>
-                <Dropdown 
-                  list={list} 
-                  setList={setList}/>
-                <RefineButton 
-                  setResults={setResults}
-                  setRadius={setRadius}
-                  getEventData={getEventData}
-                  radius={radius}
-                  results={results}
-                  startDate={startDate}
-                  setStartDate={setStartDate}
-                  endDate={endDate}
-                  setEndDate={setEndDate}
-                  />
-              </div>
               <div className='w-full flex justify-center p-8'>
                 {list === 'RECOMMENDED GIGS' ? (
                     <Card 

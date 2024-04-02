@@ -126,12 +126,12 @@ const GoogleMapComponent = ({ getDistanceFromLatLon, results, allEvents, radius,
 
   return (
     <LoadScript googleMapsApiKey={GoogleapiKey}>
-      <div className="relative rounded-3xl mb-10 border-4 border-black overflow-hidden focus:outline-none">
+      <div className="relative rounded-3xl mb-10 border-black overflow-hidden focus:outline-none w-full">
         <GoogleMap
           center={center || { lat: 51.5072178, lng: -0.1275862 }} // London
           zoom={10} 
           mapContainerStyle={{
-            height: '50vh',
+            height: '70vh',
             width: '95vw', 
           }}
           options={mapOptions}

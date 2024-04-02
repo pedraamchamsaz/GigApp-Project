@@ -27,14 +27,14 @@ const SearchBar = ({ results, city, setCity, handleCurrentLocation, markerLocati
 
   return (
 
-    <div className='flex flex-col items-center justify-center'>
+    <div className='flex flex-col items-center justify-center mt-10 w-full'>
 
       <div className='flex gap-10'>
         <form onSubmit={handleSearch} className='text-center mb-4'>
           <div className='flex items-center'>
             <input
               type="text"
-              placeholder="Enter your location"
+              placeholder="Enter a location"
               value={city}
               onChange={(e) => setCity(e.target.value)}
               className='p-2 rounded-l-full border-t-4 border-b-4 border-l-4 border-solid border-teal-500 focus:outline-none'
@@ -48,7 +48,7 @@ const SearchBar = ({ results, city, setCity, handleCurrentLocation, markerLocati
         </button>
       </div>
 
-      <div className='mt-4'>
+      <div className='mt-4 px-auto'>
         <GoogleMap  
           {...props}
           onMarkerClick={handleMarkerClick} // Pass the callback to handle marker clicks
