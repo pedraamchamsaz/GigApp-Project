@@ -11,7 +11,6 @@ const Card = ({ allEvents, results, setSelectedMarker, getDistanceFromLatLon, cu
   const [stateEvent, setStateEvent] = useState('');
   const [stateImg, setStateImg] = useState('');
 
-  // const [userSavedEvents, setUserSavedEvents] = useState([])
   const handleClickOpen = (eventPassedIn) => {
     if (stateEvent) return;
     setOpen(true);
@@ -47,6 +46,7 @@ const Card = ({ allEvents, results, setSelectedMarker, getDistanceFromLatLon, cu
                 className='object-cover w-full h-full rounded-xl' 
                 src={img}/>
               <div className='bg-black/50 absolute top-0 text-white w-full h-full text-center flex flex-col justify-center border-4 border-black hover:border-4 hover:border-[#1AA297] hover:cursor-pointer rounded-xl p-2'>
+                {event.createdBy && <p className='absolute top-2 right-2 text-sm'>Sponsored</p>}
                 <p className='text-base font-bold'>{allEvents[index].name}</p>
                 <p className='text-sm font-medium mt-2'>{allEvents[index]?.date} - {allEvents[index].time?.slice(0, 5)}</p>
                 <p className='text-xs mt-2'>{allEvents[index].venue} - {allEvents[index].city.name || allEvents[index].city}, {allEvents[index].countrycode}</p>
@@ -54,7 +54,6 @@ const Card = ({ allEvents, results, setSelectedMarker, getDistanceFromLatLon, cu
             <CardExpanded 
               open={open}
               handleClose={handleClose}
-              allEvents={allEvents}
               event={stateEvent}
               img={stateImg}
               />
