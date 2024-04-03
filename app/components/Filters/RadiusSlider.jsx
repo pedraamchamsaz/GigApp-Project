@@ -6,7 +6,7 @@ function valuetext(value) {
   return `${value}`;
 }
 
-export default function RadiusSlider( {setRadius, getEventData, radius}) {
+export default function RadiusSlider( {setRadius, radius}) {
 
   const handleRadius = (e) => {
     setRadius(e.target.value)
@@ -23,7 +23,7 @@ export default function RadiusSlider( {setRadius, getEventData, radius}) {
         step={10}
         // marks
         min={10}
-        max={300}
+        max={100}
         onChange={handleRadius}
       />
     </Box>

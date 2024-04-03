@@ -1,15 +1,14 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useState } from 'react'
 
-const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent, eventsArray, }) => {
-    const startDate = event?.dates?.start.localDate
-    const startTime = event?.dates?.start.localTime.slice(0, 5)
-    const venue = event._embedded.venues[0]
-    const minPrice = event.priceRanges && event.priceRanges[0].min
-    const maxPrice = event.priceRanges && event.priceRanges[0].max
-    const currency = event.priceRanges && event.priceRanges[0].currency
+const CardLarge = ({event, img}) => {
+    const startDate = event?.date
+    const startTime = event?.time.slice(0, 5)
+    const venue = event.venue
+    const minPrice = event.priceRanges && event.min
+    const maxPrice = event.priceRanges && event.max
+    const currency = event.priceRanges && event.currency
 
 
     function formatPriceToCurrency(price, currencyCode) {
@@ -29,11 +28,11 @@ const CardLarge = ({event, img, userSavedEvents, setUserSavedEvents, stateEvent,
             <div className='bg-black text-white w-full flex flex-col items-start justify-center p-3'>
                 <p className='text-lg font-bold '>{event.name}</p>
                 <p className='text-sm font-medium mt-2'>{startDate} - {startTime}</p>
-                <p className='text-xs mt-2'>{venue.name} - {venue.city.name}, {venue.country.countryCode}</p>
+                <p className='text-xs mt-2'>{venue} - {event.city}, {event.countrycode}</p>
                 <p className='text-xs font-bold mt-4'>{event.priceRanges && minPrice && maxPrice ? `${formatPriceToCurrency(minPrice, currency)} - ${formatPriceToCurrency(maxPrice, currency)}` : 'No Price Available (See Link)'}</p>
             </div>
             <div className='flex flex-col lg:flex-row justify-center items-center gap-4 bg-black pr-10'>
-                <Link href={event.url} target='_blank'>
+                <Link href={event.ticketlink} target='_blank'>
                     <Image 
                         className='hover:scale-125 hover:cursor-pointer transition'
                         src="/tickets-white.png"

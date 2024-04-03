@@ -41,8 +41,7 @@ export default function Dropdown({setList, list}) {
         }}
       >
         <MenuItem value='recommended' onClick={handleDropdownClose}>RECOMMENDED GIGS</MenuItem>
-        <MenuItem value='interested' onClick={handleDropdownClose}>INTERESTED</MenuItem>
-        <MenuItem value='userGigs' onClick={handleDropdownClose}>USER GIGS</MenuItem>
+        <MenuItem value='interested' onClick={handleDropdownClose}>SAVED</MenuItem>
       </Menu>
     </div>
   );
